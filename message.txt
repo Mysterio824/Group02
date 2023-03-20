@@ -1,2 +1,0 @@
-This is a test file,
-if you all have seen this message, it means that we are connected. Right on!
