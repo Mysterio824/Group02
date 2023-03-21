@@ -7,6 +7,28 @@ struct StudentInfo
     string student_password;
 
     StudentInfo* next;
+
+    StudentInfo (string id, string password)
+    {
+        student_id = id;
+        student_password = password;
+        next = NULL;
+    }
+    /*
+    constructor, usage:
+        string id, password;    cin>>id>>password;
+
+        Student newstudent = new Student(id, password);
+
+            the result is the same as
+
+        Student newstudent = new Student;
+        newstudent->student_id = id;
+        newstudent->student_password = password;
+        newstudent->next = nullptr;
+
+        *same goes with the AdminInfo*
+    */
 };
 
 struct AdminInfo
@@ -15,6 +37,13 @@ struct AdminInfo
     string admin_password;
 
     AdminInfo* next;
+
+    AdminInfo (string id, string password)
+    {
+        admin_id = id;
+        admin_password = password;
+        next = NULL;
+    }
 };
 
 
@@ -39,6 +68,7 @@ struct Class
 {
     string class_name;
     Student* students = nullptr;
+    Class* next = NULL;
 
     void AddStudent(Student Student);
 };
@@ -46,8 +76,6 @@ struct Class
 struct Course
 {
     Class* classes = nullptr;
-    void AddClass(Class _class);
-
     string course_id;
     string course_name;
     string teacher_name;
@@ -55,6 +83,8 @@ struct Course
     int capacity = 50;
     string day_of_week;
     string session_time;
+
+    void AddClass(Class* clss){};
 };
 
 struct  Semester
