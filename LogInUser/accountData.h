@@ -11,12 +11,13 @@ struct user {
     string username;
     string password;
     string role;
+    string ID;
     user* next;
 };
 
-void inputAccounts (user *&listStaff, user *&listStudent);
+void inputAccounts (user *&listStaff);
 
-user* createUser(string username, string password, string role);
+user* createUser(string username, string password, string role, string ID);
 
 void addToList(user *&head, user *newUser);
 
@@ -24,7 +25,7 @@ void checkUser (user *list, user *&account);
 
 void deleteUserList(user *&list);
 
-user* logIn (user *&account);
+void logIn(user *&account);
 
 
 #endif
