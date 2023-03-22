@@ -49,12 +49,12 @@ void interFace (user *account){
     if(!account) return;
     int command;
     if(account -> role == "student"){
-        cout << "  Welcome to HCMUS school! " <<endl;
+        cout << "  Welcome to HCMUS! " <<endl;
         cout << "Here are some of commands you can use: "<< endl;
         cout << "1. Change your password." << endl;
         cout << "2. View your score." << endl;
         cout << "3. View your courses schedule."<< endl;
-        cout << "Enter the command you want to do: ";
+        cout << "Enter your option: ";
         cin >> command;
         switch (command){
             case 1:
@@ -64,12 +64,12 @@ void interFace (user *account){
         }
     }
     if(account -> role == "staff"){
-        cout << "  Welcome to HCMUS school! " <<endl;
+        cout << "  Welcome to HCMUS! " <<endl;
         cout << "Here are some of commands you can use: "<< endl;
         cout << "1. Change your password." << endl;
         cout << "2. View this semester classes." << endl;
         cout << "3. View the list of the students."<< endl;
-        cout << "Enter the command you want to do: ";
+        cout << "Enter your option: ";
         cin >> command;
     }
     
