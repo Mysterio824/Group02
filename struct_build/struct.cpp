@@ -1,6 +1,8 @@
 #include <iostream>
 using namespace std;
 
+//---------------------------LOGIN-INFO---------------------------------------------------------------------------------
+
 struct StudentInfo
 {
     string student_id;
@@ -46,21 +48,28 @@ struct AdminInfo
     }
 };
 
+//--------------------------MAIN-STRUCT----------------------------------------------------------------------------------
 
 struct Student
 {
+    string No;
     string student_id;
-    string full_name;
+    string class_name;
+    string first_name;
+    string last_name;
+    string gender;
+    string dob; //day of birth
     
     float other_mark;
     float midterm_mark;
     float final_mark;
     float total_mark;
 
-    Student(string _id, string _name)
+    Student(string st_id, string f_name, string l_name)
     {
-        student_id = _id;
-        full_name = _name;
+        student_id = st_id;
+        first_name = f_name;
+        last_name = l_name;
     }
 };
 
@@ -109,7 +118,7 @@ struct SchoolYear{
 
 };
 
-//----------------------------------------------------------------------------------
+//-------------------------------FUNCTION-DECLARATION-----------------------------------------------------------------------------
 
 int main(){
 
