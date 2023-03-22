@@ -10,23 +10,25 @@ void inputAccounts (user *&list){ //upload the data of users
     string line;
     while (getline(file1, line)){
         stringstream ss(line);
-        string username, password, role;
+        string username, password, role, ID;
         getline(ss, username, ',');
         getline(ss, password, ',');
         getline(ss, role, ',');
-        user* newUser = createUser(username, password, role);
+        getline(ss, ID, ',');
+        user* newUser = createUser(username, password, role, ID);
         addToList(list, newUser);
     }
     file1.close();
 }
 
 
-user* createUser(string username, string password, string role){ 
+user* createUser(string username, string password, string role, string ID){ 
     user* newUser = new user;
-    newUser->username = username;
-    newUser->password = password;
-    newUser->role = role;
-    newUser->next = nullptr;
+    newUser -> username = username;
+    newUser -> password = password;
+    newUser -> role = role;
+    newUser -> ID = ID;
+    newUser -> next = nullptr;
     return newUser;
 }
 
@@ -35,10 +37,10 @@ void addToList(user *&head, user *newUser){
         head = newUser;
     } else {
         user *currentNode = head;
-        while (currentNode->next != nullptr) {
+        while (currentNode -> next != nullptr) {
             currentNode = currentNode->next;
         }
-        currentNode->next = newUser;
+        currentNode -> next = newUser;
     }
 }
 
@@ -49,23 +51,25 @@ void checkUser (user *list, user *&account){ //check if username and password ar
     cin >> inputUsername;
     cout << "Please enter your password: ";
     cin >> inputPassword;
-
+    user *cur = list;
     while (list -> next){ 
-        if (inputUsername == list -> username  && inputPassword == list -> password){
+        if (inputUsername == cur -> username  && inputPassword == cur -> password){
+            system ("cls");
             cout << "Login successful!" << endl;
-            account = new user;
-            account = list;
-            account -> next = nullptr;
+            account -> username = cur -> username;
+            account -> password = cur -> password;
+            account -> role = cur -> role;
+            account -> ID = cur -> ID;
             return;
         }
-        if (inputUsername == list -> username){
+        if (inputUsername == cur -> username){
             cout << "Wrong username or password!" << endl;
             return checkUser (list, account);
         }
-        list = list -> next;
+        cur = cur -> next;
     }
-     cout << "Wrong username or password!" << endl;
-     return checkUser (list, account);
+    cout << "Wrong username or password!" << endl;
+    return checkUser (list, account);
 }
 
 void deleteUserList(user *&list){
@@ -80,11 +84,12 @@ void deleteUserList(user *&list){
     delete cur;
 }
 
-user* logIn (user *&account){ 
+void logIn (user *&account){ 
+    account = new user;
     user *list; //list of data user's accounts
     inputAccounts(list);
-    checkUser (list, account);
+    cout << "Welcome!" << endl;
+    checkUser (list, account);  
     deleteUserList (list);
-    return account;
 }
 
