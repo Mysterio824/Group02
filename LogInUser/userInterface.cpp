@@ -18,11 +18,10 @@ void updateList (user *list){
         cout << "Error opening file" << endl;
         return;
     }
-        while (list -> next){
+        while (list){
             outputFile << list -> username << ",";
             outputFile << list -> password << ",";
-            outputFile << list -> role << ",";
-            outputFile << list -> ID << endl;
+            outputFile << list -> role << endl;
             list = list -> next;
         }
     outputFile.close();
@@ -32,7 +31,6 @@ void changePass (user *&account){
     if (!account) return;
     user *list;
     inputAccounts (list);
-    checkUser(list, account);
     string newPass;
     cout << "Please enter your new password: ";
     cin >> newPass;
@@ -72,5 +70,4 @@ void interFace (user *account){
         cout << "Enter the command you want to do: ";
         cin >> command;
     }
-    
 }

@@ -10,24 +10,22 @@ void inputAccounts (user *&list){ //upload the data of users
     string line;
     while (getline(file1, line)){
         stringstream ss(line);
-        string username, password, role, ID;
+        string username, password, role;
         getline(ss, username, ',');
         getline(ss, password, ',');
         getline(ss, role, ',');
-        getline(ss, ID, ',');
-        user* newUser = createUser(username, password, role, ID);
+        user* newUser = createUser(username, password, role);
         addToList(list, newUser);
     }
     file1.close();
 }
 
 
-user* createUser(string username, string password, string role, string ID){ 
+user* createUser(string username, string password, string role){ 
     user* newUser = new user;
     newUser -> username = username;
     newUser -> password = password;
     newUser -> role = role;
-    newUser -> ID = ID;
     newUser -> next = nullptr;
     return newUser;
 }
@@ -55,11 +53,10 @@ void checkUser (user *list, user *&account){ //check if username and password ar
     while (list -> next){ 
         if (inputUsername == cur -> username  && inputPassword == cur -> password){
             system ("cls");
-            cout << "Login successful!" << endl;
+            cout << "    Login successful!" << endl;
             account -> username = cur -> username;
             account -> password = cur -> password;
             account -> role = cur -> role;
-            account -> ID = cur -> ID;
             return;
         }
         if (inputUsername == cur -> username){

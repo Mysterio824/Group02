@@ -8,16 +8,15 @@
 using namespace std;
 
 struct user {
-    string username;
+    string username; //ID
     string password;
     string role;
-    string ID;
     user* next;
 };
 
 void inputAccounts (user *&listStaff);
 
-user* createUser(string username, string password, string role, string ID);
+user* createUser(string username, string password, string role);
 
 void addToList(user *&head, user *newUser);
 
