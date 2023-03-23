@@ -48,6 +48,8 @@ void Class::AddStudent(string fileName)
         addStudentToList (stu, newStudent);
     }
     file.close();
+
+    students = stu;
 }
 Student* createStudent(string No, string student_id, string first_name, string last_name, string gender, string birth_date, string social_id){ 
     Student* newStudent = new Student;
