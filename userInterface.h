@@ -1,6 +1,6 @@
 #ifndef USERINTERFACE_H
 #define USERINTERFACE_H
-#include "accountData.h"
+#include "logInInterface.h"
 
 void changeInList (user *list, user *account);
 

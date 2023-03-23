@@ -1,4 +1,4 @@
-#include "accountData.h"
+#include "logInInterface.h"
 
 void inputAccounts (user *&list){ //upload the data of users
     list = nullptr;
