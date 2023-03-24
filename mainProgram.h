@@ -5,26 +5,36 @@
 #include <sstream>
 #include <string.h>
 #pragma once
-
 using namespace std;
 
 struct Student
 {
-    std::string No;
-    std::string student_id;
-    std::string first_name;
-    std::string last_name;
-    std::string gender;
-    std::string birth_date;
-    std::string social_id;
+    string No;
+    string student_id;
+    string first_name;
+    string last_name;
+    string gender;
+    string birth_date;
+    string social_id;
     
     Student* next = nullptr;
+
+    Student(string no, string id, string f_name, string l_name, string gndr, string b_date, string so_id)
+    {
+        No = no;
+        student_id = id;
+        first_name = f_name;
+        last_name = l_name;
+        gender = gndr;
+        birth_date = b_date;
+        social_id = so_id;
+    }
 };
 
 struct Class
 {
-    std::string class_name;
-    Class(std::string _name)
+    string class_name;
+    Class(string _name)
     {
         class_name = _name;
     }
@@ -36,8 +46,8 @@ struct Class
 };
 
 struct Course{
-    std::string course_id;
-    std::string course_name;
+    string course_id;
+    string course_name;
     
     Class* classes = nullptr;
     void AddClass();
@@ -48,15 +58,10 @@ struct Course{
 struct Semester
 {
     int season;
-    std::string start_date;
-    std::string end_date;
-    Semester(int n, std::string startDate, std::string endDate)
-    {
-        season = n;
-        start_date = startDate;
-        end_date = endDate;
-    }
-    std::string year;
+    string school_year;
+    string start_date;
+    string end_date;
+    Semester(int n, string year, string startDate, string endDate);
     
     Course* courses = nullptr;
     void AddCourse();
@@ -65,16 +70,48 @@ struct Semester
 struct SchoolYear
 {
     Semester **smt = new Semester*[3];
-    std::string year;
-    SchoolYear(std::string _year)
-    {
-        year = _year;
-        for (int i = 0; i < 3; i ++)
-           smt[i] -> year = _year;
-    }
+    string year;
+    SchoolYear(string _year);
 };
 
 void addStudentToList(Student *&head, Student *newStudent);
-Student* createStudent(string No, string student_id, string first_name, string last_name, string gender, string birth_date, string social_id);
+//Student* createStudent(string No, string student_id, string first_name, string last_name, string gender, string birth_date, string social_id);
+
+void createSemester(SchoolYear schul_yr);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #endif

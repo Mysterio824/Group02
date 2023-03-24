@@ -1,18 +1,28 @@
 #include "mainProgram.h"
 
+Semester::Semester(int n, string year, string startDate, string endDate)
+    {
+        season = n;
+        school_year = year;
+        start_date = startDate;
+        end_date = endDate;
+    }
+
+SchoolYear::SchoolYear(string _year)
+    {   year = _year;   }
 
 void Course::AddClass()
 {
-    int n;
-    std::cout << "How many classes you want to add? ";
-    std::cin >> n;
+    int n; 
+    cout << "How many classes you want to add? ";
+    cin >> n;
     
-    std::string className;
+    string className;
     Class* newClass;
     for(int i = 1; i <= n; i++)
     {
-        std::cout << i << ". Class? ";
-        std::cin >> className;
+        cout << i << ". Class? ";
+        cin >> className;
         
         newClass = new Class(className);
         
@@ -28,7 +38,7 @@ void Class::AddStudent(string fileName)
     ifstream file(fileName);
     if(!file.is_open())
     {
-        std::cout << "Cannot open " << fileName << std::endl;
+        cout << "Cannot open " << fileName << endl;
         return;
     }
     
@@ -44,14 +54,14 @@ void Class::AddStudent(string fileName)
         getline(ss, gender, ',');
         getline(ss, birth_date, ',');
         getline(ss, social_id, ',');
-        Student *newStudent = createStudent(no, student_id, first_name, last_name, gender, birth_date, social_id);
+        Student *newStudent = new Student(no, student_id, first_name, last_name, gender, birth_date, social_id);
         addStudentToList (stu, newStudent);
     }
     file.close();
 
     students = stu;
 }
-Student* createStudent(string No, string student_id, string first_name, string last_name, string gender, string birth_date, string social_id){ 
+/* Student* createStudent(string No, string student_id, string first_name, string last_name, string gender, string birth_date, string social_id){ 
     Student* newStudent = new Student;
     newStudent -> No = No;
     newStudent -> student_id = student_id;
@@ -62,17 +72,16 @@ Student* createStudent(string No, string student_id, string first_name, string l
     newStudent -> social_id = social_id;
     newStudent -> next = nullptr;
     return newStudent;
-}
+} */
 
 void addStudentToList(Student *&head, Student *newStudent){
-    if (head == nullptr) {
+    if (head == nullptr)
+    {
         head = newStudent;
-    } else {
-        Student *cur = head;
-        while (cur -> next != nullptr) {
-            cur = cur -> next;
-        }
-        cur -> next = newStudent;
+    }
+    else
+    {
+        newStudent->next = head;
+        head = newStudent;
     }
 }
-
