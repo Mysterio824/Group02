@@ -23,17 +23,21 @@ struct Student
     Student(string no, string stuId, string fName, string lName, string gder, string birth, string socialId); 
 };
 
+Student* AddStudent(Student* Hstudent, string className);
+
 struct Class
 {
     string class_name;
     
-    Student* students = nullptr;
-    void AddStudent(string fileName);
+    Student* Hstudent = AddStudent(Hstudent, class_name);
     
-    Class* next = nullptr;
+    Class* next;
 
     Class(string _name);
+
 };
+
+Class* AddClass(Class* Hclass, string className);
 
 struct Course{
     string course_id;
@@ -45,8 +49,7 @@ struct Course{
     string day;
     string session;
     
-    Student* students = nullptr;
-    void AddStudent(string fileName);
+    Class* Hclass;//adding later on
     
     Course* next;
 
@@ -78,5 +81,13 @@ struct SchoolYear
            smt[i].school_year = _year;
     }
 };
+
+
+
+
+
+
+
+
 
 #endif
