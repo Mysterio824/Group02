@@ -1,4 +1,4 @@
-#include "mainProgram.h"
+#include "header.h"
 
 //------------Constructor------------------------
 Student::Student(string no, string stuId, string fName, string lName, string gder, string birth, string socialId)
@@ -35,6 +35,8 @@ Course::Course(string cID, string cName, string clName, string tName, string nCr
     capacity = stoi(capa);
     day = dei;
     session = ses;
+
+    next = nullptr;
 }
 //--------------------------------------------------
 
@@ -126,34 +128,33 @@ void Class::AddStudent(string fileName)
 void Semester::AddCourse()
 {
     string cID, cName, clName, tName, nCredit, capa, dei, ses;
-    cout << "What is the id of the course? ";
-    cin >> cID;
-    cout << "What is the name of the course? ";
-    cin >> cName;
-    cout << "What is the name of the class? ";
-    cin >> clName;
-    cout << "Who will teach this course? ";
-    cin >> tName;
-    cout << "The number of credits in this course? ";
-    cin >> nCredit;
-    cout << "Maximum student in this course? ";
-    cin >> capa;
-    cout << "Which day of week this course take? ";
+    cout << "Course ID: ";
+    cin >> cID; //string
+    cout << "Course name: ";
+    cin >> cName; //string
+    cout << "Class name: ";
+    cin >> clName; //string
+    cout << "Teacher name: ";
+    getline(cin, tName); //string with spaces
+    cout << "Number of credits: ";
+    cin >> nCredit; //
+    cout << "Number of Students:  ";
+    cin >> capa; //
+    cout << "Day of week: ";
     cin >> dei;
-    cout << "And what session in the day? ";
+    cout << "Session time: ";
     cin >> ses;
 
-    Course* course = new Course(cID, cName, clName, tName, nCredit, capa, dei, ses);
+    Course* newcourse = new Course(cID, cName, clName, tName, nCredit, capa, dei, ses);
     Course* tmp;
-
-    if(courses == nullptr)
+    if(!courses)
     {
-        courses = course;
+        courses = newcourse;
         tmp = courses;
     }
     else
     {
-        tmp->next = course;
+        tmp->next = newcourse;
         tmp = tmp->next;
     }
 }
