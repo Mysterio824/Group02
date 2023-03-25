@@ -1,4 +1,4 @@
-#include "header.h"
+#include "mainProgram.h"
 
 //------------Constructor------------------------
 Student::Student(string no, string stuId, string fName, string lName, string gder, string birth, string socialId)
