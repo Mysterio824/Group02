@@ -41,7 +41,7 @@ Course::Course(string cID, string cName, string clName, string tName, string nCr
 }
 
 //---------------Function----------------------------
-Student* AddStudent(Student* Hstudent, string className)
+Student* ImportStudent(Student* Hstudent, string className)
 {
     ifstream file(className + ".csv");
     if(!file.is_open())
@@ -67,16 +67,13 @@ Student* AddStudent(Student* Hstudent, string className)
 
         Student* newStudent = new Student(no, student_id, first_name, last_name, gender, birth_date, social_id);
         
-        //Add students to a singly linked list
+        //applying Stack's LIFO principle
         if (Hstudent == nullptr) 
-        {
             Hstudent = newStudent;
-            stu = Hstudent;
-        } 
         else 
         {
-            stu->next = newStudent;
-            stu = stu->next;
+            newStudent->next = Hstudent;
+            Hstudent = newStudent;
         }
     }
 
@@ -85,6 +82,28 @@ Student* AddStudent(Student* Hstudent, string className)
     return Hstudent;
 }
 
+void AddStudent(Student* &Hstudent)
+{
+    string no, student_id, last_name, first_name, gender, birth_date, social_id ;
+
+    cout<<"No: ";           cin>>no;
+    cout<<"Student ID: ";   cin>>student_id;
+    cout<<"Last name: ";    cin>>last_name;
+    cout<<"First name: ";   cin>>first_name;
+    cout<<"Gender: ";       cin>>gender;
+    cout<<"Birth date: ";   cin>>birth_date;
+    cout<<"Social ID: ";    cin>>social_id;
+
+    Student* newStudent = new Student(no, student_id, first_name, last_name, gender, birth_date, social_id);
+
+    if (!Hstudent)
+        Hstudent = newStudent;
+    else
+    {
+        newStudent->next = Hstudent;
+        Hstudent = newStudent;
+    }
+}
 
 //creates another textfile containing class names
 //work in progress...
@@ -103,7 +122,6 @@ Class* AddCLass(Class* Hclass, string className)
         pclass = pclass->next;
     }
 }
-
 void Semester::AddCourse()
 {
     string cID, cName, clName, tName, nCredit, capa, dei, ses;

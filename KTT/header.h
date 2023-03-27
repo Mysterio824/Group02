@@ -23,13 +23,14 @@ struct Student
     Student(string no, string stuId, string fName, string lName, string gder, string birth, string socialId); 
 };
 
-Student* AddStudent(Student* Hstudent, string className);
+Student* ImportStudent(Student* Hstudent, string className);
+void AddStudent(Student* &Hstudent);
 
 struct Class
 {
     string class_name;
     
-    Student* Hstudent = AddStudent(Hstudent, class_name);
+    Student* Hstudent = nullptr;
     
     Class* next;
 
