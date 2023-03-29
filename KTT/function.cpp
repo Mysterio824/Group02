@@ -41,12 +41,12 @@ Course::Course(string cID, string cName, string clName, string tName, string nCr
 }
 
 //---------------Function----------------------------
-Student* ImportStudent(Student* Hstudent, string className)
+Student* ImportStudent(Student* Hstudent, string fileName)//from file
 {
-    ifstream file(className + ".csv");
+    ifstream file(fileName + ".csv");
     if(!file.is_open())
     {
-        cout << "Cannot open " << className << endl;
+        cout << "Cannot open " << fileName << endl;
         return;
     }
     
@@ -82,7 +82,7 @@ Student* ImportStudent(Student* Hstudent, string className)
     return Hstudent;
 }
 
-void AddStudent(Student* &Hstudent)
+void AddStudent(Student* &Hstudent, Class* myClass)//manually add
 {
     string no, student_id, last_name, first_name, gender, birth_date, social_id ;
 
@@ -95,6 +95,7 @@ void AddStudent(Student* &Hstudent)
     cout<<"Social ID: ";    cin>>social_id;
 
     Student* newStudent = new Student(no, student_id, first_name, last_name, gender, birth_date, social_id);
+    newStudent->_class = myClass;
 
     if (!Hstudent)
         Hstudent = newStudent;
@@ -107,7 +108,7 @@ void AddStudent(Student* &Hstudent)
 
 //creates another textfile containing class names
 //work in progress...
-Class* AddCLass(Class* Hclass, string className)
+void AddCLass(Class* &Hclass, string className)
 {
     Class* pclass;
     Class* newclass = new Class(className);

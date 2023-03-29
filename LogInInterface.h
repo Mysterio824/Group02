@@ -4,13 +4,14 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include"mainProgram.h"
 #pragma once
 using namespace std;
 
 struct user {
     string username; //ID
     string password;
-    string role;
+    Student *ref = nullptr;
     user* next;
 };
 

@@ -16,6 +16,7 @@ struct Student
     string gender;
     string birth_date;
     string social_id;
+    string className;
     
     Student* next = nullptr;
 

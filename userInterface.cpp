@@ -39,14 +39,16 @@ void changePass (user *&account){
     updateList(list);
     cout << "Your password has been changed successfully!" << endl;
     cout << "-Please re-log-in your account- "<< endl;
-    checkUser(list, account);
+
+    //Log in again..
+    checkUser(list, account); 
     deleteUserList(list);
 }
 
 void interFace (user *account){
     if(!account) return;
     int command;
-    if(account -> role == "student"){
+    if(account -> ref){
         cout << "  Welcome to HCMUS! " <<endl;
         cout << "Here are some of commands you can use: "<< endl;
         cout << "1. Change your password." << endl;
@@ -61,7 +63,7 @@ void interFace (user *account){
                 return interFace(account);
         }
     }
-    if(account -> role == "staff"){
+    else{
         cout << "  Welcome to HCMUS! " <<endl;
         cout << "Here are some of commands you can use: "<< endl;
         cout << "1. Change your password." << endl;

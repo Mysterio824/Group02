@@ -17,6 +17,8 @@ struct Student
     string gender;
     string birth_date;
     string social_id;
+
+    Class* _class;
     
     Student* next = nullptr;
 
@@ -26,19 +28,28 @@ struct Student
 Student* ImportStudent(Student* Hstudent, string className);
 void AddStudent(Student* &Hstudent);
 
+struct CoursePtr{
+    Course* myCourse;
+    float **scores;
+    CoursePtr* next = nullptr;
+};
+
 struct Class
 {
     string class_name;
-    
+
+    Course* myCourse = nullptr;    
     Student* Hstudent = nullptr;
     
-    Class* next;
+    Class* next = nullptr;
+
+    CoursePtr* myCourses = nullptr;
 
     Class(string _name);
 
 };
 
-Class* AddClass(Class* Hclass, string className);
+void AddClass(Class* &Hclass, string className);
 
 struct Course{
     string course_id;
