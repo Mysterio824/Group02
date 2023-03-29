@@ -4,7 +4,7 @@
 
 void changeInList (user *list, user *account);
 
-void updateList (user *list);
+void updateList (user *list, bool isStudent);
 
 void changePass (user *&account);
 

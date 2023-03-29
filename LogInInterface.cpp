@@ -1,8 +1,38 @@
 #include "logInInterface.h"
 
-void inputAccounts (user *&list){ //upload the data of users
+user* logIn (){ 
+    user* account = new user;
+    int check;
+    bool isStudent = false;
+
+    cout << "               Welcome!" << endl;
+    cout << "Choose whether you are student or staff: 1. Student   2. Staff" << endl;
+    cout << "Your choice: ";
+    cin >> check;
+    while (check > 2 || check < 1){
+        cout << "Please choose whether you are student or staff: 1. Student   2. Staff" << endl;
+        cout << "Your choice: ";
+        cin >> check;
+    }
+    if(check = 1) isStudent = true;
+
+    user *listAcc; //list of data user's accounts
+    inputAccounts(listAcc, isStudent);
+    
+    checkUser (listAcc, account); 
+    account -> isStudent = isStudent; 
+    deleteUserList (listAcc);
+    return account;
+}
+
+void inputAccounts (user *&list, bool isStudent){ //upload the data of users
     list = nullptr;
-    ifstream file1("listOfAccounts.csv");
+    string fileName;
+    if(isStudent)   
+        fileName = "listOfStdAcc";
+    else 
+        fileName = "listOfStfAcc";
+    ifstream file1(fileName + ".csv");
     if (!file1.is_open()) {
         cout << "Error opening file" << endl;
         return;
@@ -10,22 +40,21 @@ void inputAccounts (user *&list){ //upload the data of users
     string line;
     while (getline(file1, line)){
         stringstream ss(line);
-        string username, password, role;
+        string username, password;
         getline(ss, username, ',');
         getline(ss, password, ',');
-        getline(ss, role, ',');
-        user* newUser = createUser(username, password, role);
+        user* newUser = createUser(username, password);
         addToList(list, newUser);
     }
     file1.close();
+    user *cur = list;
 }
 
 
-user* createUser(string username, string password, string role){ 
+user* createUser(string username, string password){ 
     user* newUser = new user;
     newUser -> username = username;
     newUser -> password = password;
-    newUser -> role = role;
     newUser -> next = nullptr;
     return newUser;
 }
@@ -50,13 +79,11 @@ void checkUser (user *list, user *&account){ //check if username and password ar
     cout << "Please enter your password: ";
     cin >> inputPassword;
     user *cur = list;
-    while (list -> next){ 
+    while (cur -> next){ 
         if (inputUsername == cur -> username  && inputPassword == cur -> password){
             system ("cls");
-            cout << "    Login successful!" << endl;
             account -> username = cur -> username;
             account -> password = cur -> password;
-            account -> role = cur -> role;
             return;
         }
         if (inputUsername == cur -> username){
@@ -81,12 +108,4 @@ void deleteUserList(user *&list){
     delete cur;
 }
 
-void logIn (user *&account){ 
-    account = new user;
-    user *list; //list of data user's accounts
-    inputAccounts(list);
-    cout << "Welcome!" << endl;
-    checkUser (list, account);  
-    deleteUserList (list);
-}
 

@@ -1,24 +1,24 @@
-#ifndef ACCOUNTDATA_H
-#define ACCOUNTDATA_H
+#ifndef LOGININTERFACE_H
+#define LOGININTERFACE_H
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <string>
-#include"mainProgram.h"
+
 #pragma once
 using namespace std;
 
 struct user {
     string username; //ID
     string password;
-    string role;
-    Student *ref = nullptr;
+    bool isStudent;
+    // Student *ref = nullptr;
     user* next;
 };
 
-void inputAccounts (user *&listStaff);
+void inputAccounts (user *&listAcc, bool isStudent);
 
-user* createUser(string username, string password, string role);
+user* createUser(string username, string password);
 
 void addToList(user *&head, user *newUser);
 
@@ -26,7 +26,7 @@ void checkUser (user *list, user *&account);
 
 void deleteUserList(user *&list);
 
-void logIn(user *&account);
+user* logIn();
 
 
 #endif
