@@ -40,9 +40,17 @@ Course::Course(string cID, string cName, string clName, string tName, string nCr
     next = nullptr;
 }
 
-//---------------Function----------------------------
-Student* ImportStudent(Student* Hstudent, string fileName)//from file
+SchoolYear::SchoolYear(std::string _year)
 {
+        year = _year;
+        for (int i = 0; i < 3; i ++)
+           smt[i].school_year = _year;
+}
+
+//---------------Function----------------------------
+Student* ImportStudent( string fileName)//from file
+{
+    Student *Hstudent;
     ifstream file(fileName + ".csv");
     if(!file.is_open())
     {
@@ -155,4 +163,24 @@ void Semester::AddCourse()
         tmp->next = newcourse;
         tmp = tmp->next;
     }
+}
+
+string getCurrentYear (){
+    string year;
+    int tmp;
+    time_t t = time(nullptr);
+    tm *const pTInfo = localtime(&t);
+    tmp=1900 + pTInfo->tm_year;
+    year = to_string(tmp);
+    return year;
+
+}
+
+//start the program (import all the data)
+void startProgram (Student* listStudent, Course* listCourse, Course::Class* listClass, SchoolYear thisYear){
+    listStudent = ImportStudent("listOfStudent");
+    //import class
+    //import course
+    //import school year
+    //import semester
 }

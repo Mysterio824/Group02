@@ -1,4 +1,5 @@
 #include "userInterface.h"
+#include "header.h"
 
 void changeInList (user *list, user *account){
     if(!list) return;
@@ -48,11 +49,9 @@ void changePass (user *&account){
     deleteUserList(list);
 }
 
-void interFace (user *account){
-    if(!account) return;
+void studentInterface (user *account){
     int command;
-    if(account -> isStudent){
-        cout << "         Welcome to HCMUS! " <<endl;
+    cout << "         Welcome to HCMUS! " <<endl;
         cout << "Here are some of commands you can use: "<< endl;
         cout << "1. Change your password." << endl;
         cout << "2. View your score." << endl;
@@ -64,11 +63,13 @@ void interFace (user *account){
             case 1:
                 changePass(account);
                 system ("cls");
-                return interFace(account);
+                return studentInterface(account);
         }
-    }
-    else{
-        cout << "          Welcome to HCMUS! " <<endl;
+}
+
+void staffInterface (user* account){
+    int command;
+    cout << "          Welcome to HCMUS! " <<endl;
         cout << "Here are some of commands you can use: "<< endl;
         cout << "1. Change your password." << endl;
         cout << "2. View this semester classes." << endl;
@@ -80,7 +81,29 @@ void interFace (user *account){
             case 1:
                 changePass(account);
                 system("cls");
-                return interFace(account);
+                return staffInterface(account);
         }
+}
+
+void findStudent (Student *listStudent, user* account){
+    if(!listStudent || !account) return;
+    while (listStudent){
+        if(listStudent -> student_id == account -> username){
+            account -> ref = listStudent;
+            return;
+        }
+        listStudent = listStudent -> next;
     }
+}
+
+void interFace (user *account, Student* listStudent, Course *listCourse, Course::Class* listClass){
+    if(!account) return;
+
+    if(account -> isStudent){
+        findStudent(listStudent, account);
+        studentInterface(account);
+    }
+    else
+        staffInterface(account);
+    
 }

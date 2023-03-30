@@ -4,8 +4,8 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <ctime>
 
-#pragma once
 
 using namespace std;
 
@@ -47,30 +47,27 @@ struct Course{
         Class* next = nullptr;
 
         struct CoursePtr{
-        Course* myCourse = nullptr;
-        float **scores;
-        CoursePtr* next = nullptr;
+            Course* myCourse = nullptr;
+            float **scores;
+            CoursePtr* next = nullptr;
         };
-
-        Course** myCourses = nullptr;
+        
+        CoursePtr* myCourse = nullptr;
 
         Class(string _name);
-
     };
-    Class** Hclass;//adding later on
+
+    struct ClassPtr{
+            Course::Class *ref = nullptr;
+            ClassPtr* next = nullptr;
+    };
+    
+    ClassPtr* Hclass;//adding later on
     
     Course* next;
 
     Course(string cID, string cName, string clName, string tName, string nCredit, string capacity, string dei, string ses);
 };
-
-
-
-
-Student* ImportStudent(Student* Hstudent, string className);
-void AddStudent(Student* &Hstudent);
-
-void AddClass(Course::Class* &Hclass, string className);
 
 struct Semester
 {
@@ -82,28 +79,28 @@ struct Semester
     Course* courses = nullptr;
     void AddCourse();
 
-    Semester();
     Semester(int n, string schoolYear ,string startDate, string endDate);
+
+    Semester();
 };
 
 struct SchoolYear
 {
-    Semester *smt = new Semester[3];
     string year;
-    SchoolYear(std::string _year)
-    {
-        year = _year;
-        for (int i = 0; i < 3; i ++)
-           smt[i].school_year = _year;
-    }
+    Semester *smt = new Semester[3];
+    SchoolYear(std::string _year);
+    SchoolYear();
 };
 
+string getCurrentYear ();
 
+Student* ImportStudent(string className);
 
+void AddStudent(Student* &Hstudent);
 
+void AddClass(Course::Class* &Hclass, string className);
 
-
-
+void startProgram (Student* listStudent, Course* listCourse, Course::Class* listClass, SchoolYear thisYear);
 
 
 #endif

@@ -4,15 +4,15 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include "header.h"
 
-#pragma once
 using namespace std;
 
 struct user {
     string username; //ID
     string password;
     bool isStudent;
-    // Student *ref = nullptr;
+    Student* ref = nullptr;
     user* next;
 };
 
