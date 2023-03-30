@@ -12,7 +12,7 @@ Student::Student(string no, string stuId, string fName, string lName, string gde
     social_id = socialId;
 }
 
-Class::Class(string _name)
+Course::Class::Class(string _name)
 {
     class_name = _name;
     next = nullptr;
@@ -47,7 +47,7 @@ Student* ImportStudent(Student* Hstudent, string fileName)//from file
     if(!file.is_open())
     {
         cout << "Cannot open " << fileName << endl;
-        return;
+        return nullptr;
     }
     
     string line;
@@ -82,7 +82,7 @@ Student* ImportStudent(Student* Hstudent, string fileName)//from file
     return Hstudent;
 }
 
-void AddStudent(Student* &Hstudent, Class* myClass)//manually add
+void AddStudent(Student* &Hstudent, Course::Class* myClass)//manually add
 {
     string no, student_id, last_name, first_name, gender, birth_date, social_id ;
 
@@ -95,7 +95,7 @@ void AddStudent(Student* &Hstudent, Class* myClass)//manually add
     cout<<"Social ID: ";    cin>>social_id;
 
     Student* newStudent = new Student(no, student_id, first_name, last_name, gender, birth_date, social_id);
-    newStudent->_class = myClass;
+    newStudent -> className = myClass -> class_name;
 
     if (!Hstudent)
         Hstudent = newStudent;
@@ -108,10 +108,10 @@ void AddStudent(Student* &Hstudent, Class* myClass)//manually add
 
 //creates another textfile containing class names
 //work in progress...
-void AddCLass(Class* &Hclass, string className)
+void AddCLass(Course::Class* &Hclass, string className)
 {
-    Class* pclass;
-    Class* newclass = new Class(className);
+    Course::Class* pclass;
+    Course::Class* newclass = new Course::Class(className);
     if (!Hclass)
     {
         Hclass = newclass;

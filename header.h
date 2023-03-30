@@ -4,12 +4,12 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+
 #pragma once
 
 using namespace std;
 
-struct Student
-{
+struct Student{
     string No;
     string student_id;
     string first_name;
@@ -18,38 +18,17 @@ struct Student
     string birth_date;
     string social_id;
 
-    Class* _class;
+    string className;
     
     Student* next = nullptr;
 
     Student(string no, string stuId, string fName, string lName, string gder, string birth, string socialId); 
 };
 
-Student* ImportStudent(Student* Hstudent, string className);
-void AddStudent(Student* &Hstudent);
-
-struct CoursePtr{
-    Course* myCourse;
-    float **scores;
-    CoursePtr* next = nullptr;
+struct studentPtr{
+    Student *ref = nullptr;
+    studentPtr *next = nullptr;
 };
-
-struct Class
-{
-    string class_name;
-
-    Course* myCourse = nullptr;    
-    Student* Hstudent = nullptr;
-    
-    Class* next = nullptr;
-
-    CoursePtr* myCourses = nullptr;
-
-    Class(string _name);
-
-};
-
-void AddClass(Class* &Hclass, string className);
 
 struct Course{
     string course_id;
@@ -60,13 +39,38 @@ struct Course{
     int capacity = 50;
     string day;
     string session;
+    struct Class{
+        string class_name;
     
-    Class* Hclass;//adding later on
+        studentPtr* Hstudent = nullptr;
+    
+        Class* next = nullptr;
+
+        struct CoursePtr{
+        Course* myCourse = nullptr;
+        float **scores;
+        CoursePtr* next = nullptr;
+        };
+
+        Course** myCourses = nullptr;
+
+        Class(string _name);
+
+    };
+    Class** Hclass;//adding later on
     
     Course* next;
 
     Course(string cID, string cName, string clName, string tName, string nCredit, string capacity, string dei, string ses);
 };
+
+
+
+
+Student* ImportStudent(Student* Hstudent, string className);
+void AddStudent(Student* &Hstudent);
+
+void AddClass(Course::Class* &Hclass, string className);
 
 struct Semester
 {
