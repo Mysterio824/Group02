@@ -24,6 +24,8 @@ Semester::Semester(int n, string schoolYear ,string startDate, string endDate)
     school_year = schoolYear;
     start_date = startDate;
     end_date = endDate;
+
+    next = nullptr;   
 }
 
 Course::Course(string cID, string cName, string clName, string tName, string nCredit, string capa, string dei, string ses)
@@ -43,8 +45,6 @@ Course::Course(string cID, string cName, string clName, string tName, string nCr
 SchoolYear::SchoolYear(std::string _year)
 {
         year = _year;
-        for (int i = 0; i < 3; i ++)
-           smt[i].school_year = _year;
 }
 
 //---------------Function----------------------------
@@ -104,13 +104,16 @@ void AddStudent(Student* &Hstudent, Course::Class* myClass)//manually add
 
     Student* newStudent = new Student(no, student_id, first_name, last_name, gender, birth_date, social_id);
     newStudent -> className = myClass -> class_name;
-
+    Student* pstudnt;
     if (!Hstudent)
+    {
         Hstudent = newStudent;
+        pstudnt = Hstudent;
+    }
     else
     {
-        newStudent->next = Hstudent;
-        Hstudent = newStudent;
+        pstudnt->next = newStudent;
+        pstudnt = newStudent;
     }
 }
 
@@ -163,6 +166,52 @@ void Semester::AddCourse()
         tmp->next = newcourse;
         tmp = tmp->next;
     }
+}
+
+void SchoolYear::AddSemester()
+{
+    semes_count++;
+    if (semes_count > semes_num)
+    {
+        cout<<"Number of semesters exceeded!"<<endl;
+        semes_count--;
+        return;
+    }
+    
+    int seasn;
+    string schoolYear, startDate, endDate;
+
+    cout<<"Season: "; cin>>seasn;
+    Semester* smtptr = smt;
+    for (int i = 0; i < 3 && smtptr; i++)
+    {
+        if (smtptr->season == seasn)
+        {
+            cout<<"This season is currently have a semester scheduled!"<<endl;
+            cout<<"Please choose another season, or input -1 to cancel: "; cin>>seasn;
+            if (seasn == -1)
+                return;
+            i = 0;
+        }
+        else
+            smtptr = smtptr->next;
+    }
+    cout<<"School year: "; cin>>schoolYear;
+    cout<<"Start date: "; cin>>startDate;
+    cout<<"End date: "; cin>>endDate;
+
+    Semester* newsemes = new Semester(seasn, schoolYear, startDate, endDate);
+    if (!smt)
+    {
+        smt = newsemes;
+        smtptr = smt;
+    }
+    else
+    {
+       smtptr->next = newsemes;
+       smtptr = newsemes;
+    }
+    cout<<"Semester added successfully!"<<endl;
 }
 
 string getCurrentYear (){

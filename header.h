@@ -71,23 +71,29 @@ struct Course{
 
 struct Semester
 {
+    //info
     int season;
     string start_date;
     string end_date;
     string school_year;
-   
+
+    //pointers
+    Semester* next;
     Course* courses = nullptr;
+
+    //constructors
     void AddCourse();
-
     Semester(int n, string schoolYear ,string startDate, string endDate);
-
-    Semester();
 };
 
 struct SchoolYear
 {
     string year;
-    Semester *smt = new Semester[3];
+    Semester *smt = nullptr;
+    const int semes_num = 3;
+    int semes_count = 0;
+
+    void AddSemester();
     SchoolYear(std::string _year);
     SchoolYear();
 };
