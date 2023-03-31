@@ -47,93 +47,7 @@ SchoolYear::SchoolYear(std::string _year)
         year = _year;
 }
 
-//---------------Function----------------------------
-Student* ImportStudent( string fileName)//from file
-{
-    Student *Hstudent;
-    ifstream file(fileName + ".csv");
-    if(!file.is_open())
-    {
-        cout << "Cannot open " << fileName << endl;
-        return nullptr;
-    }
-    
-    string line;
-    Student* stu;
-
-    while (getline(file, line)) //Reading file to input students
-    {
-        stringstream ss(line);
-        string no, student_id, last_name, first_name, gender, birth_date, social_id ;
-        getline(ss, no , ',');
-        getline(ss, student_id, ',');
-        getline(ss, first_name, ',');
-        getline(ss, last_name, ',');
-        getline(ss, gender, ',');
-        getline(ss, birth_date, ',');
-        getline(ss, social_id, ',');
-
-        Student* newStudent = new Student(no, student_id, first_name, last_name, gender, birth_date, social_id);
-        
-        //applying Stack's LIFO principle
-        if (Hstudent == nullptr) 
-            Hstudent = newStudent;
-        else 
-        {
-            newStudent->next = Hstudent;
-            Hstudent = newStudent;
-        }
-    }
-
-    file.close();
-
-    return Hstudent;
-}
-
-void AddStudent(Student* &Hstudent, Course::Class* myClass)//manually add
-{
-    string no, student_id, last_name, first_name, gender, birth_date, social_id ;
-
-    cout<<"No: ";           cin>>no;
-    cout<<"Student ID: ";   cin>>student_id;
-    cout<<"Last name: ";    cin>>last_name;
-    cout<<"First name: ";   cin>>first_name;
-    cout<<"Gender: ";       cin>>gender;
-    cout<<"Birth date: ";   cin>>birth_date;
-    cout<<"Social ID: ";    cin>>social_id;
-
-    Student* newStudent = new Student(no, student_id, first_name, last_name, gender, birth_date, social_id);
-    newStudent -> className = myClass -> class_name;
-    Student* pstudnt;
-    if (!Hstudent)
-    {
-        Hstudent = newStudent;
-        pstudnt = Hstudent;
-    }
-    else
-    {
-        pstudnt->next = newStudent;
-        pstudnt = newStudent;
-    }
-}
-
-//creates another textfile containing class names
-//work in progress...
-void AddCLass(Course::Class* &Hclass, string className)
-{
-    Course::Class* pclass;
-    Course::Class* newclass = new Course::Class(className);
-    if (!Hclass)
-    {
-        Hclass = newclass;
-        pclass = Hclass;
-    }
-    else
-    {
-        pclass->next = newclass;
-        pclass = pclass->next;
-    }
-}
+//---------------------Member Function----------------------------
 void Semester::AddCourse()
 {
     string cID, cName, clName, tName, nCredit, capa, dei, ses;
@@ -154,18 +68,14 @@ void Semester::AddCourse()
     cout << "Session time: ";
     cin >> ses;
 
-    Course* newcourse = new Course(cID, cName, clName, tName, nCredit, capa, dei, ses);
-    Course* tmp;
-    if(!courses)
+    Course* newCourse = new Course(cID, cName, clName, tName, nCredit, capa, dei, ses);
+    
+    if(courses != nullptr)
     {
-        courses = newcourse;
-        tmp = courses;
+        Course* tmp = courses;
+        newCourse->next = tmp;
     }
-    else
-    {
-        tmp->next = newcourse;
-        tmp = tmp->next;
-    }
+    courses = newCourse;
 }
 
 void SchoolYear::AddSemester()
@@ -214,6 +124,102 @@ void SchoolYear::AddSemester()
     cout<<"Semester added successfully!"<<endl;
 }
 
+//---------------Function----------------------------
+StudentPtr* ImportStudent(string fileName)//from file
+{
+    ifstream file(fileName + ".csv");
+    if(!file.is_open())
+    {
+        cout << "Cannot open " << fileName << endl;
+        return nullptr;
+    }
+
+    StudentPtr* Hstudent = nullptr;
+    
+    string line;
+    Student* stu;
+
+    while (getline(file, line)) //Reading file to input students
+    {
+        stringstream ss(line);
+        string no, student_id, last_name, first_name, gender, birth_date, social_id ;
+        getline(ss, no , ',');
+        getline(ss, student_id, ',');
+        getline(ss, first_name, ',');
+        getline(ss, last_name, ',');
+        getline(ss, gender, ',');
+        getline(ss, birth_date, ',');
+        getline(ss, social_id, ',');
+
+        Student* newStudent = new Student(no, student_id, first_name, last_name, gender, birth_date, social_id);
+        
+        if(Hstudent == nullptr)
+        {
+            Hstudent = new StudentPtr;
+            Hstudent->ref = newStudent;
+        }
+        else
+        {
+            StudentPtr* tmp = Hstudent;
+            Hstudent = new StudentPtr;
+            Hstudent->ref = newStudent;
+            Hstudent->next = tmp;
+        }
+    }
+
+    file.close();
+
+    return Hstudent;
+}
+
+void AddStudent(Course::Class* myClass)//manually add
+{
+    string no, student_id, last_name, first_name, gender, birth_date, social_id ;
+
+    cout<<"No: ";           cin>>no;
+    cout<<"Student ID: ";   cin>>student_id;
+    cout<<"Last name: ";    cin>>last_name;
+    cout<<"First name: ";   cin>>first_name;
+    cout<<"Gender: ";       cin>>gender;
+    cout<<"Birth date: ";   cin>>birth_date;
+    cout<<"Social ID: ";    cin>>social_id;
+
+    Student* newStudent = new Student(no, student_id, first_name, last_name, gender, birth_date, social_id);
+    newStudent -> className = myClass -> class_name;
+    
+    if(myClass->Hstudent == nullptr)
+    {
+        myClass->Hstudent = new StudentPtr;
+        myClass->Hstudent->ref = newStudent;
+    }
+    else
+    {
+        StudentPtr* tmp = myClass->Hstudent;
+        myClass->Hstudent = new StudentPtr;
+        myClass->Hstudent->ref = newStudent;
+        myClass->Hstudent->next = tmp;
+    }
+}
+
+//creates another textfile containing class names
+
+void AddCLass(Course* myCourse, string className)
+{
+    Course::Class* newClass = new Course::Class(className);
+    if (myCourse->Hclass == nullptr)
+    {
+        myCourse->Hclass = new Course::ClassPtr;
+        myCourse->Hclass->ref = newClass;
+    }
+    else
+    {   
+        Course::ClassPtr* tmp = myCourse->Hclass;
+        myCourse->Hclass = new Course::ClassPtr;
+        myCourse->Hclass->ref = newClass;
+        myCourse->Hclass->next = tmp;
+    }
+}
+
 string getCurrentYear (){
     string year;
     int tmp;
@@ -222,12 +228,11 @@ string getCurrentYear (){
     tmp=1900 + pTInfo->tm_year;
     year = to_string(tmp);
     return year;
-
 }
 
 //start the program (import all the data)
 void startProgram (Student* listStudent, Course* listCourse, Course::Class* listClass, SchoolYear thisYear){
-    listStudent = ImportStudent("listOfStudent");
+    //import students
     //import class
     //import course
     //import school year

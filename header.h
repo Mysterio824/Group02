@@ -19,15 +19,13 @@ struct Student{
     string social_id;
 
     string className;
-    
-    Student* next = nullptr;
 
     Student(string no, string stuId, string fName, string lName, string gder, string birth, string socialId); 
 };
 
-struct studentPtr{
+struct StudentPtr{
     Student *ref = nullptr;
-    studentPtr *next = nullptr;
+    StudentPtr *next = nullptr;
 };
 
 struct Course{
@@ -42,7 +40,7 @@ struct Course{
     struct Class{
         string class_name;
     
-        studentPtr* Hstudent = nullptr;
+        StudentPtr* Hstudent = nullptr;
     
         Class* next = nullptr;
 
@@ -52,7 +50,7 @@ struct Course{
             CoursePtr* next = nullptr;
         };
         
-        CoursePtr* myCourse = nullptr;
+        CoursePtr* Hcourse = nullptr;
 
         Class(string _name);
     };
@@ -62,7 +60,7 @@ struct Course{
             ClassPtr* next = nullptr;
     };
     
-    ClassPtr* Hclass;//adding later on
+    ClassPtr* Hclass = nullptr;
     
     Course* next;
 
@@ -100,12 +98,13 @@ struct SchoolYear
 
 string getCurrentYear ();
 
-Student* ImportStudent(string className);
+StudentPtr* ImportStudent(string fileName);
 
-void AddStudent(Student* &Hstudent);
+void AddStudent(Course::Class* myClass);
 
-void AddClass(Course::Class* &Hclass, string className);
+void AddClass(Course* myCourse, string className);
 
+//Tao đang nghĩ không cần dòng này
 void startProgram (Student* listStudent, Course* listCourse, Course::Class* listClass, SchoolYear thisYear);
 
 
