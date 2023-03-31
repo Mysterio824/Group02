@@ -5,7 +5,7 @@
 #include <sstream>
 #include <string>
 #include <ctime>
-
+#include <iomanip>
 
 using namespace std;
 
@@ -24,8 +24,8 @@ struct Student{
 };
 
 struct StudentPtr{
-    Student *ref = nullptr;
-    StudentPtr *next = nullptr;
+    Student* ref = nullptr;
+    StudentPtr* next = nullptr;
 };
 
 struct Course{
@@ -45,12 +45,12 @@ struct Course{
         Class* next = nullptr;
 
         struct CoursePtr{
-            Course* myCourse = nullptr;
+            Course* ref = nullptr;
             float **scores;
             CoursePtr* next = nullptr;
         };
         
-        CoursePtr* Hcourse = nullptr;
+        CoursePtr* myCourse = nullptr;
 
         Class(string _name);
     };
@@ -104,8 +104,7 @@ void AddStudent(Course::Class* myClass);
 
 void AddClass(Course* myCourse, string className);
 
-//Tao đang nghĩ không cần dòng này
+//Tao đang nghĩ không cần function này
 void startProgram (Student* listStudent, Course* listCourse, Course::Class* listClass, SchoolYear thisYear);
-
 
 #endif

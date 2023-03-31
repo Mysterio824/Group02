@@ -49,7 +49,18 @@ void changePass (user *&account){
     deleteUserList(list);
 }
 
-void studentInterface (user *account){
+void findStudent (Student *listStudent, user* account){
+    if(!listStudent || !account) return;
+    while (listStudent){
+        if(listStudent -> student_id == account -> username){
+            account -> ref = listStudent;
+            return;
+        }
+        listStudent = listStudent -> next;
+    }
+}
+
+void studentInterface (user *account, Student* listStudent, Course::Class* listClass, Course *listCourse){
     int command;
     cout << "         Welcome to HCMUS! " <<endl;
         cout << "Here are some of commands you can use: "<< endl;
@@ -63,12 +74,25 @@ void studentInterface (user *account){
             case 1:
                 changePass(account);
                 system ("cls");
-                return studentInterface(account);
+                return studentInterface(account, listStudent, listClass, listCourse);
+            case 2:
+
+            case 3:
+                system("cls");
+                printCourse(account -> ref, listClass, listCourse);
+                cout << endl << "Press 1 to back to menu: ";
+                cin >> command;
+                while( command != 1){
+                    cout << "please press again:";
+                    cin >> command;
+                }
+                return staffInterface(account, listStudent, listClass, listCourse);
+            case 4:
         }
 }
 
-void staffInterface (user* account){
-    int command;
+void staffInterface (user* account, Student* listStudent, Course::Class* listClass, Course *listCourse){
+    int command = 0;
     cout << "          Welcome to HCMUS! " <<endl;
         cout << "Here are some of commands you can use: "<< endl;
         cout << "1. Change your password." << endl;
@@ -81,29 +105,19 @@ void staffInterface (user* account){
             case 1:
                 changePass(account);
                 system("cls");
-                return staffInterface(account);
+                return staffInterface(account, listStudent, listClass, listCourse);
+            
         }
 }
 
-void findStudent (Student *listStudent, user* account){
-    if(!listStudent || !account) return;
-    while (listStudent){
-        if(listStudent -> student_id == account -> username){
-            account -> ref = listStudent;
-            return;
-        }
-        listStudent = listStudent -> next;
-    }
-}
-
-void interFace (user *account, Student* listStudent, Course *listCourse, Course::Class* listClass){
+void interFace (user *account, Student* listStudent, Course::Class* listClass, Course *listCourse){
     if(!account) return;
 
     if(account -> isStudent){
         findStudent(listStudent, account);
-        studentInterface(account);
+        studentInterface(account, listStudent, listClass, listCourse);
     }
     else
-        staffInterface(account);
+        staffInterface(account, listStudent, listClass, listCourse);
     
 }
