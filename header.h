@@ -112,9 +112,9 @@ Course :: Class* findClass (Student* account, Course::Class *listOfClass);
 
 int findStudentNo (Student *account, Course::Class* myClass);
 
-void printCourse(Student *account, Course::Class *listOfClass, Course* listOfCourse);
+void printCourse(Student *account, Course::Class *listOfClass);
 
-void printScoreBoard (Student *account, Course::Class *listOfClass, Course* listOfCourse);
+void printScoreBoard (Student *account, Course::Class *listOfClass);
 
 
 #endif

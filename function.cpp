@@ -255,7 +255,7 @@ int findStudentNo (Student *account, Course::Class* myClass){
     return count;
 }
 
-void printCourse(Student *account, Course::Class *listOfClass, Course* listOfCourse){
+void printCourse(Student *account, Course::Class *listOfClass){
      cout << "-----------------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
     cout << "| " << setw(12) << left << "Course ID"
         << "| " << setw(35) << left << "Course Name"
@@ -282,7 +282,7 @@ void printCourse(Student *account, Course::Class *listOfClass, Course* listOfCou
     }
 }
 
-void printScoreBoard (Student *account, Course::Class *listOfClass, Course* listOfCourse){
+void printScoreBoard (Student *account, Course::Class *listOfClass){
     cout << "-----------------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
     cout << "| " << setw(12) << left << "Course ID"
         << "| " << setw(35) << left << "Course Name"

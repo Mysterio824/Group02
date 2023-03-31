@@ -1,3 +1,5 @@
 *.exe
 main.cpp
 .vscode
+bin
+
