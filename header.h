@@ -5,7 +5,7 @@
 #include <sstream>
 #include <string>
 #include <ctime>
-
+#include <iomanip>
 
 using namespace std;
 
@@ -25,9 +25,9 @@ struct Student{
     Student(string no, string stuId, string fName, string lName, string gder, string birth, string socialId); 
 };
 
-struct studentPtr{
+struct StudentPtr{
     Student *ref = nullptr;
-    studentPtr *next = nullptr;
+    StudentPtr *next = nullptr;
 };
 
 struct Course{
@@ -42,17 +42,17 @@ struct Course{
     struct Class{
         string class_name;
     
-        studentPtr* Hstudent = nullptr;
+        StudentPtr* Hstudent = nullptr;
     
         Class* next = nullptr;
 
         struct CoursePtr{
-            Course* myCourse = nullptr;
+            Course* ref = nullptr;
             float **scores;
             CoursePtr* next = nullptr;
         };
         
-        CoursePtr* myCourse = nullptr;
+        CoursePtr* courses = nullptr;
 
         Class(string _name);
     };
@@ -107,6 +107,14 @@ void AddStudent(Student* &Hstudent);
 void AddClass(Course::Class* &Hclass, string className);
 
 void startProgram (Student* listStudent, Course* listCourse, Course::Class* listClass, SchoolYear thisYear);
+
+Course :: Class* findClass (Student* account, Course::Class *listOfClass);
+
+int findStudentNo (Student *account, Course::Class* myClass);
+
+void printCourse(Student *account, Course::Class *listOfClass, Course* listOfCourse);
+
+void printScoreBoard (Student *account, Course::Class *listOfClass, Course* listOfCourse);
 
 
 #endif
