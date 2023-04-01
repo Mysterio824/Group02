@@ -231,8 +231,9 @@ string getCurrentYear (){
 }
 
 //start the program (import all the data)
-void startProgram (Student* listStudent, Course* listCourse, Course::Class* listClass, SchoolYear thisYear){
-    //import students
+void startProgram (StudentPtr* &listStudents, Course* &listCourses, Course::Class* &listClasses, SchoolYear &thisYear)
+{
+    listStudents = ImportStudent("listOfStudent"); //import students
     //import class
     //import course
     //import school year
