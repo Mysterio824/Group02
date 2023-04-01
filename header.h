@@ -50,7 +50,7 @@ struct Course{
             CoursePtr* next = nullptr;
         };
         
-        CoursePtr* myCourse = nullptr;
+        CoursePtr* courses = nullptr;
 
         Class(string _name);
     };
