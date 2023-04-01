@@ -125,19 +125,18 @@ void SchoolYear::AddSemester()
 }
 
 //---------------Function----------------------------
-StudentPtr* ImportStudent(string fileName)//from file
+Student* ImportStudents(string fileName)//from file
 {
-    ifstream file(fileName + ".csv");
+    ifstream file(fileName);
     if(!file.is_open())
     {
         cout << "Cannot open " << fileName << endl;
         return nullptr;
     }
 
-    StudentPtr* Hstudent = nullptr;
+    Student* Hstudent = nullptr;
     
     string line;
-    Student* stu;
 
     while (getline(file, line)) //Reading file to input students
     {
@@ -153,23 +152,92 @@ StudentPtr* ImportStudent(string fileName)//from file
 
         Student* newStudent = new Student(no, student_id, first_name, last_name, gender, birth_date, social_id);
         
-        if(Hstudent == nullptr)
+        if(Hstudent != nullptr)
         {
-            Hstudent = new StudentPtr;
-            Hstudent->ref = newStudent;
+            Student* tmp = Hstudent;
+            newStudent->next = tmp;
         }
-        else
-        {
-            StudentPtr* tmp = Hstudent;
-            Hstudent = new StudentPtr;
-            Hstudent->ref = newStudent;
-            Hstudent->next = tmp;
-        }
+        Hstudent = newStudent;
     }
 
     file.close();
 
     return Hstudent;
+}
+
+Course::Class* ImportClasses(string fileName)//from file
+{
+    ifstream file(fileName);
+    if(!file.is_open())
+    {
+        cout << "Cannot open " << fileName << endl;
+        return nullptr;
+    }
+
+    Course::Class* Hclass = nullptr;
+
+    string line;
+
+    while (getline(file, line)) //Reading file to input classes
+    {
+        stringstream ss(line);
+        string className;
+        getline(ss, className , ',');
+        
+        Course::Class* newClass = new Course::Class(className);
+
+        if(Hclass != nullptr)
+        {
+            Course::Class* tmp = Hclass;
+            newClass->next = tmp;
+        }
+        Hclass = newClass;
+    }
+
+    file.close();
+
+    return Hclass;
+}
+
+Course* ImportCourses(string fileName)// from file
+{
+     ifstream file(fileName);
+    if(!file.is_open())
+    {
+        cout << "Cannot open " << fileName << endl;
+        return nullptr;
+    }
+
+    Course* Hcourse = nullptr;
+
+    string line;
+
+    while (getline(file, line)) //Reading file to input courses
+    {
+        stringstream ss(line);
+        string cID, cName, clName, tName, nCredit, capacity, dei, ses;
+        getline(ss, cID , ',');
+        getline(ss, cName , ',');
+        getline(ss, clName, ',');
+        getline(ss, tName , ',');
+        getline(ss, nCredit , ',');
+        getline(ss, capacity, ',');
+        getline(ss, dei , ',');
+        getline(ss, ses , ',');
+        
+        Course* newCourse= new Course(cID, cName, clName, tName, nCredit, capacity, dei, ses);
+
+        if(Hcourse != nullptr)
+        {
+            Course* tmp = Hcourse;
+            newCourse->next = Hcourse;
+        }
+        Hcourse = newCourse;
+    }
+
+    file.close();
+
+    return Hcourse;
 }
 
 void AddStudent(Course::Class* myClass)//manually add
@@ -203,7 +271,7 @@ void AddStudent(Course::Class* myClass)//manually add
 
 //creates another textfile containing class names
 
-void AddCLass(Course* myCourse, string className)
+void AddCLass(Course* myCourse, string className)//manually add
 {
     Course::Class* newClass = new Course::Class(className);
     if (myCourse->Hclass == nullptr)
@@ -231,13 +299,17 @@ string getCurrentYear (){
 }
 
 //start the program (import all the data)
-void startProgram (StudentPtr* &listStudents, Course* &listCourses, Course::Class* &listClasses, SchoolYear &thisYear)
+void startProgram (Student* &listStudents, Course* &listCourses, Course::Class* &listClasses, SchoolYear &thisYear)
 {
-    listStudents = ImportStudent("listOfStudent"); //import students
-    //import class
-    //import course
-    //import school year
+    string stuList = "listOfStudents.csv";
+    string classList = "listOfClasses.csv";
+    string courseList = "listOfCourses.csv";
+
+    listStudents = ImportStudents(stuList);
+    listClasses = ImportClasses(classList);
+    listCourses = ImportCourses(courseList);
     //import semester
+    //import school year
 }
 
 Course :: Class* findClass (Student* account, Course::Class *listOfClass){

@@ -20,6 +20,8 @@ struct Student{
 
     string className;
 
+    Student* next;
+
     Student(string no, string stuId, string fName, string lName, string gder, string birth, string socialId); 
 };
 
@@ -98,13 +100,13 @@ struct SchoolYear
 
 string getCurrentYear ();
 
-StudentPtr* ImportStudent(string fileName);
+Student* ImportStudents(string fileName);
+Course::Class* ImportClasses(string fileName);
+Course* ImportCourses(string fileName);
 
 void AddStudent(Course::Class* myClass);
-
 void AddClass(Course* myCourse, string className);
 
-//Tao đang nghĩ không cần function này
 void startProgram (Student* listStudent, Course* listCourse, Course::Class* listClass, SchoolYear thisYear);
 
 #endif
