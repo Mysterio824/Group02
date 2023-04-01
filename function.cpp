@@ -152,17 +152,42 @@ Student* ImportStudents(string fileName)//from file
 
         Student* newStudent = new Student(no, student_id, first_name, last_name, gender, birth_date, social_id);
         
-        if(Hstudent != nullptr)
+        if (!Hstudent)
+            Hstudent = newStudent;
+        else
         {
-            Student* tmp = Hstudent;
-            newStudent->next = tmp;
+            newStudent->next = Hstudent;
+            Hstudent = newStudent;
         }
-        Hstudent = newStudent;
     }
 
     file.close();
 
     return Hstudent;
+}
+
+void AddSchoolYear(SchoolYear &schoolyear)
+{
+    string year;
+    cout<<"School year: ";  cin>>year;
+    
+    if (schoolyear.list)
+    {
+        SchoolYear* ptr = schoolyear.list;
+        while(ptr)
+            if (ptr->year == year) {
+                cout<<"School year existed! Please try again."<<endl;
+                cin>>year;
+            }
+            else
+                ptr = ptr->next;
+        //no identical schoolyear found
+        SchoolYear* newschlyr = new SchoolYear(year);
+        newschlyr->next = schoolyear.list;
+        schoolyear.list = newschlyr;
+    }
+    else
+        schoolyear.list = new SchoolYear(year);
 }
 
 Course::Class* ImportClasses(string fileName)//from file

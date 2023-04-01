@@ -79,7 +79,7 @@ void studentInterface (user *account, Student* listStudent, Course::Class* listC
 
             case 3:
                 system("cls");
-                printCourse(account -> ref, listClass, listCourse);
+                printCourse(account -> ref, listClass);
                 cout << endl << "Press 1 to back to menu: ";
                 cin >> command;
                 while( command != 1){

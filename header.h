@@ -92,10 +92,11 @@ struct SchoolYear
     Semester *smt = nullptr;
     const int semes_num = 3;
     int semes_count = 0;
+    SchoolYear* next;
+    SchoolYear* list = nullptr;
 
     void AddSemester();
-    SchoolYear(std::string _year);
-    SchoolYear();
+    SchoolYear(string _year);
 };
 
 string getCurrentYear ();
@@ -103,10 +104,12 @@ string getCurrentYear ();
 Student* ImportStudents(string fileName);
 Course::Class* ImportClasses(string fileName);
 Course* ImportCourses(string fileName);
+Semester* ImportSemester(string fileName);//work in progress
 
+void AddSchoolYear(SchoolYear &schoolyear);
 void AddStudent(Course::Class* myClass);
 void AddClass(Course* myCourse, string className);
-
+void printCourse(Student *account, Course::Class *listOfClass);
 void startProgram (Student* listStudent, Course* listCourse, Course::Class* listClass, SchoolYear thisYear);
 
 #endif
