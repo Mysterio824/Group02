@@ -1,13 +1,13 @@
 #include "header.h"
 
-void AddSchoolYear(SchoolYear &schoolyear)
+void AddSchoolYear(SchoolYear* &schoolyear)
 {
     string year;
     cout<<"School year: ";  cin>>year;
     
-    if (schoolyear.list)
+    if (schoolyear)
     {
-        SchoolYear* ptr = schoolyear.list;
+        SchoolYear* ptr = schoolyear;
         while(ptr != nullptr)
         {
             if (ptr->year == year) 
@@ -20,13 +20,11 @@ void AddSchoolYear(SchoolYear &schoolyear)
 
         //no identical schoolyear found
         SchoolYear* newschlyr = new SchoolYear(year);
-        newschlyr->next = schoolyear.list;
-        schoolyear.list = newschlyr;
+        newschlyr->next = schoolyear;
+        schoolyear = newschlyr;
     }
-    else 
-    {
-        schoolyear.list = new SchoolYear(year);
-    }
+    else
+        schoolyear = new SchoolYear(year);
 }
 
 void AddStudent(Course::Class* &myClass)//manually add

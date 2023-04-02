@@ -96,7 +96,6 @@ struct SchoolYear
     Semester *smt = nullptr;
     
     SchoolYear* next;
-    SchoolYear* list = nullptr;
 
     void AddSemester();
     SchoolYear(string _year);
