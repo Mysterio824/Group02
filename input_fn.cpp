@@ -8,23 +8,28 @@ void AddSchoolYear(SchoolYear &schoolyear)
     if (schoolyear.list)
     {
         SchoolYear* ptr = schoolyear.list;
-        while(ptr)
-            if (ptr->year == year) {
+        while(ptr != nullptr)
+        {
+            if (ptr->year == year) 
+            {
                 cout<<"School year existed! Please try again."<<endl;
                 cin>>year;
             }
-            else
-                ptr = ptr->next;
+            else  ptr = ptr->next;
+        }
+
         //no identical schoolyear found
         SchoolYear* newschlyr = new SchoolYear(year);
         newschlyr->next = schoolyear.list;
         schoolyear.list = newschlyr;
     }
-    else
+    else 
+    {
         schoolyear.list = new SchoolYear(year);
+    }
 }
 
-void AddStudent(Course::Class* myClass)//manually add
+void AddStudent(Course::Class* &myClass)//manually add
 {
     string no, student_id, last_name, first_name, gender, birth_date, social_id ;
 
@@ -53,7 +58,7 @@ void AddStudent(Course::Class* myClass)//manually add
     }
 }
 
-void AddCLass(Course* myCourse, string className)//manually add
+void AddCLass(Course* &myCourse, string className)//manually add
 {
     Course::Class* newClass = new Course::Class(className);
     if (myCourse->Hclass == nullptr)
@@ -97,13 +102,11 @@ Student* ImportStudents(string fileName)//from file
 
         Student* newStudent = new Student(no, student_id, first_name, last_name, gender, birth_date, social_id);
         
-        if (!Hstudent)
-            Hstudent = newStudent;
-        else
+        if (Hstudent != nullptr)
         {
-            newStudent->next = Hstudent;
-            Hstudent = newStudent;
+            newStudent->next = Hstudent;           
         }
+        Hstudent = newStudent;
     }
 
     file.close();
@@ -132,10 +135,9 @@ Course::Class* ImportClasses(string fileName)//from file
         
         Course::Class* newClass = new Course::Class(className);
 
-        if(Hclass != nullptr)
+        if (Hclass != nullptr)
         {
-            Course::Class* tmp = Hclass;
-            newClass->next = tmp;
+            newClass->next = Hclass;           
         }
         Hclass = newClass;
     }
@@ -147,7 +149,7 @@ Course::Class* ImportClasses(string fileName)//from file
 
 Course* ImportCourses(string fileName)// from file
 {
-     ifstream file(fileName);
+    ifstream file(fileName);
     if(!file.is_open())
     {
         cout << "Cannot open " << fileName << endl;
@@ -175,7 +177,6 @@ Course* ImportCourses(string fileName)// from file
 
         if(Hcourse != nullptr)
         {
-            Course* tmp = Hcourse;
             newCourse->next = Hcourse;
         }
         Hcourse = newCourse;
@@ -184,4 +185,73 @@ Course* ImportCourses(string fileName)// from file
     file.close();
 
     return Hcourse;
+}
+
+Semester* ImportSemesters(string fileName)
+{
+    ifstream file(fileName);
+    if(!file.is_open())
+    {
+        cout << "Cannot open " << fileName << endl;
+        return nullptr;
+    }
+
+    Semester* Hsemester = nullptr;
+
+    string line;
+
+    while (getline(file, line)) //Reading file to input semesters
+    {
+        stringstream ss(line);
+        string season, schoolYear , startDate, endDate;
+        getline(ss, season, ',');
+        getline(ss, schoolYear, ',');
+        getline(ss, startDate, ',');
+        getline(ss, endDate, ',');
+        
+        Semester* newSemester= new Semester(stoi(season), schoolYear, startDate, endDate);
+
+        if(Hsemester != nullptr)
+        {
+            newSemester->next = Hsemester;
+        }
+        Hsemester = newSemester;
+    }
+
+    file.close();
+
+    return Hsemester;
+}
+
+SchoolYear* ImportSchoolYears(string fileName)
+{
+    ifstream file(fileName);
+    if(!file.is_open())
+    {
+        cout << "Cannot open " << fileName << endl;
+        return nullptr;
+    }
+
+    SchoolYear* HschoolYear = nullptr;
+
+    string line;
+
+    while (getline(file, line)) //Reading file to input years
+    {
+        stringstream ss(line);
+        string schoolYear;
+        getline(ss, schoolYear, ',');
+        
+        SchoolYear* newSchoolYear= new SchoolYear(schoolYear);
+
+        if(HschoolYear != nullptr)
+        {
+            newSchoolYear->next = newSchoolYear;
+        }
+        HschoolYear= newSchoolYear;
+    }
+
+    file.close();
+
+    return HschoolYear;
 }

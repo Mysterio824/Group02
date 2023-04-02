@@ -9,6 +9,7 @@
 
 using namespace std;
 
+//------------------------Struct--------------------------
 struct Student{
     string No;
     string student_id;
@@ -89,9 +90,11 @@ struct Semester
 struct SchoolYear
 {
     string year;
-    Semester *smt = nullptr;
-    const int semes_num = 3;
+
     int semes_count = 0;
+    const int semes_num = 3;
+    Semester *smt = nullptr;
+    
     SchoolYear* next;
     SchoolYear* list = nullptr;
 
@@ -99,17 +102,31 @@ struct SchoolYear
     SchoolYear(string _year);
 };
 
-string getCurrentYear ();
+//--------------------------Function----------------------------------
 
+//Functions to import from file
 Student* ImportStudents(string fileName);
 Course::Class* ImportClasses(string fileName);
 Course* ImportCourses(string fileName);
-Semester* ImportSemester(string fileName);//work in progress
+Semester* ImportSemesters(string fileName);
+SchoolYear* ImportSchoolYears(string fileName);
 
+//Functions to add manually
 void AddSchoolYear(SchoolYear &schoolyear);
-void AddStudent(Course::Class* myClass);
-void AddClass(Course* myCourse, string className);
+void AddStudent(Course::Class* &myClass);
+void AddClass(Course* &myCourse, string className);
+
+//Functions to find in list
+Course :: Class* findClass (Student* account, Course::Class *listOfClass);
+int findStudentNo (Student *account, Course::Class* myClass);
+
+//Function to print out on console screen
 void printCourse(Student *account, Course::Class *listOfClass);
-void startProgram (Student* listStudent, Course* listCourse, Course::Class* listClass, SchoolYear thisYear);
+void printCourse(Student *account, Course::Class *listOfClass);
+void printScoreBoard (Student *account, Course::Class *listOfClass);
+
+//Other functions
+string getCurrentYear ();
+void startProgram (Student* &listStudents, Course* &listCourses, Course::Class* &listClasses, SchoolYear* &listSchoolYears, Semester* &listSemesters);
 
 #endif

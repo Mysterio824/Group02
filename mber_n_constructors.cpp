@@ -10,6 +10,8 @@ Student::Student(string no, string stuId, string fName, string lName, string gde
     gender = gder;
     birth_date = birth;
     social_id = socialId;
+
+    next = nullptr;
 }
 
 Course::Class::Class(string _name)
@@ -45,6 +47,7 @@ Course::Course(string cID, string cName, string clName, string tName, string nCr
 SchoolYear::SchoolYear(std::string _year)
 {
         year = _year;
+        next = nullptr;
 }
 
 //---------------------Member Function----------------------------
