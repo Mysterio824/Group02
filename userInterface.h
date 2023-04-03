@@ -8,11 +8,13 @@ void updateList (user *list, bool isStudent);
 
 void changePass (user *&account);
 
-void findStudent (Student *listStudent, user* account);
+Class* chooseClass (Class *listClass);
 
-void studentInterface (user *account, Student* listStudent, Course::Class* listClass, Course *listCourse);
+void findStudent (user *&account, Class *listClass);
 
-void staffInterface (user* account, Student* listStudent, Course::Class* listClass, Course *listCourse);
+void studentInterface (user *account, Class* listClass, Course *listCourse);
 
-void interFace (user *account, Student* listStudent, Course::Class* listClass, Course *listCourse);
+void staffInterface (user* account, Class* listClass, Course *listCourse);
+
+void interFace (user *account, Class* listClass, Course *listCourse);
 #endif

@@ -12,7 +12,6 @@ using namespace std;
 //------------------------Struct--------------------------
 struct Student{
     //info
-    string No;
     string student_id;
     string first_name;
     string last_name;
@@ -43,6 +42,8 @@ struct Scoreboard{
     float midterm, final, other;
     //pointer
     Scoreboard* next = nullptr;
+
+    float overallGPA ();
 };
 
 struct Course{
@@ -110,16 +111,19 @@ void AddStudent(Class* &myClass);
 void AddClass(Course* &myCourse);
 
 //Functions to find in list
-Class* findClass (Student* account, Class *listOfClass);
-int findStudentNo (Student *account, Class* myClass);
+Scoreboard* checkInCourse (Student *account, Course *HCourse);
 
-//Function to print out on console screen
-void printCourse(Student *account, Course::Class *listOfClass);
-void printCourse(Student *account, Course::Class *listOfClass);
-void printScoreBoard (Student *account, Course::Class *listOfClass);
+//Function to print out on console screen for student
+void printStdCourse(Student *account,Course *listOfCourse);
+void printStdScoreBoard (Student *account, Class *listOfClass);
+
+//Function to print out on console screen for staff
+void printStfScoreBoard(Course *HCourse);
+void printStfClass(Class *HClass);
+void printAllClass(Class *listOfClass);
 
 //Other functions
 string getCurrentYear ();
-void startProgram (Student* &listStudents, Course* &listCourses, Course::Class* &listClasses, SchoolYear* &listSchoolYears, Semester* &listSemesters);
+void startProgram (Student* &listStudents, Course* &listCourses, Class* &listClasses, SchoolYear* &listSchoolYears, Semester* &listSemesters);
 
 #endif
