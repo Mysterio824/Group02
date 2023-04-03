@@ -28,40 +28,97 @@ void AddSchoolYear(SchoolYear* &schoolyear)
         schoolyear = new SchoolYear(year);
 }
 
-Class* ImportClasses(string fileName)//from file
+//ClassName->Hstudent = ImportStudents(classname_fileName)
+//fileName: class_name.csv;
+//format: no,id,fname,lname,gender,bday,social_id
+Student* ImportStudents(string fileName)//from file straight to class
 {
-    ifstream file(fileName);
+    ifstream file(fileName + ".csv");
     if(!file.is_open())
     {
         cout << "Cannot open " << fileName << endl;
         return nullptr;
     }
 
-    Class* Hclass = nullptr;
-
+    Student* Hstudent = nullptr;
+    
     string line;
 
-    while (getline(file, line)) //Reading file to input classes
+    while (getline(file, line)) //Reading file to input students
     {
         stringstream ss(line);
-        string className;
+        string className, student_id, last_name, first_name, gender, birth_date, social_id ;
         getline(ss, className , ',');
-        
-        Class* newClass = new Class(className);
+        getline(ss, student_id, ',');
+        getline(ss, first_name, ',');
+        getline(ss, last_name, ',');
+        getline(ss, gender, ',');
+        getline(ss, birth_date, ',');
+        getline(ss, social_id, ',');
 
-        if (Hclass != nullptr)
+        Student* newStudent = new Student(className, student_id, first_name, last_name, gender, birth_date, social_id);
+        
+        if (Hstudent != nullptr)
         {
-            newClass->next = Hclass;           
+            newStudent->next = Hstudent;           
         }
-        Hclass = newClass;
+        Hstudent = newStudent;
     }
 
     file.close();
 
-    return Hclass;
+    return Hstudent;
 }
 
-Course* ImportCourses(string fileName)// from file
+//SchoolYear schyear = import(fileName)
+//fileName: year.csv
+//format: className1,className2,className3,...
+SchoolYear* ImportSchoolYears(string fileName)//wil create 
+{
+    SchoolYear* Hschyear;
+
+    ifstream inFile(fileName + ".csv");
+    if (!inFile.is_open())
+    {
+        cout<<"failed to open"<<fileName<<".csv"<<endl;
+        return nullptr;
+    }
+    SchoolYear* cur;
+    SchoolYear* newyear = new SchoolYear(fileName);
+    if (!Hschyear)
+        Hschyear = newyear;
+    else
+    {
+        newyear->next = Hschyear;
+        Hschyear = newyear;
+    }
+
+    string line;
+    while(getline(inFile,line))
+    {
+        stringstream ss(line);
+        string className;
+        while (getline(ss,className,','))
+        {
+            Class* newclass = new Class(className);
+            newclass->Hstudent = ImportStudents(className);
+            if (!Hschyear->Hclass)
+                Hschyear->Hclass = newclass;
+            else
+            {
+                newclass->next = Hschyear->Hclass;
+                Hschyear->Hclass = newclass;
+            }
+        }
+    }
+
+
+    return Hschyear;
+}
+//semester->course = importcourse(course_id)
+//fileName: course_ID.csv
+//format: courseID, courseName, className, teacherName, credits, capacity, day_of_week, session_time
+Course* ImportCourses(string fileName)
 {
     ifstream file(fileName);
     if(!file.is_open())
@@ -100,7 +157,8 @@ Course* ImportCourses(string fileName)// from file
 
     return Hcourse;
 }
-
+//fileName: semes01.csv
+//format: season,school_year, startDate, endDate
 Semester* ImportSemesters(string fileName)
 {
     ifstream file(fileName);
@@ -135,37 +193,4 @@ Semester* ImportSemesters(string fileName)
     file.close();
 
     return Hsemester;
-}
-
-SchoolYear* ImportSchoolYears(string fileName)
-{
-    ifstream file(fileName);
-    if(!file.is_open())
-    {
-        cout << "Cannot open " << fileName << endl;
-        return nullptr;
-    }
-
-    SchoolYear* HschoolYear = nullptr;
-
-    string line;
-
-    while (getline(file, line)) //Reading file to input years
-    {
-        stringstream ss(line);
-        string schoolYear;
-        getline(ss, schoolYear, ',');
-        
-        SchoolYear* newSchoolYear= new SchoolYear(schoolYear);
-
-        if(HschoolYear != nullptr)
-        {
-            newSchoolYear->next = newSchoolYear;
-        }
-        HschoolYear= newSchoolYear;
-    }
-
-    file.close();
-
-    return HschoolYear;
 }

@@ -23,7 +23,7 @@ struct Student{
     //pointer
     Student* next;
 
-    Student(string no, string stuId, string fName, string lName, string gder, string birth, string socialId); 
+    Student(string class_name, string stuId, string fName, string lName, string gder, string birth, string socialId);
 };
 
 struct Class{
@@ -39,10 +39,10 @@ struct Class{
 struct Scoreboard{
     //info
     string student_id;
-    float midterm, final, other;
+    float midterm, finalterm, other;
     //pointer
     Scoreboard* next = nullptr;
-
+    Scoreboard(string stdnt_id, float mid, float _final, float _other);
     float overallGPA ();
 };
 
@@ -100,9 +100,9 @@ struct SchoolYear
 
 //Functions to import from file
 Student* ImportStudents(string fileName);//fileName = class_name
-Class* ImportClasses(string fileName);
-Course* ImportCourses(string fileName);
+
 Semester* ImportSemesters(string fileName);
+Course* ImportCourses(string fileName);
 SchoolYear* ImportSchoolYears(string fileName);
 
 //Functions to add manually
