@@ -1,13 +1,13 @@
 #include "header.h"
 
-void AddSchoolYear(SchoolYear* &schoolyear)
+void AddSchoolYear(SchoolYear* &Hyear)
 {
     string year;
     cout<<"School year: ";  cin>>year;
     
-    if (schoolyear)
+    if (Hyear != nullptr)
     {
-        SchoolYear* ptr = schoolyear;
+        SchoolYear* ptr = Hyear;
         while(ptr != nullptr)
         {
             if (ptr->year == year) 
@@ -18,14 +18,62 @@ void AddSchoolYear(SchoolYear* &schoolyear)
             else  ptr = ptr->next;
         }
 
-        //no identical schoolyear found
-        delete ptr;
         SchoolYear* newschlyr = new SchoolYear(year);
-        newschlyr->next = schoolyear;
-        schoolyear = newschlyr;
+        newschlyr->next = Hyear;
+        Hyear = newschlyr;
     }
     else
-        schoolyear = new SchoolYear(year);
+        Hyear = new SchoolYear(year);
+}
+
+void AddStudentToClass(Class* &Hclass)
+{
+    if(Hclass == nullptr)
+    {
+        cout << "Has no class to add student to!";
+        return;
+    }
+
+    Class* head = Hclass;
+    int i = 1;
+    while(head != nullptr)
+    {
+        cout << i << ". ";
+        cout << head->class_name << endl;
+        i++;
+        head = head->next; 
+    }
+    head = Hclass;
+
+    string input;
+    cout << "Which class you want to add student to: "; cin >> input;
+    while(head != nullptr)
+    {
+        if(head->class_name == input)
+        {
+            string stuId, fName, lName, gder, birth, socialId;
+            cout << "Student ID: "; cin >> stuId;
+            cout << "First Name: "; cin >> fName;
+            cout << "Last Name: "; cin >> lName;
+            cout << "Gender: "; cin >> gder;
+            cout << "Birth Date:  "; cin >> birth;
+            cout << "Social ID: "; cin >> socialId;
+
+            Student* newStudent = new Student(head->class_name, stuId, fName, lName, gder, birth, socialId);
+
+            if(head->Hstudent != nullptr) newStudent->next = head->Hstudent;
+            head->Hstudent = newStudent;
+
+            return;
+        }
+        head = head->next;
+    }
+    cout << "The class you type in is invalid!" << endl;
+    cout << "Type Y/y if you want to try again and other keys to not.";
+    cin >> input;
+
+    if(input == "Y" || input == "y") 
+        AddStudentToClass(Hclass);
 }
 
 //ClassName->Hstudent = ImportStudents(classname_fileName)

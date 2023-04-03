@@ -100,15 +100,14 @@ struct SchoolYear
 
 //Functions to import from file
 Student* ImportStudents(string fileName);//fileName = class_name
-
 Semester* ImportSemesters(string fileName);
 Course* ImportCourses(string fileName);
 SchoolYear* ImportSchoolYears(string fileName);
 
 //Functions to add manually
-void AddSchoolYear(SchoolYear &schoolyear);
-void AddStudent(Class* &myClass);
-void AddClass(Course* &myCourse);
+void AddSchoolYear(SchoolYear &Hyear);
+void AddClassToSchoolYear(SchoolYear* &thisYear);
+void AddStudentToClass(Class* &Hclass);
 
 //Functions to find in list
 Scoreboard* checkInCourse (Student *account, Course *HCourse);
