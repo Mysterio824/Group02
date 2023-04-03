@@ -26,9 +26,14 @@ struct Student{
     Student(string no, string stuId, string fName, string lName, string gder, string birth, string socialId); 
 };
 
-struct StudentPtr{
-    Student* ref = nullptr;
-    StudentPtr* next = nullptr;
+struct Class{
+    string class_name;
+
+    Student* Hstudent;
+
+    Class* next;
+
+    Class(string _name);
 };
 
 struct Course{
@@ -40,31 +45,8 @@ struct Course{
     int capacity = 50;
     string day;
     string session;
-    struct Class{
-        string class_name;
     
-        StudentPtr* Hstudent = nullptr;
-    
-        Class* next = nullptr;
-
-        struct CoursePtr{
-            Course* ref = nullptr;
-            float **scores;
-            CoursePtr* next = nullptr;
-        };
-        
-        CoursePtr* courses = nullptr;
-
-        Class(string _name);
-    };
-
-    struct ClassPtr{
-            Course::Class *ref = nullptr;
-            ClassPtr* next = nullptr;
-    };
-    
-    ClassPtr* Hclass = nullptr;
-    
+    Class* Hclass;
     Course* next;
 
     Course(string cID, string cName, string clName, string tName, string nCredit, string capacity, string dei, string ses);
@@ -80,7 +62,7 @@ struct Semester
 
     //pointers
     Semester* next;
-    Course* courses = nullptr;
+    Course* Hcourse;
 
     //constructors
     void AddCourse();
@@ -93,7 +75,7 @@ struct SchoolYear
 
     int semes_count = 0;
     const int semes_num = 3;
-    Semester *smt = nullptr;
+    Semester *Hsemester;
     
     SchoolYear* next;
 
@@ -105,19 +87,19 @@ struct SchoolYear
 
 //Functions to import from file
 Student* ImportStudents(string fileName);
-Course::Class* ImportClasses(string fileName);
+Class* ImportClasses(string fileName);
 Course* ImportCourses(string fileName);
 Semester* ImportSemesters(string fileName);
 SchoolYear* ImportSchoolYears(string fileName);
 
 //Functions to add manually
 void AddSchoolYear(SchoolYear &schoolyear);
-void AddStudent(Course::Class* &myClass);
-void AddClass(Course* &myCourse, string className);
+void AddStudent(Class* &myClass);
+void AddClass(Course* &myCourse);
 
 //Functions to find in list
-Course :: Class* findClass (Student* account, Course::Class *listOfClass);
-int findStudentNo (Student *account, Course::Class* myClass);
+Class* findClass (Student* account, Class *listOfClass);
+int findStudentNo (Student *account, Class* myClass);
 
 //Function to print out on console screen
 void printCourse(Student *account, Course::Class *listOfClass);

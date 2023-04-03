@@ -14,9 +14,10 @@ Student::Student(string no, string stuId, string fName, string lName, string gde
     next = nullptr;
 }
 
-Course::Class::Class(string _name)
+Class::Class(string _name)
 {
     class_name = _name;
+    Hstudent = nullptr;
     next = nullptr;
 }
 
@@ -27,6 +28,7 @@ Semester::Semester(int n, string schoolYear ,string startDate, string endDate)
     start_date = startDate;
     end_date = endDate;
 
+    Hcourse = nullptr;
     next = nullptr;   
 }
 
@@ -41,12 +43,14 @@ Course::Course(string cID, string cName, string clName, string tName, string nCr
     day = dei;
     session = ses;
 
+    Hclass = nullptr;
     next = nullptr;
 }
 
 SchoolYear::SchoolYear(std::string _year)
 {
         year = _year;
+        Hsemester = nullptr;
         next = nullptr;
 }
 
@@ -73,12 +77,11 @@ void Semester::AddCourse()
 
     Course* newCourse = new Course(cID, cName, clName, tName, nCredit, capa, dei, ses);
     
-    if(courses != nullptr)
+    if(Hcourse != nullptr)
     {
-        Course* tmp = courses;
-        newCourse->next = tmp;
+        newCourse->next = Hcourse;
     }
-    courses = newCourse;
+    Hcourse = newCourse;
 }
 
 void SchoolYear::AddSemester()
@@ -95,7 +98,7 @@ void SchoolYear::AddSemester()
     string schoolYear, startDate, endDate;
 
     cout<<"Season: "; cin>>seasn;
-    Semester* smtptr = smt;
+    Semester* smtptr = Hsemester;
     for (int i = 0; i < 3 && smtptr; i++)
     {
         if (smtptr->season == seasn)
@@ -113,16 +116,11 @@ void SchoolYear::AddSemester()
     cout<<"Start date: "; cin>>startDate;
     cout<<"End date: "; cin>>endDate;
 
+    delete smtptr;
+
     Semester* newsemes = new Semester(seasn, schoolYear, startDate, endDate);
-    if (!smt)
-    {
-        smt = newsemes;
-        smtptr = smt;
-    }
-    else
-    {
-       smtptr->next = newsemes;
-       smtptr = newsemes;
-    }
+    if (Hsemester)
+       newsemes->next = Hsemester;   
+    Hsemester = newsemes;
     cout<<"Semester added successfully!"<<endl;
 }

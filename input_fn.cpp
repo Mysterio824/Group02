@@ -19,6 +19,7 @@ void AddSchoolYear(SchoolYear* &schoolyear)
         }
 
         //no identical schoolyear found
+        delete ptr;
         SchoolYear* newschlyr = new SchoolYear(year);
         newschlyr->next = schoolyear;
         schoolyear = newschlyr;
@@ -27,7 +28,7 @@ void AddSchoolYear(SchoolYear* &schoolyear)
         schoolyear = new SchoolYear(year);
 }
 
-void AddStudent(Course::Class* &myClass)//manually add
+void AddStudent(Class* &myClass)//manually add
 {
     string no, student_id, last_name, first_name, gender, birth_date, social_id ;
 
@@ -42,35 +43,22 @@ void AddStudent(Course::Class* &myClass)//manually add
     Student* newStudent = new Student(no, student_id, first_name, last_name, gender, birth_date, social_id);
     newStudent -> className = myClass -> class_name;
     
-    if(myClass->Hstudent == nullptr)
+    if(myClass->Hstudent != nullptr)
     {
-        myClass->Hstudent = new StudentPtr;
-        myClass->Hstudent->ref = newStudent;
+        newStudent->next = myClass->Hstudent;
     }
-    else
-    {
-        StudentPtr* tmp = myClass->Hstudent;
-        myClass->Hstudent = new StudentPtr;
-        myClass->Hstudent->ref = newStudent;
-        myClass->Hstudent->next = tmp;
-    }
+    myClass->Hstudent = newStudent;
 }
 
-void AddCLass(Course* &myCourse, string className)//manually add
+void AddCLass(Course* &myCourse)//manually add
 {
-    Course::Class* newClass = new Course::Class(className);
-    if (myCourse->Hclass == nullptr)
-    {
-        myCourse->Hclass = new Course::ClassPtr;
-        myCourse->Hclass->ref = newClass;
-    }
-    else
-    {   
-        Course::ClassPtr* tmp = myCourse->Hclass;
-        myCourse->Hclass = new Course::ClassPtr;
-        myCourse->Hclass->ref = newClass;
-        myCourse->Hclass->next = tmp;
-    }
+    string className;
+    cout << "Name of class you want to add to course: ";
+    cin >> className;
+    Class* newClass = new Class(className);
+
+    if(myCourse->Hclass != nullptr) newClass->next = myCourse->Hclass;
+    myCourse->Hclass = newClass;
 }
 
 Student* ImportStudents(string fileName)//from file
@@ -112,7 +100,7 @@ Student* ImportStudents(string fileName)//from file
     return Hstudent;
 }
 
-Course::Class* ImportClasses(string fileName)//from file
+Class* ImportClasses(string fileName)//from file
 {
     ifstream file(fileName);
     if(!file.is_open())
@@ -121,7 +109,7 @@ Course::Class* ImportClasses(string fileName)//from file
         return nullptr;
     }
 
-    Course::Class* Hclass = nullptr;
+    Class* Hclass = nullptr;
 
     string line;
 
@@ -131,7 +119,7 @@ Course::Class* ImportClasses(string fileName)//from file
         string className;
         getline(ss, className , ',');
         
-        Course::Class* newClass = new Course::Class(className);
+        Class* newClass = new Class(className);
 
         if (Hclass != nullptr)
         {

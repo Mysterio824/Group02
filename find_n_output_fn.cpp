@@ -10,7 +10,7 @@ string getCurrentYear (){
     return year;
 }
 
-Course :: Class* findClass (Student* account, Course::Class *listOfClass){
+Class* findClass (Student* account, Class *listOfClass){
     if(!listOfClass || !account) return nullptr;
     while (listOfClass){
         if(listOfClass -> class_name == account -> className)
@@ -20,10 +20,10 @@ Course :: Class* findClass (Student* account, Course::Class *listOfClass){
     return nullptr;
 }
 
-int findStudentNo (Student *account, Course::Class* myClass){
+int findStudentNo (Student *account, Class* myClass){
     if(!myClass || !account) return 0;
     int count = 0;
-    StudentPtr* curStudent = myClass -> Hstudent;
+    Student* curStudent = myClass -> Hstudent;
     while (curStudent && curStudent -> ref != account){
         curStudent = curStudent -> next;
         count ++;
