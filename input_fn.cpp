@@ -30,8 +30,16 @@ void AddSchoolYear(SchoolYear* &schoolyear)
 
 void AddStudent(Class* &myClass)//manually add
 {
-    string no, student_id, last_name, first_name, gender, birth_date, social_id ;
+    string clss_name, no, student_id, last_name, first_name, gender, birth_date, social_id ;
 
+    cout<<"Class name: ";   cin>>clss_name;
+    Class *cur = myClass;
+    while(cur)
+    {
+        if (cur->class_name == clss_name)
+            break;
+        cur c=cur->next;
+    }
     cout<<"No: ";           cin>>no;
     cout<<"Student ID: ";   cin>>student_id;
     cout<<"Last name: ";    cin>>last_name;

@@ -11,6 +11,7 @@ using namespace std;
 
 //------------------------Struct--------------------------
 struct Student{
+    //info
     string No;
     string student_id;
     string first_name;
@@ -20,23 +21,32 @@ struct Student{
     string social_id;
 
     string className;
-
+    //pointer
     Student* next;
 
     Student(string no, string stuId, string fName, string lName, string gder, string birth, string socialId); 
 };
 
 struct Class{
+    //info
     string class_name;
-
+    //pointers
     Student* Hstudent;
-
     Class* next;
 
     Class(string _name);
 };
+//---------------------------------------------------------------------
+struct Scoreboard{
+    //info
+    string student_id;
+    float midterm, final, other;
+    //pointer
+    Scoreboard* next = nullptr;
+};
 
 struct Course{
+    //info
     string course_id;
     string course_name;
     string class_name;
@@ -46,7 +56,8 @@ struct Course{
     string day;
     string session;
     
-    Class* Hclass;
+    //pointer
+    Scoreboard* Hscore = nullptr;
     Course* next;
 
     Course(string cID, string cName, string clName, string tName, string nCredit, string capacity, string dei, string ses);
@@ -71,12 +82,13 @@ struct Semester
 
 struct SchoolYear
 {
+    //info
     string year;
-
     int semes_count = 0;
     const int semes_num = 3;
+    //pointer
+    Class* Hclass;
     Semester *Hsemester;
-    
     SchoolYear* next;
 
     void AddSemester();
@@ -86,7 +98,7 @@ struct SchoolYear
 //--------------------------Function----------------------------------
 
 //Functions to import from file
-Student* ImportStudents(string fileName);
+Student* ImportStudents(string fileName);//fileName = class_name
 Class* ImportClasses(string fileName);
 Course* ImportCourses(string fileName);
 Semester* ImportSemesters(string fileName);
