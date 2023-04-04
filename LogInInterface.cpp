@@ -5,20 +5,27 @@ user* logIn (){
     int check;
     bool isStudent = false;
 
-    cout << "               Welcome!" << endl;
-    cout << "Choose whether you are student or staff: 1. Student   2. Staff" << endl;
-    cout << "Your choice: ";
+    cout << setw(3) << right << "" << "----------------------------------" << endl;
+    cout << setw(5)<< right << "| " << setw(18) << right << "Welcome" << setw(12) << left << " " << " |" <<endl;
+    cout << "-------------------------------------------" << endl;   
+    cout << "| " << setw(25) << left << "Choose whether you are student or staff" << " |" <<endl;
+    cout << "-------------------------------------------" << endl; 
+    cout << "| " << setw(20) << left << "1. Student" << setw(15) << internal
+         << setw(19) << right << "2. Staff " << " |" << endl;
+    cout << "-------------------------------------------" << endl; 
+    cout << endl;
+    cout << "Enter your choice: ";
     cin >> check;
-    while (check > 2 || check < 1){
-        cout << "Please choose whether you are student or staff: 1. Student   2. Staff" << endl;
-        cout << "Your choice: ";
+    while (check != 1 && check != 2){
+        cout << endl << "Please re-choose whether you are student or staff: ";
         cin >> check;
     }
-    if(check = 1) isStudent = true;
+    if(check == 1) isStudent = true;
 
     user *listAcc; //list of data user's accounts
     inputAccounts(listAcc, isStudent);
     
+    system ("cls");
     checkUser (listAcc, account); 
     account -> isStudent = isStudent; 
     deleteUserList (listAcc);
@@ -76,6 +83,7 @@ void checkUser (user *list, user *&account){ //check if username and password ar
     string inputUsername, inputPassword;
     cout << "Please enter your username: ";
     cin >> inputUsername;
+    cout << endl;
     cout << "Please enter your password: ";
     cin >> inputPassword;
     user *cur = list;

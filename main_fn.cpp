@@ -10,7 +10,6 @@ void startProgram (Student* &listStudents, Course* &listCourses, Class* &listCla
     string yearList = "listOfSchoolYears.csv";
 
     listStudents = ImportStudents(stuList);
-    listClasses = ImportClasses(classList);
     listCourses = ImportCourses(courseList);
     listSemesters = ImportSemesters(semesterList);
     listSchoolYears = ImportSchoolYears(yearList);

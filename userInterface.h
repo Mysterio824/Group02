@@ -17,4 +17,7 @@ void studentInterface (user *account, Class* listClass, Course *listCourse);
 void staffInterface (user* account, Class* listClass, Course *listCourse);
 
 void interFace (user *account, Class* listClass, Course *listCourse);
+
+void goBackToMenu (user* account,  Class* listClass, Course *listCourse);
+
 #endif

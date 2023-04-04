@@ -13,7 +13,7 @@ string getCurrentYear()
 
 float Scoreboard::overallGPA()
 {
-    float GPA = (midterm * 0.3 + final * 0.5 + other * 0.2) / 2.5;
+    float GPA = (midterm * 0.3 + finalterm * 0.5 + other * 0.2) / 2.5;
     return GPA;
 }
 
@@ -31,32 +31,32 @@ Scoreboard *checkInCourse(Student *account, Course *HCourse)
 
 void printStdCourse(Student *account, Course *listOfCourse)
 {
-    if (!account && !listOfCourse)
+    if (!account && !listOfCourse){
+        cout << "There is nothing to see." << endl;
         return;
-    cout << "-----------------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
+    }
+    cout << "---------------------------------------------------------------------------------------------------------------------------------" << endl;
     cout << "| " << setw(12) << left << "Course ID"
-         << "| " << setw(35) << left << "Course Name"
-         << "| " << setw(20) << left << "Class Name"
-         << "| " << setw(25) << left << "Teacher"
-         << "| " << setw(5) << left << "Credits"
-         << "| " << setw(10) << left << "Max Students"
-         << "| " << setw(15) << left << "Day of Week"
+         << "| " << setw(30) << left << "Course Name"
+         << "| " << setw(13) << left << "Class Name"
+         << "| " << setw(20) << left << "Teacher"
+         << "| " << setw(7) << left << "Credits"
+         << "| " << setw(20) << left << "Day of Week"
          << "| " << setw(11) << left << "Session"
          << " |" << endl;
-    cout << "-----------------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
+    cout << "---------------------------------------------------------------------------------------------------------------------------------" << endl;
     while (listOfCourse)
     {
         if (checkInCourse(account, listOfCourse))
         {
             cout << "| " << setw(12) << left << listOfCourse->course_id
-                 << "| " << setw(35) << left << listOfCourse->course_name
-                 << "| " << setw(20) << left << account->className
-                 << "| " << setw(25) << left << listOfCourse->teacher_name
+                 << "| " << setw(30) << left << listOfCourse->course_name
+                 << "| " << setw(13) << left << account->className
+                 << "| " << setw(20) << left << listOfCourse->teacher_name
                  << "| " << setw(7) << left << listOfCourse->num_credits
-                 << "| " << setw(12) << left << listOfCourse->capacity
-                 << "| " << setw(15) << left << listOfCourse->day
+                 << "| " << setw(20) << left << listOfCourse->day
                  << "| " << setw(11) << left << listOfCourse->session << " |" << endl;
-            cout << "-----------------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
+            cout << "---------------------------------------------------------------------------------------------------------------------------------" << endl;
         }
         listOfCourse = listOfCourse->next;
     }
@@ -66,19 +66,19 @@ void printStdScoreBoard(Student *account, Course *listOfCourse)
 {
     if (!account && !listOfCourse)
         return;
-    cout << "----------------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
-    cout << "| " << setw(13) << left << "Course ID"
-         << "| " << setw(20) << left << "Course Name"
-         << "| " << setw(15) << left << "Class Name"
-         << "| " << setw(15) << left << "Student ID"
-         << "| " << setw(25) << left << "Student Name"
-         << "| " << setw(5) << left << "Credits"
+    cout << "-----------------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
+    cout << "| " << setw(10) << left << "Course ID"
+         << "| " << setw(30) << left << "Course Name"
+         << "| " << setw(13) << left << "Class Name"
+         << "| " << setw(12) << left << "Student ID"
+         << "| " << setw(23) << left << "Student Name"
+         << "| " << setw(7) << left << "Credits"
          << "| " << setw(10) << left << "Other"
          << "| " << setw(10) << left << "Midterm"
          << "| " << setw(10) << left << "Lasterm"
          << "| " << setw(8) << left << "GPA"
          << " |" << endl;
-    cout << "----------------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
+    cout << "-----------------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
     float sum = 0;
     int count = 0;
     while (listOfCourse)
@@ -86,17 +86,17 @@ void printStdScoreBoard(Student *account, Course *listOfCourse)
         Scoreboard *cur = checkInCourse(account, listOfCourse);
         if (cur)
         {
-            cout << "| " << setw(13) << left << listOfCourse->course_id
-                 << "| " << setw(20) << left << listOfCourse->course_name
-                 << "| " << setw(15) << left << account->className
-                 << "| " << setw(15) << left << account->student_id
-                 << "| " << setw(25) << left << account->last_name
+            cout << "| " << setw(10) << left << listOfCourse->course_id
+                 << "| " << setw(30) << left << listOfCourse->course_name
+                 << "| " << setw(13) << left << account->className
+                 << "| " << setw(12) << left << account->student_id
+                 << "| " << setw(23) << left << account->last_name +" "+ account-> first_name
                  << "| " << setw(7) << left << listOfCourse->num_credits
                  << "| " << setw(10) << left << cur->other
                  << "| " << setw(10) << left << cur->midterm
-                 << "| " << setw(10) << left << cur->final
+                 << "| " << setw(10) << left << cur->finalterm
                  << "| " << setw(8) << left << cur->overallGPA() << " |" << endl;
-            cout << "----------------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
+            cout << "-----------------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
             count++;
             sum += cur->overallGPA();
         }
@@ -110,14 +110,16 @@ void printStdScoreBoard(Student *account, Course *listOfCourse)
 
 void printStfScoreBoard(Course *HCourse)
 {
-    if (!HCourse)
+    if (!HCourse){
+        cout << "There is no score board to see." << endl;
         return;
+    }
     Scoreboard *cur = HCourse->Hscore;
     cout << "---------------------------------------------------------------------------------------------------------------------" << endl;
-    cout << "| " << setw(15) << left << "Course ID"
-         << "| " << setw(25) << left << "Course Name"
-         << "| " << setw(15) << left << "Student ID"
-         << "| " << setw(5) << left << "Credits"
+    cout << "| " << setw(13) << left << "Course ID"
+         << "| " << setw(30) << left << "Course Name"
+         << "| " << setw(12) << left << "Student ID"
+         << "| " << setw(7) << left << "Credits"
          << "| " << setw(10) << left << "Other"
          << "| " << setw(10) << left << "Midterm"
          << "| " << setw(10) << left << "Lasterm"
@@ -126,13 +128,13 @@ void printStfScoreBoard(Course *HCourse)
     cout << "---------------------------------------------------------------------------------------------------------------------" << endl;
     while (cur)
     {
-        cout << "| " << setw(15) << left << HCourse->course_id
-             << "| " << setw(25) << left << HCourse->course_name
-             << "| " << setw(15) << left << cur->student_id
+        cout << "| " << setw(13) << left << HCourse->course_id
+             << "| " << setw(30) << left << HCourse->course_name
+             << "| " << setw(12) << left << cur->student_id
              << "| " << setw(7) << left << HCourse->num_credits
              << "| " << setw(10) << left << cur->other
              << "| " << setw(10) << left << cur->midterm
-             << "| " << setw(10) << left << cur->final
+             << "| " << setw(10) << left << cur->finalterm
              << "| " << setw(8) << left << cur->overallGPA() << " |" << endl;
         cout << "---------------------------------------------------------------------------------------------------------------------" << endl;
     }
@@ -140,8 +142,8 @@ void printStfScoreBoard(Course *HCourse)
 
 void printStfClass(Class *hClass)
 {
-    if (!hClass)
-        return;
+    if (!hClass) return;
+
     Student *cur = hClass->Hstudent;
     cout << "-----------------------------" << endl;
     cout << "| " << setw(12) << left << "Class Name: "
@@ -157,6 +159,7 @@ void printStfClass(Class *hClass)
          << "| " << setw(20) << left << "Social ID"
          << " |" << endl;
     cout << "-----------------------------------------------------------------------------------------------------------------------------" << endl;
+    
     while (cur)
     {
         cout << "| " << setw(12) << left << cur->student_id
@@ -175,9 +178,10 @@ void printStfClass(Class *hClass)
 
 void printAllClass(Class *listOfClass)
 {
-    if (!listOfClass)
+    if (!listOfClass){
+        cout << "There is no class to see." << endl;
         return;
-
+    }
     cout << "-------------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
     cout << "| " << setw(12) << left << "Student ID"
          << "| " << setw(40) << left << "Student Name"
