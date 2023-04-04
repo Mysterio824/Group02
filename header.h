@@ -67,7 +67,7 @@ struct Course{
 struct Semester
 {
     //info
-    int season;
+    string season;
     string start_date;
     string end_date;
     string school_year;
@@ -78,7 +78,7 @@ struct Semester
 
     //constructors
     void AddCourse();
-    Semester(int n, string schoolYear ,string startDate, string endDate);
+    Semester(string ssn, string schoolYear ,string startDate, string endDate);
 };
 
 struct SchoolYear
@@ -95,19 +95,77 @@ struct SchoolYear
     void AddSemester();
     SchoolYear(string _year);
 };
+/* 
+Stuct visualization---------------------------------------------------
+SchoolYear
+{
+    string year;
+    int semes_count = 0;
+    const int semes_num = 3;
 
+    SchoolYear* next;--------->
+    Class* Hclass {
+
+        string class_name;
+
+        Class* next;--------->
+        Student* Hstudent {
+            
+            string student_id;
+            string first_name;
+            string last_name;
+            string gender;
+            string birth_date;
+            string social_id;
+            string className;
+
+            Student* next;--------->
+        }
+        
+    }
+    Semester *Hsemester {
+
+        string season;
+        string start_date;
+        string end_date;
+        string school_year;
+
+        Semester* next;--------->
+        Course* Hcourse {
+
+            string course_id;
+            string course_name;
+            string class_name;
+            string teacher_name;
+            string num_credits;
+            int capacity = 50;
+            string day;
+            string session;
+
+            Course* next;--------->
+            Scoreboard* Hscore {
+                string student_id;
+                float midterm, finalterm, other;
+
+                Scoreboard* next;--------->
+            }
+        }
+    }
+}
+ */
 //--------------------------Function----------------------------------
 
 //Functions to import from file
 Student* ImportStudents(string fileName);//fileName = class_name
+
 Semester* ImportSemesters(string fileName);
 Course* ImportCourses(string fileName);
 SchoolYear* ImportSchoolYears(string fileName);
 
 //Functions to add manually
-void AddSchoolYear(SchoolYear &Hyear);
-void AddClassToSchoolYear(SchoolYear* &thisYear);
-void AddStudentToClass(Class* &Hclass);
+void AddSchoolYear(SchoolYear &schoolyear);
+void AddStudent(Class* &myClass);
+void AddClass(Course* &myCourse);
 
 //Functions to find in list
 Scoreboard* checkInCourse (Student *account, Course *HCourse);
@@ -123,6 +181,6 @@ void printAllClass(Class *listOfClass);
 
 //Other functions
 string getCurrentYear ();
-void startProgram (Student* &listStudents, Course* &listCourses, Class* &listClasses, SchoolYear* &listSchoolYears, Semester* &listSemesters);
+void startProgram(SchoolYear* &thisyear);
 
 #endif

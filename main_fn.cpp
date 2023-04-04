@@ -1,16 +1,19 @@
 #include "header.h"
 
-//start the program (import all the data)
-void startProgram (Student* &listStudents, Course* &listCourses, Class* &listClasses, SchoolYear* &listSchoolYears, Semester* &listSemesters)
+//importing all data of a chosen schoolyear
+void startProgram(SchoolYear* &thisyear)
 {
-    string stuList = "listOfStudents.csv";
-    string classList = "listOfClasses.csv";
-    string courseList = "listOfCourses.csv";
-    string semesterList = "listOfSemesters.csv";
-    string yearList = "listOfSchoolYears.csv";
+    string year = getCurrentYear();
 
-    listStudents = ImportStudents(stuList);
-    listCourses = ImportCourses(courseList);
-    listSemesters = ImportSemesters(semesterList);
-    listSchoolYears = ImportSchoolYears(yearList);
+    thisyear = ImportSchoolYears(year);
+    thisyear->Hsemester = ImportSemesters(year);
+
+    //semester pointer create
+    Semester* currentSemes = thisyear->Hsemester;
+
+    string courseName = "semester"+currentSemes->season;
+    currentSemes->Hcourse = ImportCourses(courseName);
+    cout<<"Database ready!"<<endl;
+    return;
+    //ImportSchoolYears() will also imports all classes & students that are listed in >schoolyear/school_year.csv
 }

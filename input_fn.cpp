@@ -76,27 +76,26 @@ void AddStudentToClass(Class* &Hclass)
         AddStudentToClass(Hclass);
 }
 
-//ClassName->Hstudent = ImportStudents(classname_fileName)
 //fileName: class_name.csv;
-//format: no,id,fname,lname,gender,bday,social_id
-Student* ImportStudents(string fileName)//from file straight to class
+//format: id,fname,lname,gender,bday,social_id
+Student* ImportStudents(string fileName)//from inFile straight to class
 {
-    ifstream file(fileName + ".csv");
-    if(!file.is_open())
+    ifstream inFile("input/classes/"+fileName + ".csv");
+    if(!inFile.is_open())
     {
         cout << "Cannot open " << fileName << endl;
         return nullptr;
     }
 
     Student* Hstudent = nullptr;
+    Student* pstd;
     
     string line;
 
-    while (getline(file, line)) //Reading file to input students
+    while (getline(inFile, line)) //Reading inFile to input students
     {
         stringstream ss(line);
-        string className, student_id, last_name, first_name, gender, birth_date, social_id ;
-        getline(ss, className , ',');
+        string student_id, last_name, first_name, gender, birth_date, social_id ;
         getline(ss, student_id, ',');
         getline(ss, first_name, ',');
         getline(ss, last_name, ',');
@@ -104,34 +103,38 @@ Student* ImportStudents(string fileName)//from file straight to class
         getline(ss, birth_date, ',');
         getline(ss, social_id, ',');
 
-        Student* newStudent = new Student(className, student_id, first_name, last_name, gender, birth_date, social_id);
+        Student* newStudent = new Student(fileName, student_id, first_name, last_name, gender, birth_date, social_id);
         
-        if (Hstudent != nullptr)
+        if (!Hstudent)
         {
-            newStudent->next = Hstudent;           
+            Hstudent = newStudent;
+            pstd = Hstudent;
         }
-        Hstudent = newStudent;
+        else
+        {
+            pstd->next = newStudent;
+            pstd = newStudent;
+        }
     }
 
-    file.close();
-
+    inFile.close();
+    delete pstd;
+    cout<<">classes/"<<fileName<<".csv loaded"<<endl;
     return Hstudent;
 }
 
-//SchoolYear schyear = import(fileName)
 //fileName: year.csv
 //format: className1,className2,className3,...
-SchoolYear* ImportSchoolYears(string fileName)//wil create 
+SchoolYear* ImportSchoolYears(string fileName)
 {
     SchoolYear* Hschyear;
-
-    ifstream inFile(fileName + ".csv");
+    //creates newSchoolyear
+    ifstream inFile("input/schoolyear/"+fileName + ".csv");
     if (!inFile.is_open())
     {
         cout<<"failed to open"<<fileName<<".csv"<<endl;
         return nullptr;
     }
-    SchoolYear* cur;
     SchoolYear* newyear = new SchoolYear(fileName);
     if (!Hschyear)
         Hschyear = newyear;
@@ -140,7 +143,7 @@ SchoolYear* ImportSchoolYears(string fileName)//wil create
         newyear->next = Hschyear;
         Hschyear = newyear;
     }
-
+    //add class to schoolyear
     string line;
     while(getline(inFile,line))
     {
@@ -151,7 +154,9 @@ SchoolYear* ImportSchoolYears(string fileName)//wil create
             Class* newclass = new Class(className);
             newclass->Hstudent = ImportStudents(className);
             if (!Hschyear->Hclass)
+            {
                 Hschyear->Hclass = newclass;
+            }
             else
             {
                 newclass->next = Hschyear->Hclass;
@@ -159,17 +164,18 @@ SchoolYear* ImportSchoolYears(string fileName)//wil create
             }
         }
     }
-
-
+    
+    inFile.close();
+    cout<<">schoolyear/"<<fileName<<".csv loaded"<<endl;
     return Hschyear;
 }
-//semester->course = importcourse(course_id)
-//fileName: course_ID.csv
+
+//fileName: semester[...].csv
 //format: courseID, courseName, className, teacherName, credits, capacity, day_of_week, session_time
-Course* ImportCourses(string fileName)
+Course* ImportCourses(string fileName)//semester#
 {
-    ifstream file(fileName);
-    if(!file.is_open())
+    ifstream inFile("input/courses/"+ fileName +".csv");
+    if(!inFile.is_open())
     {
         cout << "Cannot open " << fileName << endl;
         return nullptr;
@@ -179,7 +185,7 @@ Course* ImportCourses(string fileName)
 
     string line;
 
-    while (getline(file, line)) //Reading file to input courses
+    while (getline(inFile, line)) //Reading inFile to input courses
     {
         stringstream ss(line);
         string cID, cName, clName, tName, nCredit, capacity, dei, ses;
@@ -194,51 +200,68 @@ Course* ImportCourses(string fileName)
         
         Course* newCourse= new Course(cID, cName, clName, tName, nCredit, capacity, dei, ses);
 
-        if(Hcourse != nullptr)
+        if(!Hcourse)
+            Hcourse = newCourse;
+        else
         {
             newCourse->next = Hcourse;
+            Hcourse = newCourse;
         }
-        Hcourse = newCourse;
     }
 
-    file.close();
+    inFile.close();
+    cout<<">courses/"<<fileName<<".csv loaded."<<endl;
 
     return Hcourse;
 }
-//fileName: semes01.csv
+//fileName: year.csv
 //format: season,school_year, startDate, endDate
-Semester* ImportSemesters(string fileName)
+//semesName = "semester"+semester->season, e.g semester01, semester02
+///season = 01, 02, 03
+Semester* ImportSemesters(string fileName)//fileName = currentyear
 {
-    ifstream file(fileName);
-    if(!file.is_open())
+    ifstream inFile("input/semesters/" + fileName + ".csv");
+    if(!inFile.is_open())
     {
-        cout << "Cannot open " << fileName << endl;
+        cout << "Cannot open " << fileName +".csv" << endl;
         return nullptr;
     }
 
     Semester* Hsemester = nullptr;
-
+    Semester* psemes;
     string line;
-
-    while (getline(file, line)) //Reading file to input semesters
+    while (getline(inFile,line))
     {
         stringstream ss(line);
-        string season, schoolYear , startDate, endDate;
-        getline(ss, season, ',');
-        getline(ss, schoolYear, ',');
-        getline(ss, startDate, ',');
-        getline(ss, endDate, ',');
-        
-        Semester* newSemester= new Semester(stoi(season), schoolYear, startDate, endDate);
+        string season, begin, end;
+        getline(ss,season,',');
+        getline(ss,begin,',');
+        getline(ss,end,',');
 
-        if(Hsemester != nullptr)
+        Semester* newsemester = new Semester(season, fileName, begin, end);
+        if (!Hsemester)
         {
-            newSemester->next = Hsemester;
+            Hsemester = newsemester;
+            psemes = Hsemester;
         }
-        Hsemester = newSemester;
+        else
+        {
+            psemes->next = newsemester;
+            psemes = newsemester;
+        }
     }
 
-    file.close();
+    /* psemes = Hsemester;
+    string semesterN;
+    while(psemes)
+    {
+        semesterN = "semester"+psemes->season;
+        psemes->Hcourse = ImportCourses(semesterN);
+        psemes = psemes->next;
+    } */
+    inFile.close();
+    delete psemes;
+    cout<<">semesters/"<<fileName<<".csv loaded."<<endl;
 
     return Hsemester;
 }

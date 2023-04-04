@@ -21,9 +21,9 @@ Class::Class(string _name)
     next = nullptr;
 }
 
-Semester::Semester(int n, string schoolYear ,string startDate, string endDate)
+Semester::Semester(string ssn, string schoolYear ,string startDate, string endDate)
 {
-    season = n;
+    season = ssn;
     school_year = schoolYear;
     start_date = startDate;
     end_date = endDate;
@@ -58,9 +58,10 @@ Course::Course(string cID, string cName, string clName, string tName, string nCr
 
 SchoolYear::SchoolYear(std::string _year)
 {
-        year = _year;
-        Hsemester = nullptr;
-        next = nullptr;
+    year = _year;
+    Hsemester = nullptr;
+    Hclass = nullptr;
+    next = nullptr;
 }
 
 //---------------------Member Function----------------------------
@@ -103,7 +104,7 @@ void SchoolYear::AddSemester()
         return;
     }
     
-    int seasn;
+    string seasn;
     string schoolYear, startDate, endDate;
 
     cout<<"Season: "; cin>>seasn;
@@ -114,7 +115,7 @@ void SchoolYear::AddSemester()
         {
             cout<<"This season is currently have a semester scheduled!"<<endl;
             cout<<"Please choose another season, or input -1 to cancel: "; cin>>seasn;
-            if (seasn == -1)
+            if (seasn == "-1")
                 return;
             i = 0;
         }
