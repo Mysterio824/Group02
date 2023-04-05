@@ -12,12 +12,15 @@ Class* chooseClass (Class *listClass);
 
 void findStudent (user *&account, Class *listClass);
 
+void goBackToMenu (user* account,  Class* listClass, Course *listCourse);
+
+void logOut(user *&account, Class *listClass, Course *listCourse);
+
 void studentInterface (user *account, Class* listClass, Course *listCourse);
 
 void staffInterface (user* account, Class* listClass, Course *listCourse);
 
 void interFace (user *account, Class* listClass, Course *listCourse);
 
-void goBackToMenu (user* account,  Class* listClass, Course *listCourse);
 
 #endif
