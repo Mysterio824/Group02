@@ -32,12 +32,12 @@ Semester::Semester(string ssn, string schoolYear ,string startDate, string endDa
     next = nullptr;   
 }
 
-Scoreboard::Scoreboard(string stdnt_id, float _mid, float _final, float _other)
+Scoreboard::Scoreboard(string stdnt_id)
 {
     student_id = stdnt_id;
-    midterm = _mid;
-    finalterm = _final;
-    other = _other;
+    midterm = 0;
+    finalterm = 0;
+    other = 0;
 
     next = nullptr;
 }
