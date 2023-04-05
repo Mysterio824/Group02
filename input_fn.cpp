@@ -24,7 +24,47 @@ void AddSchoolYear(SchoolYear* &Hyear)
     }
     else
         Hyear = new SchoolYear(year);
+    ofstream outFile("input/schoolyear/" + year + ".csv");
+    if (!outFile.is_open()) {
+        cout<<"Couldn't save school year to database!"<<endl;
+        outFile.close();
+    }
 }
+
+void AddClasstoSchoolYear(SchoolYear* &Hschoolyear)
+{
+    string year;
+    while (true)
+    {
+        cout<<"Select a school year to insert new class: "; cin>>year;
+        
+        ifstream inFile("input/schoolyear/" + year + ".csv");
+        if (inFile.is_open() == false)
+        {
+            inFile.close();
+            cout<<"No database found of "<<year<<".csv"<<endl;
+            cout<<"Retry? (Y/N): "; cin>>year;
+            if (year == "Y" || year == "y")
+                continue;
+            else return;
+        }
+        else
+        {
+            inFile.close();
+            break;
+        }
+    }
+    string className;
+    cout<<"New class name: "; cin>>className;
+    ofstream outFile("input/schoolyear/" + year + ".csv");
+    outFile<<className<<", ";
+
+
+}
+
+//void AddStudentToCourse
+//void AddSemesterToSchoolYear
+//voif AddCourseToSemester
 
 void AddStudentToClass(Class* &Hclass)
 {
@@ -33,7 +73,6 @@ void AddStudentToClass(Class* &Hclass)
         cout << "Has no class to add student to!";
         return;
     }
-
     Class* head = Hclass;
     int i = 1;
     while(head != nullptr)
@@ -59,11 +98,20 @@ void AddStudentToClass(Class* &Hclass)
             cout << "Birth Date:  "; cin >> birth;
             cout << "Social ID: "; cin >> socialId;
 
+            ofstream outFile("input/classes/" + input +".csv");
+            if (!outFile.is_open())
+            {
+                cout<<"No database found of "<< input << ".csv"<<endl;
+                outFile.close();
+            }
+            outFile<<"\n"<<stuId<<", "<<fName<<", "<<lName<<", "<<gder<<", "<<birth<<", "<<socialId<<", ";
+
             Student* newStudent = new Student(head->class_name, stuId, fName, lName, gder, birth, socialId);
 
             if(head->Hstudent != nullptr) newStudent->next = head->Hstudent;
             head->Hstudent = newStudent;
-
+            outFile.close();
+            delete head;
             return;
         }
         head = head->next;
