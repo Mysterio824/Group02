@@ -24,8 +24,10 @@ void AddSchoolYear(SchoolYear* &Hyear)
     }
     else
         Hyear = new SchoolYear(year);
+
     ofstream outFile("input/schoolyear/" + year + ".csv");
-    if (!outFile.is_open()) {
+    if (!outFile.is_open()) 
+    {
         cout<<"Couldn't save school year to database!"<<endl;
         outFile.close();
     }
@@ -62,8 +64,23 @@ void AddClasstoSchoolYear(SchoolYear* &Hschoolyear)
 
 }
 
-//void AddStudentToCourse
-//void AddSemesterToSchoolYear
+void AddSemesterToSchoolYear(SchoolYear* &Hschoolyear)
+{
+    if(Hschoolyear == nullptr)
+    {
+        cout << "There is no school year to add semester!" << endl;
+        return;
+    }
+    cout << "They are available school years: " << endl;
+    SchoolYear* Hyear = Hschoolyear;
+    while (Hyear != nullptr)
+    {
+        cout << '.' << Hyear->year << endl;
+        Hyear = Hyear->next;
+    }
+    Hyear = Hschoolyear;
+    
+}
 //voif AddCourseToSemester
 
 void AddStudentToClass(Class* &Hclass)
@@ -122,6 +139,79 @@ void AddStudentToClass(Class* &Hclass)
 
     if(input == "Y" || input == "y") 
         AddStudentToClass(Hclass);
+}
+
+void AddStudentToCourse(Course* &Hcourse)
+{
+    if(Hcourse == nullptr)
+    {
+        cout << "There's no course for you to add a student to!"<<endl;
+        return;
+    }
+    cout << "There are courses available: " << endl;
+    Course* tmpCourse = Hcourse;
+    while (tmpCourse != nullptr)
+    {
+        cout << '.' << tmpCourse->course_name << endl; 
+        tmpCourse = tmpCourse->next;
+    }
+    tmpCourse = Hcourse;    
+
+    string input;
+    cout << "Name of course you want to add student to: "; cin >> input;  
+    while (true)
+    {      
+        if(tmpCourse->course_name == input) break;
+        tmpCourse = tmpCourse->next;
+        if(tmpCourse == nullptr)
+        {
+            cout << "The course you typed in is invalid!" <<endl;
+            cout << "Do you want to try again ? (Y/y for yes and others for no): "; cin >> input;
+            if(input != "Y" && input != "y")
+            {
+                cout << "You add no student!" <<endl;
+                return;
+            }
+            else 
+            {
+                cout << "Try again! Name of course?: "; cin >> input;
+                tmpCourse = Hcourse;
+            }
+        }
+    }
+
+    cout << "ID of the student you want to add to course: "; cin >> input;
+    Scoreboard* tmpStu = tmpCourse->Hscore;
+    while (true)
+    {
+        if(tmpStu->student_id == input)
+        {
+            cout << "The student is already in the course." <<endl;
+            cout << "Do you want to add another student? (Y/y for yes - others for no): "; cin >> input;
+            if(input != "Y" && input != "y")
+            {
+                cout << "You add no student!" << endl;
+                return;
+            }
+            else
+            {
+                cout << "Type another ID: "; cin >> input;
+                tmpStu = tmpCourse->Hscore;
+            }
+        }
+        else
+        {
+            tmpStu = tmpStu->next;
+            if(tmpStu == nullptr)
+            {
+                tmpStu = new Scoreboard(input);
+                tmpStu->next = tmpCourse->Hscore;
+                tmpCourse->Hscore = tmpStu;
+                cout << "You added this Student ID: " << input << "to " << tmpCourse->course_name << endl;
+            }
+        }
+    }
+    
 }
 
 //fileName: class_name.csv;
