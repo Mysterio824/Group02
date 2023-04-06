@@ -11,12 +11,6 @@ string getCurrentYear()
     return year;
 }
 
-float Scoreboard::overallGPA()
-{
-    float GPA = (midterm * 0.3 + finalterm * 0.5 + other * 0.2) / 2.5;
-    return GPA;
-}
-
 Scoreboard *checkInCourse(Student *account, Course *HCourse)
 {
     if (!account && !HCourse)
@@ -29,19 +23,31 @@ Scoreboard *checkInCourse(Student *account, Course *HCourse)
     return nullptr;
 }
 
+string Student::fullName(){
+    string fullName = last_name + " " + first_name;
+    return fullName;
+}
+
+//----------------Student------------------
+float Scoreboard::overallGPA()
+{
+    float GPA = (midterm * 0.3 + finalterm * 0.5 + other * 0.2) / 2.5;
+    return GPA;
+}
+
 void printStdCourse(Student *account, Course *listOfCourse)
 {
-    if (!account && !listOfCourse){
+    if (!account || !listOfCourse){
         cout << "There is nothing to see." << endl;
         return;
     }
     cout << "---------------------------------------------------------------------------------------------------------------------------------" << endl;
     cout << "| " << setw(12) << left << "Course ID"
-         << "| " << setw(30) << left << "Course Name"
+         << "| " << setw(28) << left << "Course Name"
          << "| " << setw(13) << left << "Class Name"
-         << "| " << setw(20) << left << "Teacher"
+         << "| " << setw(25) << left << "Teacher"
          << "| " << setw(7) << left << "Credits"
-         << "| " << setw(20) << left << "Day of Week"
+         << "| " << setw(17) << left << "Day of Week"
          << "| " << setw(11) << left << "Session"
          << " |" << endl;
     cout << "---------------------------------------------------------------------------------------------------------------------------------" << endl;
@@ -50,11 +56,11 @@ void printStdCourse(Student *account, Course *listOfCourse)
         if (checkInCourse(account, listOfCourse))
         {
             cout << "| " << setw(12) << left << listOfCourse->course_id
-                 << "| " << setw(30) << left << listOfCourse->course_name
+                 << "| " << setw(28) << left << listOfCourse->course_name
                  << "| " << setw(13) << left << account->className
-                 << "| " << setw(20) << left << listOfCourse->teacher_name
+                 << "| " << setw(25) << left << listOfCourse->teacher_name
                  << "| " << setw(7) << left << listOfCourse->num_credits
-                 << "| " << setw(20) << left << listOfCourse->day
+                 << "| " << setw(17) << left << listOfCourse->day
                  << "| " << setw(11) << left << listOfCourse->session << " |" << endl;
             cout << "---------------------------------------------------------------------------------------------------------------------------------" << endl;
         }
@@ -64,14 +70,14 @@ void printStdCourse(Student *account, Course *listOfCourse)
 
 void printStdScoreBoard(Student *account, Course *listOfCourse)
 {
-    if (!account && !listOfCourse)
+    if (!account || !listOfCourse)
         return;
     cout << "-----------------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
-    cout << "| " << setw(10) << left << "Course ID"
-         << "| " << setw(30) << left << "Course Name"
-         << "| " << setw(13) << left << "Class Name"
+    cout << "| " << setw(11) << left << "Course ID"
+         << "| " << setw(28) << left << "Course Name"
+         << "| " << setw(12) << left << "Class Name"
          << "| " << setw(12) << left << "Student ID"
-         << "| " << setw(23) << left << "Student Name"
+         << "| " << setw(25) << left << "Student Name"
          << "| " << setw(7) << left << "Credits"
          << "| " << setw(10) << left << "Other"
          << "| " << setw(10) << left << "Midterm"
@@ -86,11 +92,11 @@ void printStdScoreBoard(Student *account, Course *listOfCourse)
         Scoreboard *cur = checkInCourse(account, listOfCourse);
         if (cur)
         {
-            cout << "| " << setw(10) << left << listOfCourse->course_id
-                 << "| " << setw(30) << left << listOfCourse->course_name
-                 << "| " << setw(13) << left << account->className
+            cout << "| " << setw(11) << left << listOfCourse->course_id
+                 << "| " << setw(28) << left << listOfCourse->course_name
+                 << "| " << setw(12) << left << account->className
                  << "| " << setw(12) << left << account->student_id
-                 << "| " << setw(23) << left << account->last_name +" "+ account-> first_name
+                 << "| " << setw(25) << left << account->fullName()
                  << "| " << setw(7) << left << listOfCourse->num_credits
                  << "| " << setw(10) << left << cur->other
                  << "| " << setw(10) << left << cur->midterm
@@ -108,6 +114,8 @@ void printStdScoreBoard(Student *account, Course *listOfCourse)
     cout << "--------------------" << endl;
 }
 
+
+//---------------Staff--------------------
 void printStfScoreBoard(Course *HCourse)
 {
     if (!HCourse){
@@ -162,10 +170,11 @@ void printStfClass(Class *hClass)
     
     while (cur)
     {
+        string fullName = cur->first_name + " " + cur->last_name;
         cout << "| " << setw(12) << left << cur->student_id
              << "| " << setw(17) << left << cur -> first_name
              << "| " << setw(10) << left << cur -> last_name
-             << "| " << setw(25) << left << cur->first_name + " " + cur->last_name
+             << "| " << setw(25) << left << cur->fullName()
              << "| " << setw(10) << left << cur->gender
              << "| " << setw(15) << left << cur->birth_date
              << "| " << setw(20) << left << cur->social_id
@@ -182,28 +191,28 @@ void printAllClass(Class *listOfClass)
         cout << "There is no class to see." << endl;
         return;
     }
-    cout << "-------------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
+    cout << "-------------------------------------------------------------------------------------------------------------------------" << endl;
     cout << "| " << setw(12) << left << "Student ID"
-         << "| " << setw(40) << left << "Student Name"
-         << "| " << setw(25) << left << "Class Name" 
-         << "| " << setw(25) << left << "Gender"
-         << "| " << setw(15) << left << "Birth Date"
+         << "| " << setw(30) << left << "Student Name"
+         << "| " << setw(15) << left << "Class Name" 
+         << "| " << setw(10) << left << "Gender"
+         << "| " << setw(20) << left << "Birth Date"
          << "| " << setw(20) << left << "Social ID"
          << " |" << endl;
-    cout << "-------------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
+    cout << "-------------------------------------------------------------------------------------------------------------------------" << endl;
     while (listOfClass)
     {
         Student *cur = listOfClass->Hstudent;
         while (cur)
         {
             cout << "| " << setw(12) << left << cur->student_id
-                 << "| " << setw(40) << left << cur->first_name + " " + cur->last_name
-                 << "| " << setw(25) << left << listOfClass -> class_name
-                 << "| " << setw(25) << left << cur->gender
-                 << "| " << setw(15) << left << cur->birth_date
+                 << "| " << setw(30) << left << cur -> fullName()
+                 << "| " << setw(15) << left << listOfClass -> class_name
+                 << "| " << setw(10) << left << cur->gender
+                 << "| " << setw(20) << left << cur->birth_date
                  << "| " << setw(20) << left << cur->social_id
                  << " |" << endl;
-            cout << "-------------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
+            cout << "-------------------------------------------------------------------------------------------------------------------------" << endl;
 
             cur = cur->next;
         }

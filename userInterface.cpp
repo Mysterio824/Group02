@@ -1,64 +1,77 @@
 #include "userInterface.h"
 #include "header.h"
 
-void changeInList(user *list, user *account)
+//---------------------------Staff--------------------------------------
+void createAccount()
 {
-    if (!list)
-        return;
-    while (list->next)
+    user *newList, *tmp;
+    bool isStudent = false;
+    int cmd;
+    cout << "---------------------------------------------" << endl;
+    cout << "| " << setw(25) << left << "Which type of account you want to create:"
+         << " |" << endl;
+    cout << "---------------------------------------------" << endl;
+    cout << "| " << setw(20) << left << "1. Student" << setw(15) << internal
+         << setw(21) << right << "2. Staff "
+         << " |" << endl;
+    cout << "---------------------------------------------" << endl;
+    cout << endl;
+    cout << "Enter your choice: ";
+    cin >> cmd;
+    while (cmd != 1 && cmd != 2)
     {
-        if (account->username == list->username)
+        cout << endl
+             << "Please again: ";
+        cin >> cmd;
+    }
+    if (cmd == 1)
+        isStudent = true;
+    cout << "---------------------------------------------" << endl;
+    cout << "| " << setw(25) << left << "Please choose way to import new accounts:"
+         << " |" << endl;
+    cout << "---------------------------------------------" << endl;
+    cout << "| " << setw(20) << left << "1. Manual" << setw(15) << internal
+         << setw(21) << right << "2. Auto "
+         << " |" << endl;
+    cout << "---------------------------------------------" << endl;
+    cout << endl;
+    cout << "Enter your choice: ";
+    cin >> cmd;
+    while (cmd != 1 && cmd != 2)
+    {
+        cout << endl
+             << "Please choose again: ";
+        cin >> cmd;
+    }
+    importAccounts(newList, isStudent);
+    if (cmd == 1)
+    {
+        cout << endl
+             << "How many accounts would you like to create: ";
+        cin >> cmd;
+        for (int i = 0; i < cmd; i++)
         {
-            list->password = account->password;
-            return;
+            system("cls");
+            string username, password;
+            cout << endl
+                 << "Please enter the username:";
+            cin >> username;
+            cout << endl
+                 << "Please enter the password:";
+            cin >> password;
+            user *newUser = createUser(username, password);
+            addToList(tmp, newUser);
         }
-        list = list->next;
     }
-}
-
-void updateList(user *list, bool isStudent)
-{
-    string fileName;
-    if (isStudent)
-        fileName = "listOfStdAcc";
-    else
-        fileName = "listOfStfAcc";
-    ofstream outputFile(fileName + ".csv");
-    if (!outputFile.is_open())
-    {
-        cout << "Error opening file" << endl;
-        return;
+    else {
+        string fileName;
+        cout << "Please enter the source file: ";
+        cin >> fileName;
+        tmp = inputAccounts(fileName);
     }
-    while (list)
-    {
-        outputFile << list->username << ",";
-        outputFile << list->password << endl;
-        list = list->next;
-    }
-    cout << "Your password has been changed successfully!" << endl;
-    cout << "-Please re-log-in your account- " << endl;
-    outputFile.close();
-}
-
-void changePass(user *&account)
-{
-    if (!account)
-        return;
-    user *list;
-    inputAccounts(list, account->isStudent);
-    string newPass;
-    cout << "Please enter your new password: ";
-    cin >> newPass;
-    account->password = newPass;
-    changeInList(list, account);
-    updateList(list, account->isStudent);
-
-    // Log in again..
-    system("cls");
-    cout << "Please re-login to your account" << endl
-         << endl;
-    checkUser(list, account);
-    deleteUserList(list);
+    addToList(newList, tmp);
+    updateList(newList, isStudent);
+    cout << "Your accounts have been added successful!";
 }
 
 Class *chooseClass(Class *listClass)
@@ -69,22 +82,26 @@ Class *chooseClass(Class *listClass)
         return nullptr;
     }
     int count = 0;
-    listClass = listClass -> next;
+    listClass = listClass->next;
     Class *mark = listClass;
-    cout << "------------------------" << endl;   
-    cout << "| " << setw(20) << internal << "List of classes: " << " |" <<endl;
-    cout << "------------------------" << endl;   
-    while (listClass) {
-        cout << "| " <<  ++count << ". " << setw(17) << left  <<  listClass -> class_name << " |" << endl;
-        listClass = listClass -> next;
+    cout << "------------------------" << endl;
+    cout << "| " << setw(20) << internal << "List of classes: "
+         << " |" << endl;
+    cout << "------------------------" << endl;
+    while (listClass)
+    {
+        cout << "| " << ++count << ". " << setw(17) << left << listClass->class_name << " |" << endl;
+        listClass = listClass->next;
     }
     cout << "------------------------" << endl;
     int command;
-    cout << endl << "Please enter the class you would like to see: ";
+    cout << endl
+         << "Please enter the class you would like to see: ";
     cin >> command;
     while (command > count)
     {
-        cout << endl << "Please enter a again: ";
+        cout << endl
+             << "Please enter a again: ";
         cin >> command;
     }
     for (count = 0; count < command - 1; count++)
@@ -92,6 +109,77 @@ Class *chooseClass(Class *listClass)
     return mark;
 }
 
+void findStaff(user *&account)
+{
+    if (!account)
+        return;
+    staffData *list = importStaff("listStaff");
+    staffData *cur = list;
+    while (list)
+    {
+        if (list->staffID == account->username)
+        {
+            account->profile = createStaff(list->staffID, list->firstName, list->lastName, list->gender, list->birthDate, list->socialID);
+            deleteStaffProfile(cur);
+            return;
+        }
+    }
+}
+
+void staffInterface(user *account, Class *listClass, Course *listCourse)
+{
+    system("cls");
+    int command = 0;
+    cout << setw(3) << right << ""
+         << "----------------------------------" << endl;
+    cout << setw(5) << right << "| " << setw(15) << right << "Welcome" << setw(15) << left << " to HCMUS!"
+         << " |" << endl;
+    cout << "------------------------------------------" << endl;
+    cout << "| " << setw(25) << left << "Here are some of commands you can use:"
+         << " |" << endl;
+    cout << "--------------------------------------------------------------------------" << endl;
+    cout << "| " << setw(40) << left << "1. Change your password" << setw(35) << internal
+         << setw(30) << left << "2. View the list of students"
+         << " |" << endl;
+    cout << "| " << setw(72) << right << " |" << endl;
+    cout << "| " << setw(40) << left << "3. View the list of a class" << setw(35) << internal
+         << setw(30) << left << "4. view your profile"
+         << " |" << endl;
+    cout << "| " << setw(72) << right << " |" << endl;
+    cout << "| " << setw(40) << left << "5. Create new accounts" << setw(35) << internal
+         << setw(30) << left << "6. Log out"
+         << " |" << endl;
+    cout << "--------------------------------------------------------------------------" << endl;
+    cout << endl;
+    cout << "Enter your option: ";
+    cin >> command;
+    system("cls");
+    switch (command)
+    {
+    case 1:
+        changePass(account);
+        cout << endl
+             << "Login successful!" << endl;
+        break;
+    case 2:
+        printAllClass(listClass);
+        break;
+    case 3:
+        printStfClass(chooseClass(listClass));
+        break;
+    case 4:
+        printProfile(account);
+        break;
+    case 5:
+        createAccount();
+        break;
+    case 6:
+        logOut(account, listClass, listCourse);
+    }
+    goBackToMenu(account, listClass, listCourse);
+}
+
+//---------------------------student--------------------------------------
 void findStudent(user *&account, Class *listClass)
 {
     if (!listClass || !account)
@@ -108,6 +196,62 @@ void findStudent(user *&account, Class *listClass)
         }
         listClass = listClass->next;
     }
+}
+
+void studentInterface(user *account, Class *listClass, Course *listCourse)
+{
+    system("cls");
+    int command;
+    cout << setw(3) << right << ""
+         << "----------------------------------" << endl;
+    cout << setw(5) << right << "| " << setw(15) << right << "Welcome" << setw(15) << left << " to HCMUS!"
+         << " |" << endl;
+    cout << "------------------------------------------" << endl;
+    cout << "| " << setw(25) << left << "Here are some of commands you can use:"
+         << " |" << endl;
+    cout << "--------------------------------------------------------------------------" << endl;
+    cout << "| " << setw(40) << left << "1. Change your password" << setw(35) << internal
+         << setw(30) << left << "2. View your score"
+         << " |" << endl;
+    cout << "| " << setw(72) << right << " |" << endl;
+    cout << "| " << setw(40) << left << "3. View your course's schedule" << setw(35) << internal
+         << setw(30) << left << "4. Log out"
+         << " |" << endl;
+    cout << "--------------------------------------------------------------------------" << endl;
+    cout << endl;
+    cout << "Enter your option: ";
+    cin >> command;
+    system("cls");
+    switch (command)
+    {
+    case 1:
+        changePass(account);
+        cout << endl
+             << "Login successful!" << endl;
+        break;
+    case 3:
+        printStdCourse(account->ref, listCourse);
+        break;
+    case 4:
+        logOut(account, listClass, listCourse);
+    }
+    goBackToMenu(account, listClass, listCourse);
+}
+
+//---------------------------Public--------------------------------------
+void interFace(user *account, Class *listClass, Course *listCourse)
+{
+    if (!account)
+        return;
+
+    if (account->isStudent)
+    {
+        findStudent(account, listClass);
+        studentInterface(account, listClass, listCourse);
+    }
+    else
+        findStaff(account);
+    staffInterface(account, listClass, listCourse);
 }
 
 void goBackToMenu(user *account, Class *listClass, Course *listCourse)
@@ -145,8 +289,9 @@ void logOut(user *&account, Class *listClass, Course *listCourse)
              << "Please enter again: ";
         cin >> command;
     }
-    if (command == 1){
-        system ("cls");
+    if (command == 1)
+    {
+        system("cls");
         account = nullptr;
         account = logIn();
     }
@@ -155,107 +300,63 @@ void logOut(user *&account, Class *listClass, Course *listCourse)
     return staffInterface(account, listClass, listCourse);
 }
 
-void studentInterface(user *account, Class *listClass, Course *listCourse)
+void changeInList(user *list, user *account)
 {
-    system("cls");
-    int command;
-    cout << setw(3) << right << ""
-         << "----------------------------------" << endl;
-    cout << setw(5) << right << "| " << setw(15) << right << "Welcome" << setw(15) << left << " to HCMUS!"
-         << " |" << endl;
-    cout << "------------------------------------------" << endl;
-    cout << "| " << setw(25) << left << "Here are some of commands you can use:"
-         << " |" << endl;
-    cout << "--------------------------------------------------------------------------" << endl;
-    cout << "| " << setw(40) << left << "1. Change your password" << setw(35) << internal
-         << setw(30) << left << "2. View your score"
-         << " |" << endl;
-    cout << "| " << setw(72) << right << " |" << endl;
-    cout << "| " << setw(40) << left << "3. View your course's schedule" << setw(35) << internal
-         << setw(30) << left << "4. Log out"
-         << " |" << endl;
-    cout << "--------------------------------------------------------------------------" << endl;
-    cout << endl;
-    cout << "Enter your option: ";
-    cin >> command;
-    switch (command)
+    if (!list)
+        return;
+    while (list->next)
     {
-    case 1:
-        system("cls");
-        changePass(account);
-        cout << endl << "Login successful!" << endl;
-        goBackToMenu(account, listClass, listCourse);
-    case 3:
-        system("cls");
-        printStdCourse(account->ref, listCourse);
-        cout << endl
-             << "Press 1 to back to menu: ";
-        cin >> command;
-        while (command != 1)
+        if (account->username == list->username)
         {
-            cout << "please press again:";
-            cin >> command;
+            list->password = account->password;
+            return;
         }
-        goBackToMenu(account, listClass, listCourse);
-    case 4:
-        logOut(account, listClass, listCourse);
+        list = list->next;
     }
 }
 
-void staffInterface(user *account, Class *listClass, Course *listCourse)
+void updateList(user *list, bool isStudent)
 {
-    system("cls");
-    int command = 0;
-    cout << setw(3) << right << ""
-         << "----------------------------------" << endl;
-    cout << setw(5) << right << "| " << setw(15) << right << "Welcome" << setw(15) << left << " to HCMUS!"
-         << " |" << endl;
-    cout << "------------------------------------------" << endl;
-    cout << "| " << setw(25) << left << "Here are some of commands you can use:"
-         << " |" << endl;
-    cout << "--------------------------------------------------------------------------" << endl;
-    cout << "| " << setw(40) << left << "1. Change your password" << setw(35) << internal
-         << setw(30) << left << "2. View the list of students"
-         << " |" << endl;
-    cout << "| " << setw(72) << right << " |" << endl;
-    cout << "| " << setw(40) << left << "3. View the list of a class" << setw(35) << internal
-         << setw(30) << left << "4. Log out"
-         << " |" << endl;
-    cout << "--------------------------------------------------------------------------" << endl;
-    cout << endl;
-    cout << "Enter your option: ";
-    cin >> command;
-    switch (command)
+    string fileName;
+    if (isStudent)
+        fileName = "listOfStdAcc";
+    else
+        fileName = "listOfStfAcc";
+    ofstream outputFile(fileName + ".csv");
+    if (!outputFile.is_open())
     {
-    case 1:
-        system("cls");
-        changePass(account);
-        cout << endl << "Login successful!" << endl;
-        goBackToMenu(account, listClass, listCourse);
-    case 2:
-        system("cls");
-        printAllClass(listClass);
-        goBackToMenu(account, listClass, listCourse);
-    case 3:
-        system("cls");
-        printStfClass(chooseClass(listClass));
-        goBackToMenu(account, listClass, listCourse);
-    case 4:
-        logOut(account, listClass, listCourse);
+        cout << "Error opening file" << endl;
+        return;
     }
+    while (list)
+    {
+        outputFile << list->username << ",";
+        outputFile << list->password << endl;
+        list = list->next;
+    }
+    outputFile.close();
 }
 
-void interFace(user *account, Class *listClass, Course *listCourse)
+void changePass(user *&account)
 {
     if (!account)
         return;
-
-    if (account->isStudent)
-    {
-        findStudent(account, listClass);
-        studentInterface(account, listClass, listCourse);
-    }
-    else
-        staffInterface(account, listClass, listCourse);
+    user *list;
+    importAccounts(list, account->isStudent);
+    string newPass;
+    cout << "Please enter your new password: ";
+    cin >> newPass;
+    account->password = newPass;
+    changeInList(list, account);
+    updateList(list, account->isStudent);
+    cout << endl
+         << "Your password has been changed successfully!" << endl;
+    cout << endl
+         << "-Please re-log-in your account- " << endl;
+    // Log in again..
+    system("cls");
+    cout << "Please re-login to your account" << endl
+         << endl;
+    checkUser(list, account);
+    deleteUserList(list);
 }
-
