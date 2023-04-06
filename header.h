@@ -43,7 +43,7 @@ struct Scoreboard{
     float midterm, finalterm, other;
     //pointer
     Scoreboard* next = nullptr;
-    Scoreboard(string stdnt_id, float mid, float _final, float _other);
+    Scoreboard(string stdnt_id);
     float overallGPA ();
 };
 
@@ -78,7 +78,6 @@ struct Semester
     Course* Hcourse;
 
     //constructors
-    void AddCourse();
     Semester(string ssn, string schoolYear ,string startDate, string endDate);
 };
 
@@ -93,7 +92,6 @@ struct SchoolYear
     Semester *Hsemester;
     SchoolYear* next;
 
-    void AddSemester();
     SchoolYear(string _year);
 };
 /* 
@@ -164,9 +162,10 @@ Course* ImportCourses(string fileName);
 SchoolYear* ImportSchoolYears(string fileName);
 
 //Functions to add manually
-void AddSchoolYear(SchoolYear &schoolyear);
-void AddStudent(Class* &myClass);
-void AddClass(Course* &myCourse);
+void AddSchoolYear(SchoolYear* &Hyear);
+void AddClasstoSchoolYear(SchoolYear* &Hschoolyear);
+void AddStudentToClass(Class* &Hclass);
+void AddStudentToCourse(Course* &Hcourse);
 
 //Functions to find in list
 Scoreboard* checkInCourse (Student *account, Course *HCourse);
