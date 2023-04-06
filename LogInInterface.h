@@ -36,7 +36,6 @@ user* logIn();
 void importAccounts(user *&listAcc, bool isStudent);
 user* inputAccounts (string fileName);
 user* createUser(string username, string password);
-void addToList(user *&head, user *newUser);
 void checkUser(user *list, user *&account);
 void deleteUserList(user *&list);
 

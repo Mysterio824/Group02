@@ -55,14 +55,16 @@ void importAccounts(user *&list, bool isStudent)
         return;
     }
     string line;
+    user *newUser;
     while (getline(file1, line))
     {
         stringstream ss(line);
         string username, password;
         getline(ss, username, ',');
         getline(ss, password, ',');
-        user *newUser = createUser(username, password);
-        addToList(list, newUser);
+        newUser = createUser(username, password);
+        newUser -> next = list;
+        list = newUser;
     }
     file1.close();
 }
@@ -77,14 +79,16 @@ user *inputAccounts(string fileName)
         return nullptr;
     }
     string line;
+    user *newUser;
     while (getline(file1, line))
     {
         stringstream ss(line);
         string username, password;
         getline(ss, username, ',');
         getline(ss, password, ',');
-        user *newUser = createUser(username, password);
-        addToList(list, newUser);
+        newUser = createUser(username, password);
+        newUser -> next = list;
+        list = newUser;
     }
     file1.close();
     return list;
@@ -97,23 +101,6 @@ user *createUser(string username, string password)
     newUser->password = password;
     newUser->next = nullptr;
     return newUser;
-}
-
-void addToList(user *&head, user *newUser)
-{
-    if (head == nullptr)
-    {
-        head = newUser;
-    }
-    else
-    {
-        user *currentNode = head;
-        while (currentNode->next != nullptr)
-        {
-            currentNode = currentNode->next;
-        }
-        currentNode->next = newUser;
-    }
 }
 
 void checkUser(user *list, user *&account)
@@ -241,11 +228,10 @@ void deleteStaffProfile(staffData *&list)
 
 void printProfile(user *account)
 {
-    if (!account)
+    if (!account || !(account -> profile)){
+        cout << "There's nothing to see!";
         return;
-
-    else
-        staffData *ref = account->profile;
+    }
     cout << "-----------------------------------------------------------------------------------------------------------------------------" << endl;
     cout << "| " << setw(12) << left << "Your ID"
          << "| " << setw(10) << left << "Last Name"

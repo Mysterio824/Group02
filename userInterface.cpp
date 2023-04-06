@@ -4,7 +4,7 @@
 //---------------------------Staff--------------------------------------
 void createAccount()
 {
-    user *newList, *tmp;
+    user *newList;
     bool isStudent = false;
     int cmd;
     cout << "---------------------------------------------" << endl;
@@ -26,7 +26,7 @@ void createAccount()
     }
     if (cmd == 1)
         isStudent = true;
-    cout << "---------------------------------------------" << endl;
+    cout << endl << "---------------------------------------------" << endl;
     cout << "| " << setw(25) << left << "Please choose way to import new accounts:"
          << " |" << endl;
     cout << "---------------------------------------------" << endl;
@@ -43,9 +43,9 @@ void createAccount()
              << "Please choose again: ";
         cin >> cmd;
     }
-    importAccounts(newList, isStudent);
     if (cmd == 1)
     {
+        user *tmp;
         cout << endl
              << "How many accounts would you like to create: ";
         cin >> cmd;
@@ -59,19 +59,19 @@ void createAccount()
             cout << endl
                  << "Please enter the password:";
             cin >> password;
-            user *newUser = createUser(username, password);
-            addToList(tmp, newUser);
+            tmp = createUser(username, password);
+            tmp -> next = newList;
+            newList = tmp;
         }
     }
     else {
         string fileName;
-        cout << "Please enter the source file: ";
+        cout << endl << "Please enter the source file: ";
         cin >> fileName;
-        tmp = inputAccounts(fileName);
+        newList = inputAccounts(fileName);
     }
-    addToList(newList, tmp);
     updateList(newList, isStudent);
-    cout << "Your accounts have been added successful!";
+    deleteUserList(newList);
 }
 
 Class *chooseClass(Class *listClass)
@@ -101,7 +101,7 @@ Class *chooseClass(Class *listClass)
     while (command > count)
     {
         cout << endl
-             << "Please enter a again: ";
+             << "Please enter again: ";
         cin >> command;
     }
     for (count = 0; count < command - 1; count++)
@@ -120,10 +120,11 @@ void findStaff(user *&account)
         if (list->staffID == account->username)
         {
             account->profile = createStaff(list->staffID, list->firstName, list->lastName, list->gender, list->birthDate, list->socialID);
-            deleteStaffProfile(cur);
-            return;
+            break;
         }
+        list = list -> next;
     }
+    deleteStaffProfile(cur);
 }
 
 void staffInterface(user *account, Class *listClass, Course *listCourse)
@@ -153,6 +154,10 @@ void staffInterface(user *account, Class *listClass, Course *listCourse)
     cout << endl;
     cout << "Enter your option: ";
     cin >> command;
+    while (command < 1 || command > 6){
+        cout << endl << "Please enter again: ";
+        cin >> command;
+    }
     system("cls");
     switch (command)
     {
@@ -215,12 +220,20 @@ void studentInterface(user *account, Class *listClass, Course *listCourse)
          << " |" << endl;
     cout << "| " << setw(72) << right << " |" << endl;
     cout << "| " << setw(40) << left << "3. View your course's schedule" << setw(35) << internal
-         << setw(30) << left << "4. Log out"
+         << setw(30) << left << "4. View your profile"
+         << " |" << endl;
+    cout << "| " << setw(72) << right << " |" << endl;
+    cout << "| " << setw(40) << left << "5. View..." << setw(35) << internal
+         << setw(30) << left << "6. Log out"
          << " |" << endl;
     cout << "--------------------------------------------------------------------------" << endl;
     cout << endl;
     cout << "Enter your option: ";
     cin >> command;
+    while (command < 1 || command > 6){
+        cout << endl << "Please enter again: ";
+        cin >> command;
+    }
     system("cls");
     switch (command)
     {
@@ -233,6 +246,9 @@ void studentInterface(user *account, Class *listClass, Course *listCourse)
         printStdCourse(account->ref, listCourse);
         break;
     case 4:
+        printProfile(account);
+        break;
+    case 6:
         logOut(account, listClass, listCourse);
     }
     goBackToMenu(account, listClass, listCourse);
@@ -241,6 +257,8 @@ void studentInterface(user *account, Class *listClass, Course *listCourse)
 //---------------------------Public--------------------------------------
 void interFace(user *account, Class *listClass, Course *listCourse)
 {
+    // if (!account || !listClass || !listCourse)
+    //     return;
     if (!account)
         return;
 
@@ -248,9 +266,9 @@ void interFace(user *account, Class *listClass, Course *listCourse)
     {
         findStudent(account, listClass);
         studentInterface(account, listClass, listCourse);
+        return;
     }
-    else
-        findStaff(account);
+    findStaff(account);
     staffInterface(account, listClass, listCourse);
 }
 
@@ -259,7 +277,7 @@ void goBackToMenu(user *account, Class *listClass, Course *listCourse)
     int command;
     do
     {
-        cout << endl
+        cout << endl << endl
              << "Press 1 to go back to main menu: ";
         cin >> command;
     } while (command != 1);
@@ -270,7 +288,6 @@ void goBackToMenu(user *account, Class *listClass, Course *listCourse)
 
 void logOut(user *&account, Class *listClass, Course *listCourse)
 {
-    system("cls");
     int command;
     cout << "------------------------------" << endl;
     cout << "| " << setw(26) << left << "  Do you want to log out:"
@@ -304,7 +321,7 @@ void changeInList(user *list, user *account)
 {
     if (!list)
         return;
-    while (list->next)
+    while (list)
     {
         if (account->username == list->username)
         {
@@ -315,8 +332,9 @@ void changeInList(user *list, user *account)
     }
 }
 
-void updateList(user *list, bool isStudent)
+void reWriteList(user *list, bool isStudent)
 {
+    if(!list) return;
     string fileName;
     if (isStudent)
         fileName = "listOfStdAcc";
@@ -334,6 +352,30 @@ void updateList(user *list, bool isStudent)
         outputFile << list->password << endl;
         list = list->next;
     }
+    cout << endl << "Your data have been added successful!";
+    outputFile.close();
+}
+
+void updateList(user *newList, bool isStudent){
+    if(!newList) return;
+    string fileName;
+    if (isStudent)
+        fileName = "listOfStdAcc";
+    else
+        fileName = "listOfStfAcc";
+    ofstream outputFile(fileName + ".csv", ios::app);
+    if (!outputFile.is_open())
+    {
+        cout << "Error opening file" << endl;
+        return;
+    }
+    while (newList)
+    {
+        outputFile << newList->username << ",";
+        outputFile << newList->password << endl;
+        newList = newList->next;
+    }
+    cout << endl << "Your data have been added successful!";
     outputFile.close();
 }
 
@@ -348,7 +390,7 @@ void changePass(user *&account)
     cin >> newPass;
     account->password = newPass;
     changeInList(list, account);
-    updateList(list, account->isStudent);
+    reWriteList(list, account->isStudent);
     cout << endl
          << "Your password has been changed successfully!" << endl;
     cout << endl

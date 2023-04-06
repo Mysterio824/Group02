@@ -17,6 +17,7 @@ void interFace (user *account, Class* listClass, Course *listCourse);
 void goBackToMenu (user* account,  Class* listClass, Course *listCourse);
 void logOut(user *&account, Class *listClass, Course *listCourse);
 void changeInList (user *list, user *account);
+void reWriteList(user *list, bool isStudent);
 void updateList (user *list, bool isStudent);
 void changePass (user *&account);
 
