@@ -43,7 +43,7 @@ struct Scoreboard{
     //pointer
     Scoreboard* next = nullptr;
     Scoreboard(string stdnt_id);
-    float overallGPA ();
+    float overallGPA();
 };
 
 struct Course{
@@ -163,6 +163,8 @@ SchoolYear* ImportSchoolYears(string fileName);
 //Functions to add manually
 void AddSchoolYear(SchoolYear* &Hyear);
 void AddClasstoSchoolYear(SchoolYear* &Hschoolyear);
+void AddSemesterToSchoolYear(SchoolYear* &Hschoolyear);
+void AddCourseToSemester(Semester* &Hsemester);
 void AddStudentToClass(Class* &Hclass);
 void AddStudentToCourse(Course* &Hcourse);
 
