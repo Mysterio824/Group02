@@ -106,10 +106,9 @@ user *createUser(string username, string password)
 void checkUser(user *list, user *&account)
 { // check if username and password are correct
     if (!list)
-        return;
+        return; 
     string inputUsername, inputPassword;
-    cout << endl
-         << "Please enter your username: ";
+    cout << "Please enter your username: ";
     cin >> inputUsername;
     cout << endl;
     cout << "Please enter your password: ";
@@ -129,7 +128,7 @@ void checkUser(user *list, user *&account)
         cur = cur->next;
     }
     cout << endl
-         << "Wrong username or password!" << endl;
+         << "Wrong username or password!" << endl << endl;
     return checkUser(list, account);
 }
 

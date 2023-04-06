@@ -163,8 +163,7 @@ void staffInterface(user *account, Class *listClass, Course *listCourse)
     {
     case 1:
         changePass(account);
-        cout << endl
-             << "Login successful!" << endl;
+        cout << "Login successful!" << endl;
         break;
     case 2:
         printAllClass(listClass);
@@ -239,8 +238,7 @@ void studentInterface(user *account, Class *listClass, Course *listCourse)
     {
     case 1:
         changePass(account);
-        cout << endl
-             << "Login successful!" << endl;
+        cout << "Login successful!" << endl;
         break;
     case 3:
         printStdCourse(account->ref, listCourse);
@@ -391,14 +389,10 @@ void changePass(user *&account)
     account->password = newPass;
     changeInList(list, account);
     reWriteList(list, account->isStudent);
-    cout << endl
-         << "Your password has been changed successfully!" << endl;
-    cout << endl
-         << "-Please re-log-in your account- " << endl;
-    // Log in again..
     system("cls");
-    cout << "Please re-login to your account" << endl
-         << endl;
+    cout << "Your password has been changed successfully!" << endl;
+    // Log in again..
+    cout << endl << "Please re-login to your account"  << endl;
     checkUser(list, account);
     deleteUserList(list);
 }
