@@ -77,7 +77,6 @@ struct Semester
     Course* Hcourse;
 
     //constructors
-    void AddCourse();
     Semester(string ssn, string schoolYear ,string startDate, string endDate);
 };
 
@@ -92,7 +91,6 @@ struct SchoolYear
     Semester *Hsemester;
     SchoolYear* next;
 
-    void AddSemester();
     SchoolYear(string _year);
 };
 /* 
