@@ -38,7 +38,7 @@ struct Class{
 //---------------------------------------------------------------------
 struct Scoreboard{
     //info
-    string student_id;
+    string student_id, full_name;
     float midterm, finalterm, other;
     //pointer
     Scoreboard* next = nullptr;
@@ -159,6 +159,7 @@ Student* ImportStudents(string fileName);//fileName = class_name
 Semester* ImportSemesters(string fileName);
 Course* ImportCourses(string fileName);
 SchoolYear* ImportSchoolYears(string fileName);
+Scoreboard* ImportScoreboard(Course* Hcourse);
 
 //Functions to add manually
 void AddSchoolYear(SchoolYear* &Hyear);
@@ -181,5 +182,6 @@ void printAllClass(Class *listOfClass);
 //Other functions
 string getCurrentYear ();
 void startProgram(SchoolYear* &thisyear);
+void SaveChosenYear(SchoolYear* thisyear);
 
 #endif

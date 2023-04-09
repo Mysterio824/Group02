@@ -115,19 +115,10 @@ void AddStudentToClass(Class* &Hclass)
             cout << "Birth Date:  "; cin >> birth;
             cout << "Social ID: "; cin >> socialId;
 
-            ofstream outFile("input/classes/" + input +".csv");
-            if (!outFile.is_open())
-            {
-                cout<<"No database found of "<< input << ".csv"<<endl;
-                outFile.close();
-            }
-            outFile<<"\n"<<stuId<<", "<<fName<<", "<<lName<<", "<<gder<<", "<<birth<<", "<<socialId<<", ";
-
             Student* newStudent = new Student(head->class_name, stuId, fName, lName, gder, birth, socialId);
 
             if(head->Hstudent != nullptr) newStudent->next = head->Hstudent;
             head->Hstudent = newStudent;
-            outFile.close();
             delete head;
             return;
         }
@@ -177,13 +168,6 @@ void AddStudentToCourse(Course* &Hcourse)//change course name to course id
                 cout << "Try again! Name of course?: "; cin >> input;
         }
     }
-    //course_id input acquired
-    ofstream outFile("input/scoreboard/" + input + ".csv");
-    if (!outFile.is_open())
-    {
-        cout<<"Course data not found."<<endl;
-        cout<<"Proceed without saving to database."<<endl;
-    }
     cout << "ID of the student you want to add to course: "; cin >> input;
     Scoreboard* tmpStu = tmpCourse->Hscore;
     while (true)
@@ -216,7 +200,6 @@ void AddStudentToCourse(Course* &Hcourse)//change course name to course id
             }
         }
     }
-    outFile.close();
 }
 
 //fileName: class_name.csv;
@@ -393,16 +376,57 @@ Semester* ImportSemesters(string fileName)//fileName = currentyear
         }
     }
 
-    /* psemes = Hsemester;
+    psemes = Hsemester;
     string semesterN;
     while(psemes)
     {
         semesterN = "semester"+psemes->season;
         psemes->Hcourse = ImportCourses(semesterN);
         psemes = psemes->next;
-    } */
+    }
     inFile.close();
     cout<<">semesters/"<<fileName<<".csv loaded."<<endl;
 
     return Hsemester;
+}
+//filename : course_id.csv
+//format: studentID,student_name,midterm,finalterm,other
+Scoreboard* ImportScoreboard(Course* Hcourse)
+{
+    Scoreboard* scrB = Hcourse->Hscore;
+    ifstream inFile("input/scoreboard/"+ Hcourse->course_id +".csv");
+    if (!inFile.is_open())
+    {
+        cout<<"Failed to open "<<Hcourse->course_id<<".csv\n";
+        return;
+    }
+    string line;
+    while (getline(inFile, line))
+    {
+        stringstream ss(line);
+        string std_id,std_name, mid, final, othr;
+        getline(ss,std_id,',');
+        getline(ss,std_name,',');
+        getline(ss,mid,',');
+        getline(ss,final,',');
+        getline(ss,othr,',');
+
+        Scoreboard* newscoreB = new Scoreboard(std_id);
+        newscoreB->full_name = std_name;
+        newscoreB->midterm = std::stof(mid);
+        newscoreB->midterm = std::stof(final);
+        newscoreB->midterm = std::stof(othr);
+
+        if (!scrB)
+            scrB = newscoreB;
+        else
+        {
+            newscoreB->next = scrB;
+            scrB = newscoreB;
+        }
+        scrB = scrB->next;
+    }
+    inFile.close();
+    cout<<">scoreboard/"<<Hcourse->course_id<<".csv loaded."<<endl;
+    return scrB;
 }

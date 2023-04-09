@@ -65,7 +65,7 @@ SchoolYear::SchoolYear(std::string _year)
 }
 
 //---------------------Member Function----------------------------
-void Semester::AddCourse()
+/* void Semester::AddCourse()
 {
     string cID, cName, clName, tName, nCredit, capa, dei, ses;
     cout << "Course ID: ";
@@ -133,4 +133,4 @@ void SchoolYear::AddSemester()
        newsemes->next = Hsemester;   
     Hsemester = newsemes;
     cout<<"Semester added successfully!"<<endl;
-}
+} */
