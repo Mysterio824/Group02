@@ -67,6 +67,19 @@ void importAccounts(user *&list, bool isStudent)
         list = newUser;
     }
     file1.close();
+
+    //reverse list
+    user *cur = list;
+    list = list -> next;
+    user *last = list;
+    cur -> next = nullptr;
+    while (last -> next){
+        list = list -> next;
+        last -> next = cur;
+        cur = last;
+        last = list;
+    }
+    list -> next = cur;
 }
 
 user *inputAccounts(string fileName)
@@ -172,6 +185,20 @@ staffData *importStaff(string fileName)
         addToList(list, newUser);
     }
     file1.close();
+    
+    //reverse list
+    staffData *cur = list;
+    list = list -> next;
+    staffData *last = list;
+    cur -> next = nullptr;
+    while (last -> next){
+        list = list -> next;
+        last -> next = cur;
+        cur = last;
+        last = list;
+    }
+    list -> next = cur;
+    
     return list;
 }
 
