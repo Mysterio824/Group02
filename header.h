@@ -23,6 +23,7 @@ struct Student{
     //pointer
     Student* next;
 
+    string fullName();
     Student(string class_name, string stuId, string fName, string lName, string gder, string birth, string socialId);
 };
 
@@ -43,7 +44,7 @@ struct Scoreboard{
     //pointer
     Scoreboard* next = nullptr;
     Scoreboard(string stdnt_id);
-    float overallGPA ();
+    float overallGPA();
 };
 
 struct Course{
@@ -164,17 +165,19 @@ Scoreboard* ImportScoreboard(Course* Hcourse);
 //Functions to add manually
 void AddSchoolYear(SchoolYear* &Hyear);
 void AddClasstoSchoolYear(SchoolYear* &Hschoolyear);
+void AddSemesterToSchoolYear(SchoolYear* &Hschoolyear);
+void AddCourseToSemester(Semester* &Hsemester);
 void AddStudentToClass(Class* &Hclass);
 void AddStudentToCourse(Course* &Hcourse);
 
 //Functions to find in list
 Scoreboard* checkInCourse (Student *account, Course *HCourse);
 
-//Function to print out on console screen for student
+//Function to print out on console screen for STUDENTS
 void printStdCourse(Student *account,Course *listOfCourse);
 void printStdScoreBoard (Student *account, Class *listOfClass);
 
-//Function to print out on console screen for staff
+//Function to print out on console screen for STAFF
 void printStfScoreBoard(Course *HCourse);
 void printStfClass(Class *HClass);
 void printAllClass(Class *listOfClass);
