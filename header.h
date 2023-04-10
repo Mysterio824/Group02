@@ -156,11 +156,15 @@ SchoolYear
 
 //Functions to import from file
 Student* ImportStudents(string fileName);//fileName = class_name
-
 Semester* ImportSemesters(string fileName);
 Course* ImportCourses(string fileName);
 SchoolYear* ImportSchoolYears(string fileName);
 Scoreboard* ImportScoreboard(Course* Hcourse);
+
+//Functions to remove manually
+void RemoveStudentFromClass(SchoolYear* &thisyear);
+void RemoveStudentFromCourse(SchoolYear* &thisyear);
+void RemoveCourseFromSemester(SchoolYear* &thisyear);
 
 //Functions to add manually
 void AddSchoolYear(SchoolYear* &Hyear);
@@ -186,5 +190,6 @@ void printAllClass(Class *listOfClass);
 string getCurrentYear ();
 void startProgram(SchoolYear* &thisyear);
 void SaveChosenYear(SchoolYear* thisyear);
+void MemmoryRelease(SchoolYear* &thisyear);
 
 #endif

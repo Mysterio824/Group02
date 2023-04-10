@@ -398,9 +398,6 @@ void AddStudentToCourse(Course* &Hcourse)
     }
 }
 
-//void DeleteStudentFromClass
-//void DeleteStudentFromCourse
-//DeleteCourseFromSemester
 
 //fileName: class_name.csv;
 //format: id,fname,lname,gender,bday,social_id
