@@ -595,7 +595,7 @@ Scoreboard* ImportScoreboard(Course* Hcourse)
     if (!inFile.is_open())
     {
         cout<<"Failed to open "<<Hcourse->course_id<<".csv\n";
-        return;
+        return nullptr;
     }
     string line;
     while (getline(inFile, line))

@@ -48,7 +48,7 @@ void importAccounts(user *&list, bool isStudent)
         fileName = "listOfStdAcc";
     else
         fileName = "listOfStfAcc";
-    ifstream file1(fileName + ".csv");
+    ifstream file1("input/accounts/"+ fileName + ".csv");
     if (!file1.is_open())
     {
         cout << "Error opening file" << endl;
@@ -163,7 +163,7 @@ void deleteUserList(user *&list)
 staffData *importStaff(string fileName)
 {
     staffData *list = nullptr;
-    ifstream file1(fileName + ".csv");
+    ifstream file1("input/academicStaff/" + fileName + ".csv");
     if (!file1.is_open())
     {
         cout << "Error opening file" << endl;
@@ -182,7 +182,8 @@ staffData *importStaff(string fileName)
         getline(ss, birthDate, ',');
         getline(ss, socialID, ',');
         newUser = createStaff(staffID, firstName, lastName, gender, birthDate, socialID);
-        addToList(list, newUser);
+        newUser -> next = list;
+        list = newUser;
     }
     file1.close();
     
@@ -213,23 +214,6 @@ staffData *createStaff(string staffID, string firstName, string lastName, string
     newStaff->socialID = socialID;
     newStaff->next = nullptr;
     return newStaff;
-}
-
-void addToList(staffData *&head, staffData *newUser)
-{
-    if (head == nullptr)
-    {
-        head = newUser;
-    }
-    else
-    {
-        staffData *currentNode = head;
-        while (currentNode->next != nullptr)
-        {
-            currentNode = currentNode->next;
-        }
-        currentNode->next = newUser;
-    }
 }
 
 string staffData::fullName(){

@@ -48,7 +48,7 @@ void SaveChosenYear(SchoolYear* thisyear)
 
     //saving all students to classes
     pclass = thisyear->Hclass;//points to class
-    Student* pstu = pclass->Hstudent;//points to pclass' students
+    Student* pstu = pclass->Hstudent;//points to pclass' students = [nullptr]
 
     while (pclass)
     {

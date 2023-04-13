@@ -338,7 +338,7 @@ void reWriteList(user *list, bool isStudent)
         fileName = "listOfStdAcc";
     else
         fileName = "listOfStfAcc";
-    ofstream outputFile(fileName + ".csv");
+    ofstream outputFile("input/accounts/" + fileName + ".csv");
     if (!outputFile.is_open())
     {
         cout << "Error opening file" << endl;
@@ -361,7 +361,7 @@ void updateList(user *newList, bool isStudent){
         fileName = "listOfStdAcc";
     else
         fileName = "listOfStfAcc";
-    ofstream outputFile(fileName + ".csv", ios::app);
+    ofstream outputFile("input/accounts/" + fileName + ".csv", ios::app);
     if (!outputFile.is_open())
     {
         cout << "Error opening file" << endl;

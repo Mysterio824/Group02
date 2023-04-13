@@ -42,7 +42,6 @@ void deleteUserList(user *&list);
 //staff profile functions
 staffData* importStaff(string fileName);
 staffData* createStaff(string staffID, string firstName, string lastName, string gender, string birthDate, string socialID);
-void addToList(staffData *&head, staffData *newUser);
 void deleteStaffProfile (staffData *&list);
 void printProfile(user *account);
 
