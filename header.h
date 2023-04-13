@@ -186,6 +186,13 @@ void printStfScoreBoard(Course *HCourse);
 void printStfClass(Class *HClass);
 void printAllClass(Class *listOfClass);
 
+//Export funtions
+void exportStudents (Class *listClass);
+void exportScorceBoard (Course *list);
+void exportClass (Class *list);
+void exportCourse(Course *list);
+void exportSchoolYear (SchoolYear *list);
+
 //Other functions
 string getCurrentYear ();
 void startProgram(SchoolYear* &thisyear);
