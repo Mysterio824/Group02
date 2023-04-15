@@ -33,7 +33,7 @@ struct user
 
 //user functions
 user* logIn();
-void importAccounts(user *&listAcc, bool isStudent);
+user* importAccounts(bool isStudent);
 user* inputAccounts (string fileName);
 user* createUser(string username, string password);
 void checkUser(user *list, user *&account);
@@ -49,6 +49,5 @@ void printProfile(user *account);
 
 // How to use
 /*
-    user *account; //user's account
-    logIn(account);
+    user *account = logIn(); //user's account
 */
