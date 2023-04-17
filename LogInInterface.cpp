@@ -3,46 +3,69 @@
 user *logIn()
 {
     user *account = new user;
-    int check;
-    bool isStudent = false;
+    bool isStudent = checkStd();
 
-    cout << setw(3) << right << ""
-         << "----------------------------------" << endl;
-    cout << setw(5) << right << "| " << setw(18) << right << "Welcome" << setw(12) << left << " "
-         << " |" << endl;
-    cout << "-------------------------------------------" << endl;
-    cout << "| " << setw(25) << left << "Choose whether you are student or staff"
-         << " |" << endl;
-    cout << "-------------------------------------------" << endl;
-    cout << "| " << setw(20) << left << "1. Student" << setw(15) << internal
-         << setw(19) << right << "2. Staff "
-         << " |" << endl;
-    cout << "-------------------------------------------" << endl;
-    cout << endl;
-    cout << "Enter your choice: ";
-    cin >> check;
-    while (check != 1 && check != 2)
-    {
-        cout << endl
-             << "Please re-choose whether you are student or staff: ";
-        cin >> check;
-    }
-    if (check == 1)
-        isStudent = true;
-
-    user *listAcc; // list of data user's accounts
-    importAccounts(listAcc, isStudent);
+    user *listAcc = importAccounts(isStudent); // list of data user's accounts
 
     system("cls");
     checkUser(listAcc, account);
     account->isStudent = isStudent;
+
     deleteUserList(listAcc);
     return account;
 }
 
-void importAccounts(user *&list, bool isStudent)
+bool checkStd(){
+    int choice = 1;
+    bool enterPressed = false;
+    while (!enterPressed) {
+        system("cls"); // clears the console
+        SetConsoleOutputCP(65001); // sets console output to UTF-8 encoding
+        cout << "---------------------------------------------" << endl;
+        cout << "| " << setw(41) << left << " Choose whether you are student or staff:"
+             << " |" << endl;
+        cout << "---------------------------------------------" << endl;
+        cout << "| " << setw(20) << left;
+        if (choice == 1) {
+            cout << "➤ Student";
+        } else {
+            cout << "  Student";
+        }
+        cout << setw(15) << right << setw(23) << right;
+        if (choice == 2) {
+            cout << "➤ Staff ";
+        } else {
+            cout << "  Staff ";
+        }
+        cout << " |" << endl;
+        cout << "---------------------------------------------" << endl;
+        cout << endl << "Use arrow keys to move, and press enter to select." << endl;
+        int key = getch();
+        switch (key) {
+            case 224: // arrow keys
+                key = getch();
+                if (key == 77 && choice < 2) { // right arrow
+                    choice++;
+                } else if (key == 75 && choice > 1) { // left arrow
+                    choice--;
+                }
+                break;
+            case 13: // enter key
+                enterPressed = true;
+                break;
+            default:
+                break;
+        }
+    }
+    if (choice == 1) 
+        return true;
+    if (choice == 2)
+        return false;
+}
+
+user* importAccounts(bool isStudent)
 { // upload the data of users
-    list = nullptr;
+    user* list = nullptr;
     string fileName;
     if (isStudent)
         fileName = "listOfStdAcc";
@@ -52,7 +75,7 @@ void importAccounts(user *&list, bool isStudent)
     if (!file1.is_open())
     {
         cout << "Error opening file" << endl;
-        return;
+        return nullptr;
     }
     string line;
     user *newUser;
@@ -63,23 +86,28 @@ void importAccounts(user *&list, bool isStudent)
         getline(ss, username, ',');
         getline(ss, password, ',');
         newUser = createUser(username, password);
-        newUser -> next = list;
+        newUser->next = list;
         list = newUser;
     }
     file1.close();
 
-    //reverse list
-    user *cur = list;
-    list = list -> next;
-    user *last = list;
-    cur -> next = nullptr;
-    while (last -> next){
-        list = list -> next;
-        last -> next = cur;
-        cur = last;
-        last = list;
+    // reverse list
+    if ((list->next))
+    {
+        user *cur = list;
+        list = list->next;
+        user *last = list;
+        cur->next = nullptr;
+        do
+        {
+            list = list->next;
+            last->next = cur;
+            cur = last;
+            last = list;
+        } while (last->next);
+        list->next = cur;
     }
-    list -> next = cur;
+    return list;
 }
 
 user *inputAccounts(string fileName)
@@ -100,7 +128,7 @@ user *inputAccounts(string fileName)
         getline(ss, username, ',');
         getline(ss, password, ',');
         newUser = createUser(username, password);
-        newUser -> next = list;
+        newUser->next = list;
         list = newUser;
     }
     file1.close();
@@ -116,33 +144,62 @@ user *createUser(string username, string password)
     return newUser;
 }
 
+
+void gotoxy(int x, int y)
+{
+    COORD coord;
+    coord.X = x;
+    coord.Y = y;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+}
+
 void checkUser(user *list, user *&account)
-{ // check if username and password are correct
+{
     if (!list)
-        return; 
+        return;
+
     string inputUsername, inputPassword;
-    cout << "Please enter your username: ";
-    cin >> inputUsername;
-    cout << endl;
-    cout << "Please enter your password: ";
-    cin >> inputPassword;
-    user *cur = list;
-    while (cur)
-    {
-        if (inputUsername == cur->username && inputPassword == cur->password)
+    int x = 0, y = 0; // Starting position of the box
+
+    do {
+        // Draw the box and get the username and password from the user
+        system("cls");
+        gotoxy(x, y);
+        cout << setw(10)<< ""<< "-------------------------------" << endl;
+        gotoxy(x, y+1);
+        cout << "Username: |                             |" << endl;
+        gotoxy(x, y+2);
+        cout << setw(10)<< ""<< "-------------------------------" << endl;
+        gotoxy(x, y+3);
+        cout << "Password: |                             |" << endl;
+        gotoxy(x, y+4);
+        cout << setw(10)<< ""<< "-------------------------------" << endl;
+        gotoxy(x+12, y+1);
+        cin >> inputUsername;
+        gotoxy(x+12, y+3);
+        cin >> inputPassword;
+
+        // Check if the username and password are correct
+        user *cur = list;
+        while (cur)
         {
-            system("cls");
-            account->username = cur->username;
-            account->password = cur->password;
-            return;
+            if (inputUsername == cur->username && inputPassword == cur->password)
+            {
+                system("cls");
+                account->username = cur->username;
+                account->password = cur->password;
+                return;
+            }
+            if (inputUsername == cur->username)
+                break;
+            cur = cur->next;
         }
-        if (inputUsername == cur->username)
-            break;
-        cur = cur->next;
-    }
-    cout << endl
-         << "Wrong username or password!" << endl << endl;
-    return checkUser(list, account);
+
+        // Display an error message if the username or password is incorrect
+        gotoxy(x, y+6);
+        cout << "Wrong username or password! Press any key to try again..." << endl;
+        getch();
+    } while (true);
 }
 
 void deleteUserList(user *&list)
@@ -182,24 +239,27 @@ staffData *importStaff(string fileName)
         getline(ss, birthDate, ',');
         getline(ss, socialID, ',');
         newUser = createStaff(staffID, firstName, lastName, gender, birthDate, socialID);
-        newUser -> next = list;
+        newUser->next = list;
         list = newUser;
     }
     file1.close();
-    
-    //reverse list
+
+    // reverse list
+    if (!(list->next))
+        return list;
     staffData *cur = list;
-    list = list -> next;
+    list = list->next;
     staffData *last = list;
-    cur -> next = nullptr;
-    while (last -> next){
-        list = list -> next;
-        last -> next = cur;
+    cur->next = nullptr;
+    do
+    {
+        list = list->next;
+        last->next = cur;
         cur = last;
         last = list;
-    }
-    list -> next = cur;
-    
+    } while (last->next);
+    list->next = cur;
+
     return list;
 }
 
@@ -216,7 +276,8 @@ staffData *createStaff(string staffID, string firstName, string lastName, string
     return newStaff;
 }
 
-string staffData::fullName(){
+string staffData::fullName()
+{
     string fullName = lastName + " " + firstName;
     return fullName;
 }
@@ -236,9 +297,11 @@ void deleteStaffProfile(staffData *&list)
     delete cur;
 }
 
+
 void printProfile(user *account)
 {
-    if (!account || !(account -> profile)){
+    if (!account || (!(account->profile) && !(account -> ref)))
+    {
         cout << "There's nothing to see!";
         return;
     }
@@ -268,8 +331,8 @@ void printProfile(user *account)
     }
     staffData *ref = account->profile;
     cout << "| " << setw(12) << left << ref->staffID
-         << "| " << setw(10) << left << ref->firstName
-         << "| " << setw(17) << left << ref->lastName
+         << "| " << setw(10) << left << ref->lastName
+         << "| " << setw(17) << left << ref->firstName
          << "| " << setw(25) << left << ref->fullName()
          << "| " << setw(10) << left << ref->gender
          << "| " << setw(15) << left << ref->birthDate

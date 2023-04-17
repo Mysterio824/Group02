@@ -26,7 +26,8 @@ void createAccount()
     }
     if (cmd == 1)
         isStudent = true;
-    cout << endl << "---------------------------------------------" << endl;
+    cout << endl
+         << "---------------------------------------------" << endl;
     cout << "| " << setw(25) << left << "Please choose way to import new accounts:"
          << " |" << endl;
     cout << "---------------------------------------------" << endl;
@@ -60,13 +61,15 @@ void createAccount()
                  << "Please enter the password:";
             cin >> password;
             tmp = createUser(username, password);
-            tmp -> next = newList;
+            tmp->next = newList;
             newList = tmp;
         }
     }
-    else {
+    else
+    {
         string fileName;
-        cout << endl << "Please enter the source file: ";
+        cout << endl
+             << "Please enter the source file: ";
         cin >> fileName;
         newList = inputAccounts(fileName);
     }
@@ -111,7 +114,7 @@ Class *chooseClass(Class *listClass)
 
 void findStaff(user *&account)
 {
-    if (!account)
+    if (!account || account -> profile)
         return;
     staffData *list = importStaff("listStaff");
     staffData *cur = list;
@@ -122,54 +125,127 @@ void findStaff(user *&account)
             account->profile = createStaff(list->staffID, list->firstName, list->lastName, list->gender, list->birthDate, list->socialID);
             break;
         }
-        list = list -> next;
+        list = list->next;
     }
     deleteStaffProfile(cur);
 }
 
-void staffInterface(user *account, Class *listClass, Course *listCourse)
+void staffInterface(user *account, SchoolYear *listYear)
 {
     system("cls");
-    int command = 0;
-    cout << setw(3) << right << ""
-         << "----------------------------------" << endl;
-    cout << setw(5) << right << "| " << setw(15) << right << "Welcome" << setw(15) << left << " to HCMUS!"
-         << " |" << endl;
-    cout << "------------------------------------------" << endl;
-    cout << "| " << setw(25) << left << "Here are some of commands you can use:"
-         << " |" << endl;
-    cout << "--------------------------------------------------------------------------" << endl;
-    cout << "| " << setw(40) << left << "1. Change your password" << setw(35) << internal
-         << setw(30) << left << "2. View the list of students"
-         << " |" << endl;
-    cout << "| " << setw(72) << right << " |" << endl;
-    cout << "| " << setw(40) << left << "3. View the list of a class" << setw(35) << internal
-         << setw(30) << left << "4. view your profile"
-         << " |" << endl;
-    cout << "| " << setw(72) << right << " |" << endl;
-    cout << "| " << setw(40) << left << "5. Create new accounts" << setw(35) << internal
-         << setw(30) << left << "6. Log out"
-         << " |" << endl;
-    cout << "--------------------------------------------------------------------------" << endl;
-    cout << endl;
-    cout << "Enter your option: ";
-    cin >> command;
-    while (command < 1 || command > 6){
-        cout << endl << "Please enter again: ";
-        cin >> command;
+    int choice = 1;
+    bool enterPressed = false;
+    while (!enterPressed)
+    {
+        system("cls");             // clears the console
+        SetConsoleOutputCP(65001); // sets console output to UTF-8 encoding
+        cout  << setw(2) << right << "" <<  "------------------------------------------------------------------" << endl;
+        cout << setw(4) << right << "| " << setw(9) << right << "  Welcome" << setw(11) << left << " to HCMUS!"
+             << " |";
+        cout << setw(25) << left << "  Here are some of commands you can use:"
+             << " |" << endl;
+        cout << "--------------------------------------------------------------------------" << endl;
+        cout << "| ";
+        if (choice == 1)
+        {
+            cout << setw(26) << left << "➤ Change your password" << setw(15) << internal << "";
+        }
+        else
+        {
+             cout << setw(26) << left << " Change your password" << setw(13) << internal << "";
+        }
+        if (choice == 2)
+        {
+            cout << setw(33) << left << "➤ View the list of students";
+        }
+        else
+        {
+            cout << setw(31) << left << " View the list of students";
+        }
+        cout << " |" << endl;
+        cout << "| " << setw(72) << right << " |" << endl;
+        cout << "| ";
+        if (choice == 3)
+        {
+            cout << setw(34) << left << "➤ View your course's schedule" << setw(7) << internal << "";
+        }
+        else
+        {
+            cout << setw(34) << left << " View your course's schedule" << setw(5) << internal << "";
+        } 
+        if (choice == 4)
+        {
+            cout << setw(33) << left << "➤ View your profile";
+        }
+        else
+        {
+            cout << setw(31) << left << " View your profile";
+        }
+        cout << " |" << endl;
+        cout << "| " << setw(72) << right << " |" << endl;
+        cout << "| ";
+        if (choice == 5)
+        {
+            cout << setw(34) << left << "➤ Create new accounts" << setw(7) << internal << "";
+        }
+        else
+        {
+            cout << setw(34) << left << " Create new accounts" << setw(5) << internal << "";
+        }
+        if (choice == 6)
+        {
+            cout << setw(33) << left << "➤ Log out";
+        }
+        else
+        {
+            cout << setw(31) << left << " Log out";
+        }
+        cout << " |" << endl;
+        cout << "--------------------------------------------------------------------------" << endl;
+        cout << endl
+             << "Use arrow keys to move, and press enter to select." << endl;
+        int key = getch();
+        switch (key)
+        {
+        case 224: // arrow keys
+            key = getch();
+            if (key == 77 && choice < 6)
+            { // right arrow
+                choice++;
+            }
+            else if (key == 75 && choice > 1)
+            { // left arrow
+                choice--;
+            }
+            else if (key == 80 && choice < 4)
+            { // down arrow
+                choice += 2;
+            }
+            else if (key == 72 && choice > 3)
+            { // up arrow
+                choice -= 2;
+            }
+            break;
+        case 13: // enter key
+            enterPressed = true;
+            break;
+        default:
+            break;
+        }
     }
     system("cls");
-    switch (command)
+    switch (choice)
     {
     case 1:
         changePass(account);
         cout << "Login successful!" << endl;
         break;
     case 2:
-        printAllClass(listClass);
+        printAllClass(listYear->Hclass);
         break;
     case 3:
-        printStfClass(chooseClass(listClass));
+        // printStfClass(chooseClass(listYear -> Hclass));
+        chooseClass(listYear->Hclass);
         break;
     case 4:
         printProfile(account);
@@ -178,141 +254,238 @@ void staffInterface(user *account, Class *listClass, Course *listCourse)
         createAccount();
         break;
     case 6:
-        logOut(account, listClass, listCourse);
+        logOut(account, listYear);
     }
-    goBackToMenu(account, listClass, listCourse);
+    goBackToMenu(account, listYear);
 }
 
 //---------------------------student--------------------------------------
 void findStudent(user *&account, Class *listClass)
 {
-    if (!listClass || !account)
+    if (!listClass || !account || account -> ref)
         return;
     while (listClass)
     {
         Student *cur = listClass->Hstudent;
-        while (cur || cur->student_id != account->username)
-            cur = cur->next;
-        if (cur->student_id == account->username)
+        while (cur)
         {
-            account->ref = cur;
-            return;
+            if (cur->student_id == account->username)
+            {
+                account->ref = cur;
+                return;
+            }
+            cur = cur->next;
         }
         listClass = listClass->next;
     }
 }
 
-void studentInterface(user *account, Class *listClass, Course *listCourse)
+void studentInterface(user *account, SchoolYear *listYear)
 {
-    system("cls");
-    int command;
-    cout << setw(3) << right << ""
-         << "----------------------------------" << endl;
-    cout << setw(5) << right << "| " << setw(15) << right << "Welcome" << setw(15) << left << " to HCMUS!"
-         << " |" << endl;
-    cout << "------------------------------------------" << endl;
-    cout << "| " << setw(25) << left << "Here are some of commands you can use:"
-         << " |" << endl;
-    cout << "--------------------------------------------------------------------------" << endl;
-    cout << "| " << setw(40) << left << "1. Change your password" << setw(35) << internal
-         << setw(30) << left << "2. View your score"
-         << " |" << endl;
-    cout << "| " << setw(72) << right << " |" << endl;
-    cout << "| " << setw(40) << left << "3. View your course's schedule" << setw(35) << internal
-         << setw(30) << left << "4. View your profile"
-         << " |" << endl;
-    cout << "| " << setw(72) << right << " |" << endl;
-    cout << "| " << setw(40) << left << "5. View..." << setw(35) << internal
-         << setw(30) << left << "6. Log out"
-         << " |" << endl;
-    cout << "--------------------------------------------------------------------------" << endl;
-    cout << endl;
-    cout << "Enter your option: ";
-    cin >> command;
-    while (command < 1 || command > 6){
-        cout << endl << "Please enter again: ";
-        cin >> command;
+    int choice = 1;
+    bool enterPressed = false;
+    while (!enterPressed)
+    {
+        system("cls");             // clears the console
+        SetConsoleOutputCP(65001); // sets console output to UTF-8 encoding
+        cout << setw(2) << right << ""
+             << "------------------------------------------------------------------" << endl;
+        cout << setw(4) << right << "| " << setw(9) << right << "  Welcome" << setw(11) << left << " to HCMUS!"
+             << " |";
+        cout << setw(25) << left << "  Here are some of commands you can use:"
+             << " |" << endl;
+        cout << "--------------------------------------------------------------------------" << endl;
+        cout << "| ";
+        if (choice == 1)
+        {
+            cout << setw(39) << left << "➤ Change your password" << setw(14) << internal << "";
+        }
+        else
+        {
+            cout << setw(45) << left << " Change your password" << setw(6) << internal << "";
+        }
+        if (choice == 2)
+        {
+            cout << setw(21) << left << "➤ View your score ";
+        }
+        else
+        {
+            cout << setw(19) << left << " View your score ";
+        }
+        cout << " |" << endl;
+        cout << "| " << setw(72) << right << " |" << endl;
+        cout << "| ";
+        if (choice == 3)
+        {
+            cout << setw(40) << left << "➤ View your course's schedule" << setw(13) << internal << "";
+        }
+        else
+        {
+            cout << setw(40) << left << " View your course's schedule" << setw(11) << internal << "";
+        }
+        if (choice == 4)
+        {
+            cout << setw(11) << left << "➤ View your profile";
+        }
+        else
+        {
+            cout << setw(19) << left << " View your profile";
+        }
+        cout << " |" << endl;
+        cout << "| " << setw(72) << right << " |" << endl;
+        cout << "| ";
+        if (choice == 5)
+        {
+            cout << setw(40) << left << "➤ View..." << setw(13) << internal << "";
+        }
+        else
+        {
+            cout << setw(40) << left << " View..." << setw(11) << internal << "";
+        }
+        if (choice == 6)
+        {
+            cout << setw(21) << left << "➤ Log out";
+        }
+        else
+        {
+            cout << setw(19) << left << " Log out";
+        }
+        cout << " |" << endl;
+        cout << "--------------------------------------------------------------------------" << endl;
+        cout << endl
+             << "Use arrow keys to move, and press enter to select." << endl;
+        int key = getch();
+        switch (key)
+        {
+        case 224: // arrow keys
+            key = getch();
+            if (key == 77 && choice < 6)
+            { // right arrow
+                choice++;
+            }
+            else if (key == 75 && choice > 1)
+            { // left arrow
+                choice--;
+            }
+            else if (key == 80 && choice < 4)
+            { // down arrow
+                choice += 2;
+            }
+            else if (key == 72 && choice > 3)
+            { // up arrow
+                choice -= 2;
+            }
+            break;
+        case 13: // enter key
+            enterPressed = true;
+            break;
+        default:
+            break;
+        }
     }
     system("cls");
-    switch (command)
+    switch (choice)
     {
     case 1:
         changePass(account);
         cout << "Login successful!" << endl;
         break;
     case 3:
-        printStdCourse(account->ref, listCourse);
+        printStdCourse(account->ref, listYear->Hsemester->Hcourse);
         break;
     case 4:
         printProfile(account);
         break;
     case 6:
-        logOut(account, listClass, listCourse);
+        logOut(account, listYear);
     }
-    goBackToMenu(account, listClass, listCourse);
+    goBackToMenu(account, listYear);
 }
 
 //---------------------------Public--------------------------------------
-void interFace(user *account, Class *listClass, Course *listCourse)
+void interFace(user *account, SchoolYear *listYear)
 {
-    // if (!account || !listClass || !listCourse)
-    //     return;
-    if (!account)
+    if (!account || !listYear)
         return;
 
     if (account->isStudent)
     {
-        findStudent(account, listClass);
-        studentInterface(account, listClass, listCourse);
+        findStudent(account, listYear->Hclass);
+        studentInterface(account, listYear);
         return;
     }
     findStaff(account);
-    staffInterface(account, listClass, listCourse);
+    staffInterface(account, listYear);
 }
 
-void goBackToMenu(user *account, Class *listClass, Course *listCourse)
+void goBackToMenu(user *account, SchoolYear *listYear)
 {
     int command;
     do
     {
-        cout << endl << endl
+        cout << endl
+             << endl
              << "Press 1 to go back to main menu: ";
         cin >> command;
     } while (command != 1);
     if (account->isStudent)
-        return studentInterface(account, listClass, listCourse);
-    return staffInterface(account, listClass, listCourse);
+        return studentInterface(account, listYear);
+    return staffInterface(account, listYear);
 }
 
-void logOut(user *&account, Class *listClass, Course *listCourse)
-{
-    int command;
-    cout << "------------------------------" << endl;
-    cout << "| " << setw(26) << left << "  Do you want to log out:"
-         << " |" << endl;
-    cout << "------------------------------" << endl;
-    cout << "| " << setw(20) << left << "1. Yes" << setw(20) << internal
-         << setw(6) << left << "2. No"
-         << " |" << endl;
 
-    cout << "------------------------------" << endl;
-    cout << "Enter your choice: ";
-    cin >> command;
-    while (command != 1 && command != 2)
-    {
-        cout << endl
-             << "Please enter again: ";
-        cin >> command;
+void logOut(user *&account, SchoolYear *listYear){
+    int choice = 1;
+    bool enterPressed = false;
+    while (!enterPressed) {
+        system("cls"); // clears the console
+        SetConsoleOutputCP(65001); // sets console output to UTF-8 encoding
+        cout << "---------------------------------------------" << endl;
+        cout << "| " << setw(41) << left << " Do you want to log out:"
+             << " |" << endl;
+        cout << "---------------------------------------------" << endl;
+        cout << "| " << setw(20) << left;
+        if (choice == 1) {
+            cout << "➤ Yes";
+        } else {
+            cout << "  Yes";
+        }
+        cout << setw(15) << right << setw(23) << right;
+        if (choice == 2) {
+            cout << "➤ No ";
+        } else {
+            cout << "  No ";
+        }
+        cout << " |" << endl;
+        cout << "---------------------------------------------" << endl;
+        cout << endl << "Use arrow keys to move, and press enter to select." << endl;
+        int key = getch();
+        switch (key) {
+            case 224: // arrow keys
+                key = getch();
+                if (key == 77 && choice < 2) { // right arrow
+                    choice++;
+                } else if (key == 75 && choice > 1) { // left arrow
+                    choice--;
+                }
+                break;
+            case 13: // enter key
+                enterPressed = true;
+                break;
+            default:
+                break;
+        }
     }
-    if (command == 1)
-    {
+    if (choice == 1){
         system("cls");
+        account -> ref = nullptr;
+        account ->profile = nullptr;
         account = nullptr;
         account = logIn();
-    }
-    if (account->isStudent)
-        return studentInterface(account, listClass, listCourse);
-    return staffInterface(account, listClass, listCourse);
+        return interFace(account, listYear);
+     } 
+    if (choice == 2)
+        return interFace(account, listYear);
 }
 
 void changeInList(user *list, user *account)
@@ -332,7 +505,8 @@ void changeInList(user *list, user *account)
 
 void reWriteList(user *list, bool isStudent)
 {
-    if(!list) return;
+    if (!list)
+        return;
     string fileName;
     if (isStudent)
         fileName = "listOfStdAcc";
@@ -350,12 +524,15 @@ void reWriteList(user *list, bool isStudent)
         outputFile << list->password << endl;
         list = list->next;
     }
-    cout << endl << "Your data have been added successful!";
+    cout << endl
+         << "Your data have been added successful!";
     outputFile.close();
 }
 
-void updateList(user *newList, bool isStudent){
-    if(!newList) return;
+void updateList(user *newList, bool isStudent)
+{
+    if (!newList)
+        return;
     string fileName;
     if (isStudent)
         fileName = "listOfStdAcc";
@@ -373,7 +550,8 @@ void updateList(user *newList, bool isStudent){
         outputFile << newList->password << endl;
         newList = newList->next;
     }
-    cout << endl << "Your data have been added successful!";
+    cout << endl
+         << "Your data have been added successful!";
     outputFile.close();
 }
 
@@ -381,8 +559,7 @@ void changePass(user *&account)
 {
     if (!account)
         return;
-    user *list;
-    importAccounts(list, account->isStudent);
+    user *list = importAccounts(account->isStudent);
     string newPass;
     cout << "Please enter your new password: ";
     cin >> newPass;
@@ -390,9 +567,8 @@ void changePass(user *&account)
     changeInList(list, account);
     reWriteList(list, account->isStudent);
     system("cls");
-    cout << "Your password has been changed successfully!" << endl;
     // Log in again..
-    cout << endl << "Please re-login to your account"  << endl;
+    cout << "Please re-login to your account" << endl;
     checkUser(list, account);
     deleteUserList(list);
 }
