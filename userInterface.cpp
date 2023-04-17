@@ -127,7 +127,7 @@ void findStaff(user *&account)
     deleteStaffProfile(cur);
 }
 
-void staffInterface(user *account, Class *listClass, Course *listCourse)
+void staffInterface(user *account, SchoolYear *listYear)
 {
     system("cls");
     int command = 0;
@@ -166,10 +166,11 @@ void staffInterface(user *account, Class *listClass, Course *listCourse)
         cout << "Login successful!" << endl;
         break;
     case 2:
-        printAllClass(listClass);
+        printAllClass(listYear -> Hclass);
         break;
     case 3:
-        printStfClass(chooseClass(listClass));
+        // printStfClass(chooseClass(listYear -> Hclass));
+        chooseClass(listYear -> Hclass);
         break;
     case 4:
         printProfile(account);
@@ -178,9 +179,9 @@ void staffInterface(user *account, Class *listClass, Course *listCourse)
         createAccount();
         break;
     case 6:
-        logOut(account, listClass, listCourse);
+        logOut(account, listYear);
     }
-    goBackToMenu(account, listClass, listCourse);
+    goBackToMenu(account, listYear);
 }
 
 //---------------------------student--------------------------------------
@@ -191,18 +192,18 @@ void findStudent(user *&account, Class *listClass)
     while (listClass)
     {
         Student *cur = listClass->Hstudent;
-        while (cur || cur->student_id != account->username)
+        while (cur){
+            if(cur->student_id == account->username){
+                account->ref = cur;
+                return;
+            }
             cur = cur->next;
-        if (cur->student_id == account->username)
-        {
-            account->ref = cur;
-            return;
         }
         listClass = listClass->next;
     }
 }
 
-void studentInterface(user *account, Class *listClass, Course *listCourse)
+void studentInterface(user *account, SchoolYear *listYear)
 {
     system("cls");
     int command;
@@ -241,36 +242,34 @@ void studentInterface(user *account, Class *listClass, Course *listCourse)
         cout << "Login successful!" << endl;
         break;
     case 3:
-        printStdCourse(account->ref, listCourse);
+        printStdCourse(account->ref, listYear -> Hsemester -> Hcourse);
         break;
     case 4:
         printProfile(account);
         break;
     case 6:
-        logOut(account, listClass, listCourse);
+        logOut(account, listYear);
     }
-    goBackToMenu(account, listClass, listCourse);
+    goBackToMenu(account, listYear);
 }
 
 //---------------------------Public--------------------------------------
-void interFace(user *account, Class *listClass, Course *listCourse)
+void interFace(user *account, SchoolYear *listYear)
 {
-    // if (!account || !listClass || !listCourse)
-    //     return;
-    if (!account)
+    if (!account || !listYear)
         return;
 
     if (account->isStudent)
     {
-        findStudent(account, listClass);
-        studentInterface(account, listClass, listCourse);
+        findStudent(account, listYear -> Hclass);
+        studentInterface(account, listYear);
         return;
     }
     findStaff(account);
-    staffInterface(account, listClass, listCourse);
+    staffInterface(account, listYear);
 }
 
-void goBackToMenu(user *account, Class *listClass, Course *listCourse)
+void goBackToMenu(user *account, SchoolYear *listYear)
 {
     int command;
     do
@@ -280,11 +279,11 @@ void goBackToMenu(user *account, Class *listClass, Course *listCourse)
         cin >> command;
     } while (command != 1);
     if (account->isStudent)
-        return studentInterface(account, listClass, listCourse);
-    return staffInterface(account, listClass, listCourse);
+        return studentInterface(account, listYear);
+    return staffInterface(account, listYear);
 }
 
-void logOut(user *&account, Class *listClass, Course *listCourse)
+void logOut(user *&account, SchoolYear *listYear)
 {
     int command;
     cout << "------------------------------" << endl;
@@ -310,9 +309,7 @@ void logOut(user *&account, Class *listClass, Course *listCourse)
         account = nullptr;
         account = logIn();
     }
-    if (account->isStudent)
-        return studentInterface(account, listClass, listCourse);
-    return staffInterface(account, listClass, listCourse);
+    return interFace(account, listYear);
 }
 
 void changeInList(user *list, user *account)
@@ -381,8 +378,7 @@ void changePass(user *&account)
 {
     if (!account)
         return;
-    user *list;
-    importAccounts(list, account->isStudent);
+    user *list = importAccounts(account->isStudent);
     string newPass;
     cout << "Please enter your new password: ";
     cin >> newPass;
@@ -390,9 +386,8 @@ void changePass(user *&account)
     changeInList(list, account);
     reWriteList(list, account->isStudent);
     system("cls");
-    cout << "Your password has been changed successfully!" << endl;
     // Log in again..
-    cout << endl << "Please re-login to your account"  << endl;
+    cout << "Please re-login to your account"  << endl;
     checkUser(list, account);
     deleteUserList(list);
 }

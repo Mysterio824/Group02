@@ -3,8 +3,10 @@
 //importing all data of a chosen schoolyear
 void startProgram(SchoolYear* &thisyear)
 {
+   
     string year = getCurrentYear();
 
+    thisyear = new SchoolYear(year);
     thisyear = ImportSchoolYears(year);
     thisyear->Hsemester = ImportSemesters(year);
 

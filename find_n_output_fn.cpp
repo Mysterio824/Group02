@@ -151,7 +151,7 @@ void printStfScoreBoard(Course *HCourse)
 void printStfClass(Class *hClass)
 {
     if (!hClass) return;
-
+    
     Student *cur = hClass->Hstudent;
     cout << "-----------------------------" << endl;
     cout << "| " << setw(12) << left << "Class Name: "

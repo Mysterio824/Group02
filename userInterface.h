@@ -6,16 +6,16 @@
 void createAccount();
 Class* chooseClass (Class *listClass);
 void findStaff(user *&account);
-void staffInterface (user* account, Class* listClass, Course *listCourse);
+void staffInterface (user* account, SchoolYear *listYear);
 
 //student's functions
 void findStudent (user *&account, Class *listClass);
-void studentInterface (user *account, Class* listClass, Course *listCourse);
+void studentInterface (user *account, SchoolYear *listYear);
 
 //public's functions
-void interFace (user *account, Class* listClass, Course *listCourse);
-void goBackToMenu (user* account,  Class* listClass, Course *listCourse);
-void logOut(user *&account, Class *listClass, Course *listCourse);
+void interFace (user *account, SchoolYear *listYear);
+void goBackToMenu (user* account, SchoolYear *listYear);
+void logOut(user *&account, SchoolYear *listYear);
 void changeInList (user *list, user *account);
 void reWriteList(user *list, bool isStudent);
 void updateList (user *list, bool isStudent);

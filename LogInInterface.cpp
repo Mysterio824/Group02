@@ -30,9 +30,7 @@ user *logIn()
     if (check == 1)
         isStudent = true;
 
-    user *listAcc; // list of data user's accounts
-    importAccounts(listAcc, isStudent);
-
+    user *listAcc = importAccounts(isStudent); // list of data user's accounts
     system("cls");
     checkUser(listAcc, account);
     account->isStudent = isStudent;
@@ -40,19 +38,19 @@ user *logIn()
     return account;
 }
 
-void importAccounts(user *&list, bool isStudent)
+user* importAccounts(bool isStudent)
 { // upload the data of users
-    list = nullptr;
+    user* list = nullptr;
     string fileName;
     if (isStudent)
         fileName = "listOfStdAcc";
     else
         fileName = "listOfStfAcc";
-    ifstream file1("input/accounts/"+ fileName + ".csv");
+    ifstream file1("input/accounts/" + fileName + ".csv");
     if (!file1.is_open())
     {
         cout << "Error opening file" << endl;
-        return;
+        return nullptr;
     }
     string line;
     user *newUser;
@@ -63,23 +61,28 @@ void importAccounts(user *&list, bool isStudent)
         getline(ss, username, ',');
         getline(ss, password, ',');
         newUser = createUser(username, password);
-        newUser -> next = list;
+        newUser->next = list;
         list = newUser;
     }
     file1.close();
 
-    //reverse list
-    user *cur = list;
-    list = list -> next;
-    user *last = list;
-    cur -> next = nullptr;
-    while (last -> next){
-        list = list -> next;
-        last -> next = cur;
-        cur = last;
-        last = list;
+    // reverse list
+    if ((list->next))
+    {
+        user *cur = list;
+        list = list->next;
+        user *last = list;
+        cur->next = nullptr;
+        do
+        {
+            list = list->next;
+            last->next = cur;
+            cur = last;
+            last = list;
+        } while (last->next);
+        list->next = cur;
     }
-    list -> next = cur;
+    return list;
 }
 
 user *inputAccounts(string fileName)
@@ -100,7 +103,7 @@ user *inputAccounts(string fileName)
         getline(ss, username, ',');
         getline(ss, password, ',');
         newUser = createUser(username, password);
-        newUser -> next = list;
+        newUser->next = list;
         list = newUser;
     }
     file1.close();
@@ -119,7 +122,7 @@ user *createUser(string username, string password)
 void checkUser(user *list, user *&account)
 { // check if username and password are correct
     if (!list)
-        return; 
+        return;
     string inputUsername, inputPassword;
     cout << "Please enter your username: ";
     cin >> inputUsername;
@@ -141,7 +144,8 @@ void checkUser(user *list, user *&account)
         cur = cur->next;
     }
     cout << endl
-         << "Wrong username or password!" << endl << endl;
+         << "Wrong username or password!" << endl
+         << endl;
     return checkUser(list, account);
 }
 
@@ -182,24 +186,27 @@ staffData *importStaff(string fileName)
         getline(ss, birthDate, ',');
         getline(ss, socialID, ',');
         newUser = createStaff(staffID, firstName, lastName, gender, birthDate, socialID);
-        newUser -> next = list;
+        newUser->next = list;
         list = newUser;
     }
     file1.close();
-    
-    //reverse list
+
+    // reverse list
+    if (!(list->next))
+        return list;
     staffData *cur = list;
-    list = list -> next;
+    list = list->next;
     staffData *last = list;
-    cur -> next = nullptr;
-    while (last -> next){
-        list = list -> next;
-        last -> next = cur;
+    cur->next = nullptr;
+    do
+    {
+        list = list->next;
+        last->next = cur;
         cur = last;
         last = list;
-    }
-    list -> next = cur;
-    
+    } while (last->next);
+    list->next = cur;
+
     return list;
 }
 
@@ -216,7 +223,8 @@ staffData *createStaff(string staffID, string firstName, string lastName, string
     return newStaff;
 }
 
-string staffData::fullName(){
+string staffData::fullName()
+{
     string fullName = lastName + " " + firstName;
     return fullName;
 }
@@ -238,7 +246,8 @@ void deleteStaffProfile(staffData *&list)
 
 void printProfile(user *account)
 {
-    if (!account || !(account -> profile)){
+    if (!account || (!(account->profile) && !(account -> ref)))
+    {
         cout << "There's nothing to see!";
         return;
     }
@@ -268,8 +277,8 @@ void printProfile(user *account)
     }
     staffData *ref = account->profile;
     cout << "| " << setw(12) << left << ref->staffID
-         << "| " << setw(10) << left << ref->firstName
-         << "| " << setw(17) << left << ref->lastName
+         << "| " << setw(10) << left << ref->lastName
+         << "| " << setw(17) << left << ref->firstName
          << "| " << setw(25) << left << ref->fullName()
          << "| " << setw(10) << left << ref->gender
          << "| " << setw(15) << left << ref->birthDate
