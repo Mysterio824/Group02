@@ -15,8 +15,8 @@ void startProgram(SchoolYear* &thisyear)
     Course* pcourse = nullptr;
     while(currentSemes)//iterate through semesters
     {
-        string courseName = "semester"+currentSemes->season;//get filename semester#.csv
-        currentSemes->Hcourse = ImportCourses(courseName);//import courses
+        // string courseName = "semester"+currentSemes->season;//get filename semester#.csv
+        // currentSemes->Hcourse = ImportCourses(courseName);//import courses
         pcourse = currentSemes->Hcourse;
         while (pcourse)
         {
