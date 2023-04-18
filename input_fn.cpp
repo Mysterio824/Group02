@@ -573,14 +573,6 @@ Semester* ImportSemesters(string fileName)//fileName = currentyear
         }
     }
 
-    psemes = Hsemester;
-    string semesterN;
-    while(psemes)
-    {
-        semesterN = "semester"+psemes->season;
-        psemes->Hcourse = ImportCourses(semesterN);
-        psemes = psemes->next;
-    }
     inFile.close();
     cout<<">semesters/"<<fileName<<".csv loaded."<<endl;
 
