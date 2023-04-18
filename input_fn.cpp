@@ -619,3 +619,55 @@ Scoreboard* ImportScoreboard(Course* Hcourse)
     cout<<">scoreboard/"<<Hcourse->course_id<<".csv loaded."<<endl;
     return scrB;
 }
+
+void UpdateCourseInfo(Course* &Hcourse)
+{
+    Course* pcourse = Hcourse;
+    if (!pcourse)
+    {
+        cout<<"No course to update\n";
+        return;
+    }
+    cout<<"Available courses:\n";
+    cout<<"| "<<setw(15)<<left<<"Course ID"
+        <<"| "<<setw(30)<<left<<"Course Name"<<" |"<<endl;
+    {
+        cout<<"| "<<setw(15)<<left<<pcourse->course_id
+        <<"| "<<setw(30)<<left<<pcourse->course_name<<" |"<<endl;
+        pcourse = pcourse->next;
+    }
+    string course_id;
+    string  course_name, class_name, teacher_name,
+            credits, day_of_week, session_time;
+    int capacity;
+    while (true)
+    {
+        cout<<"Enter course ID to update: ";
+        cin>>course_id;
+        pcourse = Hcourse;
+        while (pcourse)
+        {
+            if (pcourse->course_id == course_id)
+            {
+                cout<<"Enter new course name: "; cin>>course_name;
+                cout<<"Enter new teacher name: "; cin>>teacher_name;
+                cout<<"Enter new credits: "; cin>>credits;
+                cout<<"Enter new capacity: "; cin>>capacity;
+                cout<<"Enter new day of week: "; cin>>day_of_week;
+                cout<<"Enter new session time: "; cin>>session_time;
+
+                pcourse->course_name = course_name;
+                pcourse->teacher_name = teacher_name;
+                pcourse->num_credits = credits;
+                pcourse->capacity = capacity;
+                pcourse->day = day_of_week;
+                pcourse->session = session_time;
+                cout<<"Course updated\n";
+                return;
+            }
+            pcourse = pcourse->next;
+        }
+        cout<<"No course found\n";
+        system("pause");
+    }
+}
