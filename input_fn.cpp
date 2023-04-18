@@ -66,6 +66,7 @@ void AddClasstoSchoolYear(SchoolYear* &Hschoolyear)
             if(input != "Y" && input != "y")
             {
                 cout << "You chose not to add class." << endl;
+                system("pause");
                 return;
             }
             else
@@ -87,6 +88,7 @@ void AddClasstoSchoolYear(SchoolYear* &Hschoolyear)
             if(input != "Y" && input != "y")
             {
                 cout << "You added no class to the school year!" << endl;
+                system("pause");
                 return;
             }
             else
@@ -95,7 +97,7 @@ void AddClasstoSchoolYear(SchoolYear* &Hschoolyear)
                 tmpClass = tmpYear->Hclass;
             }
         }
-        tmpClass = tmpClass->next;
+        else tmpClass = tmpClass->next;
     }     
     tmpClass= new Class(className);
     tmpClass->next = tmpYear->Hclass;
@@ -132,6 +134,7 @@ void AddSemesterToSchoolYear(SchoolYear* &Hschoolyear)
             if(input != "Y" && input != "y")
             {
                 cout << "You chose not to add semester." << endl;
+                system("pause");
                 return;
             }
             else
@@ -153,6 +156,7 @@ void AddSemesterToSchoolYear(SchoolYear* &Hschoolyear)
             if(input != "Y" && input != "y")
             {
                 cout << "You added no semester to the school year!" << endl;
+                system("pause");
                 return;
             }
             else
@@ -161,7 +165,7 @@ void AddSemesterToSchoolYear(SchoolYear* &Hschoolyear)
                 tmpSemes = tmpYear->Hsemester;
             }
         }
-        tmpSemes = tmpSemes->next;
+        else tmpSemes = tmpSemes->next;
     }     
     cout << "The start date of this semester? : "; cin >> startDate;
     cout << "The end date of this semester? : "; cin >> endDate;
@@ -201,6 +205,7 @@ void AddCourseToSemester(Semester* &Hsemester)
             if(input != "Y" && input != "y")
             {
                 cout << "You chose not to add course." << endl;
+                system("pause");
                 return;
             }
             else
@@ -222,6 +227,7 @@ void AddCourseToSemester(Semester* &Hsemester)
             if(input != "Y" && input != "y")
             {
                 cout << "You added no course to the semester!" << endl;
+                system("pause");
                 return;
             }
             else
@@ -230,7 +236,7 @@ void AddCourseToSemester(Semester* &Hsemester)
                 tmpCourse = tmpSemes->Hcourse;
             }
         }
-        tmpCourse = tmpCourse->next;
+        else tmpCourse = tmpCourse->next;
     }     
     cout << "Name of the course: "; cin >> cName;
     cout << "The class name is: "; cin >> clName;
