@@ -8,6 +8,13 @@ void AddSchoolYear(SchoolYear* &Hyear)
     if (Hyear != nullptr)
     {
         SchoolYear* ptr = Hyear;
+        cout << "Here are available schoo-years: ";
+        while(ptr != nullptr)
+        {
+            cout << "+" << ptr->year << endl;
+            ptr = ptr->next;
+        }
+        ptr = Hyear;
         while(ptr != nullptr)
         {
             if (ptr->year == input) 
@@ -16,7 +23,8 @@ void AddSchoolYear(SchoolYear* &Hyear)
                 cout << "Do you want to try again? (Y/y for yes - other keys for no): "; cin >> input;
                 if(input != "y" && input != "Y")
                 {
-                    cout << "You chose not to add another school year!" << endl;
+                    cout << "You chose not to add any school-year!" << endl;
+                    system("pause");
                     return;
                 }
                 else
