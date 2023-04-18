@@ -33,7 +33,6 @@ void AddSchoolYear(SchoolYear* &Hyear)
         Hyear = newschlyr;
     }
     else Hyear = new SchoolYear(input);
-    if (!outFile.is_open()) 
 }
 
 void AddClasstoSchoolYear(SchoolYear* &Hschoolyear)
@@ -383,7 +382,6 @@ void AddStudentToCourse(Course* &Hcourse)
     }
 }
 
-
 //fileName: class_name.csv;
 //format: id,fname,lname,gender,bday,social_id
 Student* ImportStudents(string fileName)//from inFile straight to class
@@ -655,4 +653,90 @@ void UpdateCourseInfo(Course* &Hcourse)
         cout<<"No course found\n";
         system("pause");
     }
+}
+
+void UpdateStudentResult(Course* &Hcourse)
+{
+    if(Hcourse == nullptr)
+    {
+        cout << "There is no courses to update student's result.";
+        return;
+    }
+
+    Course* tmpCourse = Hcourse;
+    cout << "Here are available courses: ";
+    while (tmpCourse != nullptr)
+    {
+        cout << '+' << tmpCourse->course_id << endl;
+        tmpCourse = tmpCourse->next;
+    }
+    tmpCourse = Hcourse;
+    string input;
+    cout << "Choose the course ID you want to update its student's result."; cin >> input;
+    while (true)
+    {
+        if(input == tmpCourse->course_id) break;
+        tmpCourse = tmpCourse->next;
+        if(tmpCourse == nullptr)
+        {
+            cout << "The course you want is currently invalid.";
+            cout << "Do you want to try again? (Y/y for yes - other keys for no): "; cin >> input;
+            if(input != "Y" && input != "y")
+            {
+                cout << "You chose not to update any student.";
+                return;
+            }
+            else
+            {
+                cout << "Try another course ID: "; cin >> input;
+                tmpCourse = Hcourse;
+            }
+        }
+    }
+    cout << "Here are IDs of students of this course: ";
+    int count = 0;
+    Scoreboard* tmpSB = tmpCourse->Hscore;
+    while (tmpSB != nullptr)
+    {
+        count++;
+        cout << '.' << tmpSB->student_id;
+        if(count == 3)
+        {
+            count = 0;
+            cout << endl;
+        }
+        else cout << "      ";
+        tmpSB = tmpSB->next;
+    }
+    tmpSB = tmpCourse->Hscore;
+    cout << "Which student's ID you want to update its owner's result?: "; cin >> input;
+    while (true)
+    {
+        if(tmpSB->student_id == input) break;
+        tmpSB = tmpSB->next;
+        if(tmpSB == nullptr)
+        {
+            cout << "The student you want is not in this class.";
+            cout << "Do you want to try again? (Y/y for yes - other keys for no): "; cin >> input;
+            if(input != "Y" && input != "y")
+            {
+                cout << "You chose not to update any student.";
+                return;
+            }
+            else
+            {
+                cout << "Try another student's ID: "; cin >> input;
+                tmpSB = tmpCourse->Hscore;
+            }
+        }
+    }
+    float midT, finalT, otherT;
+    cout << "Type in the student's result: ";
+    cout << "Midterm Result: "; cin >> midT; 
+    cout << "Finalterm Result: "; cin >> finalT;
+    cout << "Other results: "; cin >> otherT;
+    tmpSB->midterm = midT;
+    tmpSB->finalterm = finalT;
+    tmpSB->other = otherT;
+    cout << "You have updated successfully results of " << tmpSB->full_name << " with the ID: " << tmpSB->student_id;
 }
