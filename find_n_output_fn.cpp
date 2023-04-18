@@ -23,11 +23,21 @@ Scoreboard *checkInCourse(Student *account, Course *HCourse)
     return nullptr;
 }
 
-string Student::fullName(){
+string Student::fullName()
+{
     string fullName = last_name + " " + first_name;
     return fullName;
 }
 
+int Class::capacity(){
+    int count = 0;
+    Student *cur = Hstudent;
+    while (cur){
+        cur = cur -> next;
+        count += 1;
+    }
+    return count;
+}
 //----------------Student------------------
 float Scoreboard::overallGPA()
 {
@@ -37,7 +47,8 @@ float Scoreboard::overallGPA()
 
 void printStdCourse(Student *account, Course *listOfCourse)
 {
-    if (!account || !listOfCourse){
+    if (!account || !listOfCourse)
+    {
         cout << "There is nothing to see." << endl;
         return;
     }
@@ -110,15 +121,15 @@ void printStdScoreBoard(Student *account, Course *listOfCourse)
     }
     cout << "--------------------" << endl;
     cout << "| " << setw(11) << left << "Overall GPA"
-         << " |" << sum/count << " |" << endl;
+         << " |" << sum / count << " |" << endl;
     cout << "--------------------" << endl;
 }
-
 
 //---------------Staff--------------------
 void printStfScoreBoard(Course *HCourse)
 {
-    if (!HCourse){
+    if (!HCourse)
+    {
         cout << "There is no score board to see." << endl;
         return;
     }
@@ -145,12 +156,14 @@ void printStfScoreBoard(Course *HCourse)
              << "| " << setw(10) << left << cur->finalterm
              << "| " << setw(8) << left << cur->overallGPA() << " |" << endl;
         cout << "---------------------------------------------------------------------------------------------------------------------" << endl;
+        cur = cur->next;
     }
 }
 
 void printStfClass(Class *hClass)
 {
-    if (!hClass) return;
+    if (!hClass)
+        return;
 
     Student *cur = hClass->Hstudent;
     cout << "-----------------------------" << endl;
@@ -167,13 +180,13 @@ void printStfClass(Class *hClass)
          << "| " << setw(20) << left << "Social ID"
          << " |" << endl;
     cout << "-----------------------------------------------------------------------------------------------------------------------------" << endl;
-    
+
     while (cur)
     {
         string fullName = cur->first_name + " " + cur->last_name;
         cout << "| " << setw(12) << left << cur->student_id
-             << "| " << setw(17) << left << cur -> first_name
-             << "| " << setw(10) << left << cur -> last_name
+             << "| " << setw(17) << left << cur->first_name
+             << "| " << setw(10) << left << cur->last_name
              << "| " << setw(25) << left << cur->fullName()
              << "| " << setw(10) << left << cur->gender
              << "| " << setw(15) << left << cur->birth_date
@@ -187,14 +200,15 @@ void printStfClass(Class *hClass)
 
 void printAllClass(Class *listOfClass)
 {
-    if (!listOfClass){
+    if (!listOfClass)
+    {
         cout << "There is no class to see." << endl;
         return;
     }
     cout << "-------------------------------------------------------------------------------------------------------------------------" << endl;
     cout << "| " << setw(12) << left << "Student ID"
          << "| " << setw(30) << left << "Student Name"
-         << "| " << setw(15) << left << "Class Name" 
+         << "| " << setw(15) << left << "Class Name"
          << "| " << setw(10) << left << "Gender"
          << "| " << setw(20) << left << "Birth Date"
          << "| " << setw(20) << left << "Social ID"
@@ -206,8 +220,8 @@ void printAllClass(Class *listOfClass)
         while (cur)
         {
             cout << "| " << setw(12) << left << cur->student_id
-                 << "| " << setw(30) << left << cur -> fullName()
-                 << "| " << setw(15) << left << listOfClass -> class_name
+                 << "| " << setw(30) << left << cur->fullName()
+                 << "| " << setw(15) << left << listOfClass->class_name
                  << "| " << setw(10) << left << cur->gender
                  << "| " << setw(20) << left << cur->birth_date
                  << "| " << setw(20) << left << cur->social_id
@@ -220,3 +234,40 @@ void printAllClass(Class *listOfClass)
     }
 }
 
+Class* printListClass(Class *listClass)
+{
+    if (!listClass)
+    {
+        cout << "There's no class to see";
+        return nullptr;
+    }
+    Class *mark = listClass;
+    int cnt = 0;
+    cout << "-------------------------" << endl;
+    cout << "| " << setw(15) << left << "Index"
+         << "| " << setw(30) << left << "Class Name"
+         << "| " << setw(10) << left << "Capacity"
+         << " |" << endl;
+    cout << "-------------------------" << endl;
+    while (listClass)
+    {
+        cout << "| " << setw(15) << left << ++cnt
+             << "| " << setw(30) << left << listClass->class_name
+             << "| " << setw(10) << left << listClass->capacity()
+             << " |" << endl;
+        cout << "-------------------------" << endl;
+        listClass = listClass->next;
+    }
+    
+    int choice;
+    do{
+    cout << "Please enter the index of the class you want to see(press "<< cnt + 1 << " to stop):";
+    cin >> choice;
+    }while(choice > cnt + 1 || choice < 1);
+    if(choice == cnt + 1){
+        return nullptr;
+    }
+    for (cnt = 1; cnt < choice; cnt++)
+        mark = mark->next;
+    return mark;
+}

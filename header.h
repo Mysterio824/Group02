@@ -34,6 +34,8 @@ struct Class{
     Student* Hstudent;
     Class* next;
 
+    int capacity();
+
     Class(string _name);
 };
 //---------------------------------------------------------------------
@@ -185,6 +187,7 @@ void printStdScoreBoard (Student *account, Class *listOfClass);
 void printStfScoreBoard(Course *HCourse);
 void printStfClass(Class *HClass);
 void printAllClass(Class *listOfClass);
+Class* printListClass (Class *listClass);
 
 //Export funtions
 void exportStudents (Class *listClass);
