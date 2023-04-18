@@ -275,6 +275,7 @@ void AddStudentToClass(Class* &Hclass)
             if(input != "Y" && input != "y")
             {
                 cout << "You chose not to add any student." << endl;
+                system("pause");
                 return;
             }
             else
@@ -296,6 +297,7 @@ void AddStudentToClass(Class* &Hclass)
             if(input != "Y" && input != "y")
             {
                 cout << "You add no student to this class";
+                system("pause");
                 return;
             }
             else
@@ -304,7 +306,7 @@ void AddStudentToClass(Class* &Hclass)
                 tmpStu = tmpClass->Hstudent;
             }
         }
-        tmpStu = tmpStu->next;
+        else tmpStu = tmpStu->next;
     }
 
     cout << "First Name: "; cin >> fName;
@@ -350,6 +352,7 @@ void AddStudentToCourse(Course* &Hcourse)
             if(input != "Y" && input != "y")
             {
                 cout << "You added no student!" <<endl;
+                system("pause");
                 return;
             }
             else
@@ -370,6 +373,7 @@ void AddStudentToCourse(Course* &Hcourse)
             if(input != "Y" && input != "y")
             {
                 cout << "You added no student!" << endl;
+                system("pause");
                 return;
             }
             else
