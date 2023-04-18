@@ -77,39 +77,8 @@ void createAccount()
     deleteUserList(newList);
 }
 
-Class *chooseClass(Class *listClass)
-{
-    if (!listClass)
-    {
-        cout << "There is no class to choose." << endl;
-        return nullptr;
-    }
-    int count = 0;
-    listClass = listClass->next;
-    Class *mark = listClass;
-    cout << "------------------------" << endl;
-    cout << "| " << setw(20) << internal << "List of classes: "
-         << " |" << endl;
-    cout << "------------------------" << endl;
-    while (listClass)
-    {
-        cout << "| " << ++count << ". " << setw(17) << left << listClass->class_name << " |" << endl;
-        listClass = listClass->next;
-    }
-    cout << "------------------------" << endl;
-    int command;
-    cout << endl
-         << "Please enter the class you would like to see: ";
-    cin >> command;
-    while (command > count)
-    {
-        cout << endl
-             << "Please enter again: ";
-        cin >> command;
-    }
-    for (count = 0; count < command - 1; count++)
-        mark = mark->next;
-    return mark;
+void addInfor(user *account, SchoolYear *thisYear){
+
 }
 
 void findStaff(user *&account)
@@ -130,9 +99,13 @@ void findStaff(user *&account)
     deleteStaffProfile(cur);
 }
 
-void staffInterface(user *account, SchoolYear *listYear)
-{
+
+void viewForStaff (user *account, SchoolYear *listYear){
     system("cls");
+    if(!account || !listYear){
+        cout << "There's nothing to see!";
+        return;
+    }
     int choice = 1;
     bool enterPressed = false;
     while (!enterPressed)
@@ -148,30 +121,30 @@ void staffInterface(user *account, SchoolYear *listYear)
         cout << "| ";
         if (choice == 1)
         {
-            cout << setw(26) << left << "➤ Change your password" << setw(15) << internal << "";
+            cout << setw(26) << left << "➤ View list of Students" << setw(15) << internal << "";
         }
         else
         {
-             cout << setw(26) << left << " Change your password" << setw(13) << internal << "";
+             cout << setw(26) << left << " View list of Students" << setw(13) << internal << "";
         }
         if (choice == 2)
         {
-            cout << setw(33) << left << "➤ View the list of students";
+            cout << setw(33) << left << "➤ View the list of Classes";
         }
         else
         {
-            cout << setw(31) << left << " View the list of students";
+            cout << setw(31) << left << " View the list of Classes";
         }
         cout << " |" << endl;
         cout << "| " << setw(72) << right << " |" << endl;
         cout << "| ";
         if (choice == 3)
         {
-            cout << setw(34) << left << "➤ View your course's schedule" << setw(7) << internal << "";
+            cout << setw(34) << left << "➤ View list of Courses" << setw(7) << internal << "";
         }
         else
         {
-            cout << setw(34) << left << " View your course's schedule" << setw(5) << internal << "";
+            cout << setw(34) << left << " View list of Courses" << setw(5) << internal << "";
         } 
         if (choice == 4)
         {
@@ -186,19 +159,19 @@ void staffInterface(user *account, SchoolYear *listYear)
         cout << "| ";
         if (choice == 5)
         {
-            cout << setw(34) << left << "➤ Create new accounts" << setw(7) << internal << "";
+            cout << setw(34) << left << "➤ View this year Semesters" << setw(7) << internal << "";
         }
         else
         {
-            cout << setw(34) << left << " Create new accounts" << setw(5) << internal << "";
+            cout << setw(34) << left << " View this year Semesters" << setw(5) << internal << "";
         }
         if (choice == 6)
         {
-            cout << setw(33) << left << "➤ Log out";
+            cout << setw(33) << left << "➤ View list of Years";
         }
         else
         {
-            cout << setw(31) << left << " Log out";
+            cout << setw(31) << left << " View list of Years";
         }
         cout << " |" << endl;
         cout << "--------------------------------------------------------------------------" << endl;
@@ -237,15 +210,13 @@ void staffInterface(user *account, SchoolYear *listYear)
     switch (choice)
     {
     case 1:
-        changePass(account);
-        cout << "Login successful!" << endl;
+        printAllClass (listYear -> Hclass);
         break;
     case 2:
-        printAllClass(listYear->Hclass);
+        printListClass(listYear->Hclass);
         break;
     case 3:
-        // printStfClass(chooseClass(listYear -> Hclass));
-        chooseClass(listYear->Hclass);
+        
         break;
     case 4:
         printProfile(account);
@@ -254,6 +225,102 @@ void staffInterface(user *account, SchoolYear *listYear)
         createAccount();
         break;
     case 6:
+        logOut(account, listYear);
+    }
+    goBackToMenu(account, listYear);
+}
+
+void staffInterface(user *account, SchoolYear *listYear)
+{
+    system("cls");
+    int choice = 1;
+    bool enterPressed = false;
+    while (!enterPressed)
+    {
+        system("cls");             // clears the console
+        SetConsoleOutputCP(65001); // sets console output to UTF-8 encoding
+        cout  << setw(2) << right << "" <<  "------------------------------------------------------------------" << endl;
+        cout << setw(4) << right << "| " << setw(9) << right << "  Welcome" << setw(11) << left << " to HCMUS!"
+             << " |";
+        cout << setw(25) << left << "  Here are some of commands you can use:"
+             << " |" << endl;
+        cout << "--------------------------------------------------------------------------" << endl;
+        cout << "| ";
+        if (choice == 1)
+        {
+            cout << setw(26) << left << "➤ Change your password" << setw(15) << internal << "";
+        }
+        else
+        {
+             cout << setw(26) << left << " Change your password" << setw(13) << internal << "";
+        }
+        if (choice == 2)
+        {
+            cout << setw(33) << left << "➤ View system's information";
+        }
+        else
+        {
+            cout << setw(31) << left << " View system's information";
+        }
+        cout << " |" << endl;
+        cout << "| " << setw(72) << right << " |" << endl;
+        cout << "| ";
+        if (choice == 3)
+        {
+            cout << setw(34) << left << "➤ Add things to system" << setw(7) << internal << "";
+        }
+        else
+        {
+            cout << setw(34) << left << " Add things to system" << setw(5) << internal << "";
+        } 
+        if (choice == 4)
+        {
+            cout << setw(33) << left << "➤ Log out";
+        }
+        else
+        {
+            cout << setw(31) << left << " Log out";
+        }
+        cout << " |" << endl;
+        cout << "--------------------------------------------------------------------------" << endl;
+        cout << endl
+             << "Use arrow keys to move, and press enter to select." << endl;
+        int key = getch();
+        switch (key) {
+            case 224: // arrow keys
+                key = getch();
+                if (key == 77 && choice < 4) { // right arrow
+                    choice++;
+                } else if (key == 75 && choice > 1) { // left arrow
+                    choice--;
+                } else if (key == 80 && choice < 3) { // down arrow
+                    choice += 2;
+                } else if (key == 72 && choice > 2) { // up arrow
+                    choice -= 2;
+                }
+                break;
+            case 13: // enter key
+                enterPressed = true;
+                break;
+            default:
+                break;
+        }
+    }
+    // perform action based on selected choice
+    system("cls");
+    switch (choice)
+    {
+    case 1:
+        changePass(account);
+        cout << "Login successful!" << endl;
+        break;
+    case 2:
+        viewForStaff(account, listYear);
+        break;
+    case 3:
+        addInfor(account, listYear);
+        break;
+    case 4:
         logOut(account, listYear);
     }
     goBackToMenu(account, listYear);
@@ -298,89 +365,62 @@ void studentInterface(user *account, SchoolYear *listYear)
         cout << "| ";
         if (choice == 1)
         {
-            cout << setw(39) << left << "➤ Change your password" << setw(14) << internal << "";
+            cout << setw(39) << left << "➤ Change your password" << setw(9) << internal << "";
         }
         else
         {
-            cout << setw(45) << left << " Change your password" << setw(6) << internal << "";
+            cout << setw(39) << left << " Change your password" << setw(7) << internal << "";
         }
         if (choice == 2)
         {
-            cout << setw(21) << left << "➤ View your score ";
+            cout << setw(26) << left << "➤ View your profile ";
         }
         else
         {
-            cout << setw(19) << left << " View your score ";
+            cout << setw(24) << left << " View your profile ";
         }
         cout << " |" << endl;
         cout << "| " << setw(72) << right << " |" << endl;
         cout << "| ";
         if (choice == 3)
         {
-            cout << setw(40) << left << "➤ View your course's schedule" << setw(13) << internal << "";
+            cout << setw(39) << left << "➤ View course's information" << setw(9) << internal << "";
         }
         else
         {
-            cout << setw(40) << left << " View your course's schedule" << setw(11) << internal << "";
+            cout << setw(39) << left << " View course's information" << setw(7) << internal << "";
         }
         if (choice == 4)
         {
-            cout << setw(11) << left << "➤ View your profile";
+            cout << setw(26) << left << "➤ Log out";
         }
         else
         {
-            cout << setw(19) << left << " View your profile";
-        }
-        cout << " |" << endl;
-        cout << "| " << setw(72) << right << " |" << endl;
-        cout << "| ";
-        if (choice == 5)
-        {
-            cout << setw(40) << left << "➤ View..." << setw(13) << internal << "";
-        }
-        else
-        {
-            cout << setw(40) << left << " View..." << setw(11) << internal << "";
-        }
-        if (choice == 6)
-        {
-            cout << setw(21) << left << "➤ Log out";
-        }
-        else
-        {
-            cout << setw(19) << left << " Log out";
+            cout << setw(24) << left << " Log out";
         }
         cout << " |" << endl;
         cout << "--------------------------------------------------------------------------" << endl;
         cout << endl
              << "Use arrow keys to move, and press enter to select." << endl;
         int key = getch();
-        switch (key)
-        {
-        case 224: // arrow keys
-            key = getch();
-            if (key == 77 && choice < 6)
-            { // right arrow
-                choice++;
-            }
-            else if (key == 75 && choice > 1)
-            { // left arrow
-                choice--;
-            }
-            else if (key == 80 && choice < 4)
-            { // down arrow
-                choice += 2;
-            }
-            else if (key == 72 && choice > 3)
-            { // up arrow
-                choice -= 2;
-            }
-            break;
-        case 13: // enter key
-            enterPressed = true;
-            break;
-        default:
-            break;
+        switch (key) {
+            case 224: // arrow keys
+                key = getch();
+                if (key == 77 && choice < 4) { // right arrow
+                    choice++;
+                } else if (key == 75 && choice > 1) { // left arrow
+                    choice--;
+                } else if (key == 80 && choice < 3) { // down arrow
+                    choice += 2;
+                } else if (key == 72 && choice > 2) { // up arrow
+                    choice -= 2;
+                }
+                break;
+            case 13: // enter key
+                enterPressed = true;
+                break;
+            default:
+                break;
         }
     }
     system("cls");

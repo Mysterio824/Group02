@@ -4,12 +4,14 @@
 
 //staff's functions
 void createAccount();
-Class* chooseClass (Class *listClass);
+void addInfor(user *account, SchoolYear *thisYear);
 void findStaff(user *&account);
+void viewForStaff (user* account, SchoolYear *thisYear);
 void staffInterface (user* account, SchoolYear *listYear);
 
 //student's functions
 void findStudent (user *&account, Class *listClass);
+void viewForStudent (user* account, SchoolYear *thisYear);
 void studentInterface (user *account, SchoolYear *listYear);
 
 //public's functions
