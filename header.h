@@ -202,6 +202,6 @@ void startProgram(SchoolYear* &thisyear);
 void SaveChosenYear(SchoolYear* thisyear);
 void MemmoryRelease(SchoolYear* &thisyear);
 void UpdateCourseInfo(Course* &Hcourse);//at input_fn.cpp
-void UpdateStudentRes(Course* &Hcourse);//at input_fn.cpp
+void UpdateStudentResult(Course* &Hcourse);//at input_fn.cpp
 
 #endif
