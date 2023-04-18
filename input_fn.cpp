@@ -33,16 +33,10 @@ void AddSchoolYear(SchoolYear* &Hyear)
         Hyear = newschlyr;
     }
     else Hyear = new SchoolYear(input);
-
-    ofstream outFile("input/schoolyear/" + input + ".csv");
     if (!outFile.is_open()) 
-    {
-        cout<<"Couldn't save school year to database!"<<endl;
-        outFile.close();
-    }
 }
 
-void AddClasstoSchoolYear(SchoolYear* &Hschoolyear)//Chưa in lại ra file
+void AddClasstoSchoolYear(SchoolYear* &Hschoolyear)
 {
     if(Hschoolyear == nullptr)
     {
@@ -107,7 +101,7 @@ void AddClasstoSchoolYear(SchoolYear* &Hschoolyear)//Chưa in lại ra file
     cout << "You added class " << className << "to the school year of " << tmpYear->year;
 }
 
-void AddSemesterToSchoolYear(SchoolYear* &Hschoolyear) //Chưa in lại ra file
+void AddSemesterToSchoolYear(SchoolYear* &Hschoolyear)
 {
     if(Hschoolyear == nullptr)
     {
@@ -175,7 +169,7 @@ void AddSemesterToSchoolYear(SchoolYear* &Hschoolyear) //Chưa in lại ra file
     cout << "You added a semester season " << season << "to the school year of " << tmpYear->year;
 }
 
-void AddCourseToSemester(Semester* &Hsemester) //Chưa in lại ra file
+void AddCourseToSemester(Semester* &Hsemester)
 {
     if(Hsemester == nullptr)
     {
@@ -313,15 +307,6 @@ void AddStudentToClass(Class* &Hclass)
     cout << "Gender: "; cin >> gder;
     cout << "Birth Date:  "; cin >> birth;
     cout << "Social ID: "; cin >> socialId;
-
-    ofstream outFile("input/classes/" + input +".csv");
-    if (!outFile.is_open())
-    {
-        cout<<"No database found of "<< input << ".csv"<<endl;
-        outFile.close();
-    }
-    outFile<<"\n"<<stuId<<", "<<fName<<", "<<lName<<", "<<gder<<", "<<birth<<", "<<socialId<<", ";
-    outFile.close();
 
     tmpStu = new Student(tmpClass->class_name, stuId, fName, lName, gder, birth, socialId);
     tmpStu->next = tmpClass->Hstudent;
