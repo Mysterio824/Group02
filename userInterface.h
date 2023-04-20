@@ -1,11 +1,13 @@
 #ifndef USERINTERFACE_H
 #define USERINTERFACE_H
 #include "logInInterface.h"
+#include "header.h"
 
 //staff's functions
 void createAccount();
 void addInfor(user *account, SchoolYear *thisYear);
 void findStaff(user *&account);
+void choseClassToView(Class *hClass, Semester *thisSem);
 void viewForStaff (user* account, SchoolYear *thisYear);
 void staffInterface (user* account, SchoolYear *listYear);
 

@@ -185,11 +185,12 @@ void printStdCourse(Student *account,Course *listOfCourse);
 void printStdScoreBoard (Student *account, Class *listOfClass);
 
 //Function to print out on console screen for STAFF
-void printStfScoreBoard(Course *HCourse);
-void printStfClass(Class *HClass);
+Course* printListCourse (Course *listCourse);
+void printCourseScoreBoard(Course *HCourse);
+void printOneClass(Class *HClass);
 void printAllClass(Class *listOfClass);
 Class* printListClass (Class *listClass);
-void printClassScoreBoard (Class *thisClass, SchoolYear *thisYear);
+void printClassScoreBoard (Class *thisClass, Semester *thisSem);
 
 //Export funtions
 void exportStudents (Class *listClass);

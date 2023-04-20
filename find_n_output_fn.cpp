@@ -148,7 +148,53 @@ void printStdScoreBoard(Student *account, Course *listOfCourse)
 }
 
 //---------------Staff--------------------
-void printStfScoreBoard(Course *HCourse)
+
+Course* printListCourse (Course *listCourse){
+    if (!listCourse)
+    {
+        cout << "There's no class to see";
+        return nullptr;
+    }
+    Course* mark = listCourse;
+    int cnt = 0;
+    printBorder(3, 15 + 30 + 20 + 8 + 35 + 10);
+    cout << "| " << setw(15) << left << "Index"
+         << "| " << setw(20) << left << "Course ID"
+         << "| " << setw(30) << left << "Course Name"
+         << "| " << setw(8) << left << "Credit"
+         << "| " << setw(35) << left << "Teacher"
+         << "| " << setw(10) << left << "Capacity"
+         << " |" << endl;
+    printBorder(3, 15 + 30 + 20 + 8 + 35 + 10);
+    while (listCourse)
+    {
+        cout << "| " << setw(15) << left << ++cnt
+             << "| " << setw(20) << left << listCourse -> course_id
+             << "| " << setw(30) << left << listCourse -> course_name
+             << "| " << setw(8) << left << listCourse -> num_credits
+             << "| " << setw(35) << left << listCourse -> teacher_name
+             << "| " << setw(10) << left << listCourse -> capacity
+             << " |" << endl;
+        printBorder(3, 15 + 30 + 20 + 8 + 35 + 10);
+        listCourse = listCourse->next;
+    }
+
+    int choice;
+    do
+    {
+        cout << "Please enter the index of the Course you want to see(press " << cnt + 1 << " to stop):";
+        cin >> choice;
+    } while (choice > cnt + 1 || choice < 1);
+    if (choice == cnt + 1)
+    {
+        return nullptr;
+    }
+    for (cnt = 1; cnt < choice; cnt++)
+        mark = mark->next;
+    return mark;
+}
+
+void printCourseScoreBoard(Course *HCourse)
 {
     if (!HCourse)
     {
@@ -182,7 +228,7 @@ void printStfScoreBoard(Course *HCourse)
     }
 }
 
-void printStfClass(Class *hClass)
+void printOneClass(Class *hClass)
 {
     if (!hClass)
         return;
