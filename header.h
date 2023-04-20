@@ -81,6 +81,7 @@ struct Semester
 
     //constructors
     Semester(string ssn, string schoolYear ,string startDate, string endDate);
+    int numOfCourses();
 };
 
 struct SchoolYear
@@ -188,6 +189,7 @@ void printStfScoreBoard(Course *HCourse);
 void printStfClass(Class *HClass);
 void printAllClass(Class *listOfClass);
 Class* printListClass (Class *listClass);
+void printClassScoreBoard (Class *thisClass, SchoolYear *thisYear);
 
 //Export funtions
 void exportStudents (Class *listClass);
@@ -201,6 +203,7 @@ string getCurrentYear ();
 void startProgram(SchoolYear* &thisyear);
 void SaveChosenYear(SchoolYear* thisyear);
 void MemmoryRelease(SchoolYear* &thisyear);
+void printBorder(int num, int size);
 void UpdateCourseInfo(Course* &Hcourse);//at input_fn.cpp
 void UpdateStudentResult(Course* &Hcourse);//at input_fn.cpp
 
