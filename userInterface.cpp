@@ -78,7 +78,7 @@ void createAccount()
 }
 
 void addInfor(user *account, SchoolYear *thisYear){
-
+    
 }
 
 void findStaff(user *&account)
@@ -97,6 +97,54 @@ void findStaff(user *&account)
         list = list->next;
     }
     deleteStaffProfile(cur);
+}
+
+void choseClassToView(Class *hClass, Semester *thisSem){
+    int choice = 1;
+    bool enterPressed = false;
+    while (!enterPressed) {
+        system("cls"); // clears the console
+        SetConsoleOutputCP(65001); // sets console output to UTF-8 encoding
+        cout << "---------------------------------------------" << endl;
+        cout << "| " << setw(41) << left << " What do you want to see:"
+             << " |" << endl;
+        cout << "---------------------------------------------" << endl;
+        cout << "| " << setw(20) << left;
+        if (choice == 1) {
+            cout << "➤ Information of students";
+        } else {
+            cout << "  Information of students";
+        }
+        cout << setw(15) << right << setw(23) << right;
+        if (choice == 2) {
+            cout << "➤ Score board ";
+        } else {
+            cout << "  core board ";
+        }
+        cout << " |" << endl;
+        cout << "---------------------------------------------" << endl;
+        cout << endl << "Use arrow keys to move, and press enter to select." << endl;
+        int key = getch();
+        switch (key) {
+            case 224: // arrow keys
+                key = getch();
+                if (key == 77 && choice < 2) { // right arrow
+                    choice++;
+                } else if (key == 75 && choice > 1) { // left arrow
+                    choice--;
+                }
+                break;
+            case 13: // enter key
+                enterPressed = true;
+                break;
+            default:
+                break;
+        }
+    }
+    if (choice == 1) 
+        return printClassScoreBoard(hClass, thisSem);
+    if (choice == 2)
+        return printOneClass(hClass);
 }
 
 
@@ -213,16 +261,16 @@ void viewForStaff (user *account, SchoolYear *listYear){
         printAllClass (listYear -> Hclass);
         break;
     case 2:
-        printListClass(listYear->Hclass);
+        choseClassToView(printListClass(listYear->Hclass), listYear -> Hsemester);
         break;
     case 3:
-        
+        printCourseScoreBoard(printListCourse(listYear -> Hsemester -> Hcourse));
         break;
     case 4:
         printProfile(account);
         break;
     case 5:
-        createAccount();
+        addInfor(account, listYear);
         break;
     case 6:
         logOut(account, listYear);
