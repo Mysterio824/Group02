@@ -589,7 +589,6 @@ Semester* ImportSemesters(string fileName)//fileName = currentyear
 //format: studentID,student_name,midterm,finalterm,other
 Scoreboard* ImportScoreboard(Course* Hcourse)
 {
-    Scoreboard* scrB = Hcourse->Hscore;
     ifstream inFile("input/scoreboard/"+ Hcourse->course_id +".csv");
     if (!inFile.is_open())
     {
@@ -613,18 +612,17 @@ Scoreboard* ImportScoreboard(Course* Hcourse)
         newscoreB->midterm = std::stof(final);
         newscoreB->midterm = std::stof(othr);
 
-        if (!scrB)
-            scrB = newscoreB;
+        if (!Hcourse->Hscore)
+            Hcourse->Hscore = newscoreB;
         else
         {
-            newscoreB->next = scrB;
-            scrB = newscoreB;
+            newscoreB->next = Hcourse->Hscore;
+            Hcourse->Hscore = newscoreB;
         }
-        scrB = scrB->next;
     }
     inFile.close();
     cout<<">scoreboard/"<<Hcourse->course_id<<".csv loaded."<<endl;
-    return scrB;
+    return Hcourse->Hscore;
 }
 
 void UpdateCourseInfo(Course* &Hcourse)
