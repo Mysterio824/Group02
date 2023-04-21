@@ -1,18 +1,33 @@
 #include "header.h"
+#include <LogInInterface.h>
 
 void RemoveCourseFromSemester (SchoolYear* &thisyear)
 {
-    std::string season;
-    std::cout<<"Season: ";
-    std::cin>>season;
+    system("cls");
+    string season, course_id;
+    int x = 0, y = 0;
+    gotoxy(x,y);
+    cout << " -----------------------------------------" << endl;
+    gotoxy(x, y + 1);
+    cout << "| Season    |                             |" << endl;
+    gotoxy(x, y + 2);
+    cout << " -----------------------------------------" << endl;
+    gotoxy(x, y + 3);
+    cout << "| Course ID |                             |" << endl;
+    gotoxy(x, y + 4);
+    cout << " -----------------------------------------" << endl;
+    gotoxy(x + 14, y + 1);
+    cin>>season;
+    gotoxy(x + 14, y + 3);
+    cin >> course_id;
+    gotoxy(x,y + 5);
+    //season & courseID obtained
     Semester* psm = thisyear->Hsemester;
     while (psm)
     {
         if (psm->season == season)
         {
-            std::string course_id;
-            std::cout<<"Course ID: ";
-            std::cin>>course_id;
+
             Course* pcourse = psm->Hcourse;
             while(pcourse){
                 if(pcourse->course_id == course_id){
@@ -32,17 +47,31 @@ void RemoveCourseFromSemester (SchoolYear* &thisyear)
 }
 void RemoveStudentFromCourse (SchoolYear* &thisyear)
 {
-    std::string course_id;
-    std::cout<<"Course ID: ";
-    std::cin>>course_id;
+    system("cls");
+    string std_id, course_id;
+    int x = 0, y = 0;
+    gotoxy(x,y);
+    cout << " -----------------------------------------" << endl;
+    gotoxy(x, y + 1);
+    cout << "| Course ID   |                           |" << endl;
+    gotoxy(x, y + 2);
+    cout << " -----------------------------------------" << endl;
+    gotoxy(x, y + 3);
+    cout << "| Student ID  |                           |" << endl;
+    gotoxy(x, y + 4);
+    cout << " -----------------------------------------" << endl;
+    gotoxy(x + 16, y + 1);
+    cin >> course_id;
+    gotoxy(x + 16, y + 3);
+    cin>>std_id;
+    gotoxy(x,y + 5);
+
 
     Course* pcourse = thisyear->Hsemester->Hcourse;
     while(pcourse){
         if(pcourse->course_id == course_id){
             Scoreboard* pscore = pcourse->Hscore;
-            std::string std_id;
-            std::cout<<"Student ID to remove: ";
-            std::cin>>std_id;
+
             while(pscore){
                 if(pscore->student_id == std_id){
                     pcourse->Hscore = pscore->next;
@@ -62,18 +91,32 @@ void RemoveStudentFromCourse (SchoolYear* &thisyear)
 }
 void RemoveStudentfromClass(SchoolYear* &thisyear)
 {
-    std::string class_name;
-    std::cout<<"Class name: ";
-    std::cin>>class_name;
+    system("cls");
+    string std_id, class_name;
+    int x = 0, y = 0;
+    gotoxy(x,y);
+    cout << " -----------------------------------------" << endl;
+    gotoxy(x, y + 1);
+    cout << "| Class name  |                           |" << endl;
+    gotoxy(x, y + 2);
+    cout << " -----------------------------------------" << endl;
+    gotoxy(x, y + 3);
+    cout << "| Student ID  |                           |" << endl;
+    gotoxy(x, y + 4);
+    cout << " -----------------------------------------" << endl;
+    gotoxy(x + 16, y + 1);
+    cin >> class_name;
+    gotoxy(x + 16, y + 3);
+    cin>>std_id;
+    gotoxy(x,y + 5);
+
     Class* pclass = thisyear->Hclass;
     while (pclass)
     {
         if (pclass->class_name == class_name)
         {
             Student* pstd = pclass->Hstudent;
-            std::string std_id;
-            std::cout<<"Student ID to delete: ";
-            std::cin>>std_id;
+            
             while (pstd)
             {
                 if (pstd->student_id == std_id)
