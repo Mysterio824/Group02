@@ -22,7 +22,7 @@ bool checkStd(){
         system("cls"); // clears the console
         SetConsoleOutputCP(65001); // sets console output to UTF-8 encoding
         cout << "---------------------------------------------" << endl;
-        cout << "| " << setw(41) << left << " Choose student or staff:"
+        cout << "| " << setw(23) << right << " Choose student" << setw(18) << left << " or staff:"
              << " |" << endl;
         cout << "---------------------------------------------" << endl;
         cout << "| " << setw(20) << left;
