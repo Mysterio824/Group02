@@ -8,7 +8,7 @@ void AddSchoolYear(SchoolYear* &Hyear)
     if (Hyear != nullptr)
     {
         SchoolYear* ptr = Hyear;
-        cout << "Here are available schoo-years: ";
+        cout << "Here are available schoo-years: " << endl;
         while(ptr != nullptr)
         {
             cout << "+" << ptr->year << endl;
@@ -85,6 +85,13 @@ void AddClasstoSchoolYear(SchoolYear* &Hschoolyear)
         }
     }
     Class* tmpClass = tmpYear->Hclass;
+    cout << "Here are classes in this year: " << endl;
+    while (tmpClass != nullptr)
+    {
+        cout << '.' << tmpClass->class_name << endl;
+        tmpClass = tmpClass->next;
+    }
+    tmpClass = tmpYear->Hclass;
     string className;
     cout << "Name of class you want to add: ";  cin >> className;
     while (tmpClass != nullptr)
@@ -153,6 +160,13 @@ void AddSemesterToSchoolYear(SchoolYear* &Hschoolyear)
         }
     }
     Semester* tmpSemes = tmpYear->Hsemester;
+    cout << "Sesons have been already in this year: " << endl;
+    while (tmpSemes != nullptr)
+    {
+        cout << '.' << tmpSemes->season << endl;
+        tmpSemes = tmpSemes->next;
+    }
+    tmpSemes = tmpYear->Hsemester;
     string season, startDate, endDate;
     cout << "The season of this semester(1, 2, 3)? : ";  cin >> season;
     while (tmpSemes != nullptr)
@@ -224,6 +238,14 @@ void AddCourseToSemester(Semester* &Hsemester)
         }
     }
     Course* tmpCourse = tmpSemes->Hcourse;
+    cout << "Courses in this semester: " << endl;
+    while (tmpCourse != nullptr)
+    {
+        cout << '.' << tmpCourse->course_id << endl;
+        tmpCourse = tmpCourse->next;
+    }
+    tmpCourse = tmpSemes->Hcourse;
+
     string cID, cName, clName, tName, nCredit, capacity, dei, ses;
     cout << "ID of the course: ";  cin >> cID;
     while (tmpCourse != nullptr)
@@ -300,6 +322,14 @@ void AddStudentToClass(Class* &Hclass)
         }
     }
     Student* tmpStu = tmpClass->Hstudent;
+    cout << "Student's IDs is currently in this class: " << endl;
+    while (tmpStu != nullptr)
+    {
+        cout << '.' << tmpStu->student_id << endl;
+        tmpStu = tmpStu->next;
+    }
+    tmpStu = tmpClass->Hstudent;
+
     string stuId, fName, lName, gder, birth, socialId;
     cout << "Student ID: "; cin >> stuId;
     while (tmpStu != nullptr)
@@ -378,6 +408,13 @@ void AddStudentToCourse(Course* &Hcourse)
     }
     cout << "ID of the student you want to add to course: "; cin >> input;
     Scoreboard* tmpStu = tmpCourse->Hscore;
+    cout << "Student's IDs in this course: " << endl;
+    while (tmpStu != nullptr)
+    {
+        cout << '.' << tmpStu->student_id << endl;
+        tmpStu = tmpStu->next;
+    }
+    tmpStu = tmpCourse->Hscore;
     while (tmpStu != nullptr)
     {
         if(tmpStu->student_id == input)
@@ -686,7 +723,7 @@ void UpdateStudentResult(Course* &Hcourse)
     }
 
     Course* tmpCourse = Hcourse;
-    cout << "Here are available courses: ";
+    cout << "Here are available courses: " << endl;
     while (tmpCourse != nullptr)
     {
         cout << '+' << tmpCourse->course_id << endl;
@@ -715,7 +752,7 @@ void UpdateStudentResult(Course* &Hcourse)
             }
         }
     }
-    cout << "Here are IDs of students of this course: ";
+    cout << "Here are IDs of students of this course: " << endl;
     int count = 0;
     Scoreboard* tmpSB = tmpCourse->Hscore;
     while (tmpSB != nullptr)
@@ -753,7 +790,7 @@ void UpdateStudentResult(Course* &Hcourse)
         }
     }
     float midT, finalT, otherT;
-    cout << "Type in the student's result: ";
+    cout << "Type in the student's result: " << endl;
     cout << "Midterm Result: "; cin >> midT; 
     cout << "Finalterm Result: "; cin >> finalT;
     cout << "Other results: "; cin >> otherT;
