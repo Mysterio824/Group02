@@ -1,5 +1,5 @@
 #include "header.h"
-#include <LogInInterface.h>
+#include "userInterface.h"
 
 void RemoveCourseFromSemester (SchoolYear* &thisyear)
 {
@@ -116,7 +116,7 @@ void RemoveStudentfromClass(SchoolYear* &thisyear)
         if (pclass->class_name == class_name)
         {
             Student* pstd = pclass->Hstudent;
-            
+
             while (pstd)
             {
                 if (pstd->student_id == std_id)

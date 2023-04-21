@@ -643,12 +643,13 @@ Semester* ImportSemesters(string fileName)//fileName = currentyear
     while (getline(inFile,line))
     {
         stringstream ss(line);
-        string season, begin, end;
+        string season, year, begin, end;
         getline(ss,season,',');
+        getline(ss,year,',');
         getline(ss,begin,',');
         getline(ss,end,',');
 
-        Semester* newsemester = new Semester(season, fileName, begin, end);
+        Semester* newsemester = new Semester(season, year, begin, end);
         if (!Hsemester)
         {
             Hsemester = newsemester;
