@@ -492,9 +492,9 @@ SchoolYear* ImportSchoolYears(string fileName)
     return Hschyear;
 }
 
-//fileName: semester[...].csv
+//fileName: year+ #semester.csv
 //format: courseID, courseName, className, teacherName, credits, capacity, day_of_week, session_time
-Course* ImportCourses(string fileName)//semester#
+Course* ImportCourses(string fileName)//school_year + #semester.csv
 {
     ifstream inFile("input/courses/"+ fileName +".csv");
     if(!inFile.is_open())
@@ -538,7 +538,7 @@ Course* ImportCourses(string fileName)//semester#
 }
 //fileName: year.csv
 //format: season,school_year, startDate, endDate
-//semesName = "semester"+semester->season, e.g semester01, semester02
+//semesName = school_year+semester->season, e.g 202301, 202302
 ///season = 01, 02, 03
 Semester* ImportSemesters(string fileName)//fileName = currentyear
 {

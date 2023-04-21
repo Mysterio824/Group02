@@ -92,7 +92,7 @@ void SaveChosenYear(SchoolYear* thisyear)
     while (psemes)//saving courses & scoreboards in courses
     {
         pcourse = psemes->Hcourse;
-        string courseName = "semester"+psemes->season; //semester01,semester02
+        string courseName = thisyear->year+psemes->season; //202301, 202302, 202303
         ofs.open("input/courses/" + courseName + ".csv");
         if (!ofs.is_open())
         {
