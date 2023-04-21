@@ -4,6 +4,7 @@
 #include "header.h"
 
 //staff's functions
+bool wayToImport();
 void createAccount();
 void addInfor(user *account, SchoolYear *thisYear);
 void findStaff(user *&account);
