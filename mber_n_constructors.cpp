@@ -63,3 +63,45 @@ SchoolYear::SchoolYear(std::string _year)
     Hclass = nullptr;
     next = nullptr;
 }
+
+string Student::fullName()
+{
+    string fullName = last_name + " " + first_name;
+    return fullName;
+}
+
+string Staff::fullName()
+{
+    string fullName = lastName + " " + firstName;
+    return fullName;
+}
+
+float Scoreboard::overallGPA()
+{
+    float GPA = (midterm * 0.3 + finalterm * 0.5 + other * 0.2) / 2.5;
+    return GPA;
+}
+
+int Class::capacity()
+{
+    int count = 0;
+    Student *cur = Hstudent;
+    while (cur)
+    {
+        cur = cur->next;
+        count += 1;
+    }
+    return count;
+}
+
+int Semester::numOfCourses()
+{
+    int cnt = 0;
+    Course *cur = Hcourse;
+    while (cur)
+    {
+        cur = cur->next;
+        cnt += 1;
+    }
+    return cnt;
+}

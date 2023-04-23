@@ -25,17 +25,19 @@ bool checkStd(){
         cout << "| " << setw(23) << right << " Choose student" << setw(18) << left << " or staff:"
              << " |" << endl;
         cout << "---------------------------------------------" << endl;
-        cout << "| " << setw(20) << left;
+        cout << "| " << setw(19) << left;
         if (choice == 1) {
             cout << "➤ Student";
-        } else {
-            cout << "  Student";
+        } 
+        else {
+            cout << " Student";
         }
-        cout << setw(15) << right << setw(23) << right;
+        cout << setw(13) << internal << "" << setw(11) << left;
         if (choice == 2) {
             cout << "➤ Staff ";
-        } else {
-            cout << "  Staff ";
+        } 
+        else {
+            cout << " Staff ";
         }
         cout << " |" << endl;
         cout << "---------------------------------------------" << endl;
@@ -217,16 +219,16 @@ void deleteUserList(user *&list)
     delete cur;
 }
 
-staffData *importStaff(string fileName)
+Staff *importStaff(string fileName)
 {
-    staffData *list = nullptr;
+    Staff *list = nullptr;
     ifstream file1("input/academicStaff/" + fileName + ".csv");
     if (!file1.is_open())
     {
         cout << "Error opening file" << endl;
         return nullptr;
     }
-    staffData *newUser;
+    Staff *newUser;
     string line;
     while (getline(file1, line))
     {
@@ -247,9 +249,9 @@ staffData *importStaff(string fileName)
     // reverse list
     if (!(list->next))
         return list;
-    staffData *cur = list;
+    Staff *cur = list;
     list = list->next;
-    staffData *last = list;
+    Staff *last = list;
     cur->next = nullptr;
     do
     {
@@ -263,9 +265,9 @@ staffData *importStaff(string fileName)
     return list;
 }
 
-staffData *createStaff(string staffID, string firstName, string lastName, string gender, string birthDate, string socialID)
+Staff *createStaff(string staffID, string firstName, string lastName, string gender, string birthDate, string socialID)
 {
-    staffData *newStaff = new staffData;
+    Staff *newStaff = new Staff;
     newStaff->staffID = staffID;
     newStaff->firstName = firstName;
     newStaff->lastName = lastName;
@@ -276,17 +278,13 @@ staffData *createStaff(string staffID, string firstName, string lastName, string
     return newStaff;
 }
 
-string staffData::fullName()
-{
-    string fullName = lastName + " " + firstName;
-    return fullName;
-}
 
-void deleteStaffProfile(staffData *&list)
+
+void deleteStaffProfile(Staff *&list)
 {
     if (!list)
         return;
-    staffData *cur = list;
+    Staff *cur = list;
     while (list->next)
     {
         list = list->next;
@@ -329,7 +327,7 @@ void printProfile(user *account)
         cout << "-----------------------------------------------------------------------------------------------------------------------------" << endl;
         return;
     }
-    staffData *ref = account->profile;
+    Staff *ref = account->profile;
     cout << "| " << setw(12) << left << ref->staffID
          << "| " << setw(10) << left << ref->lastName
          << "| " << setw(17) << left << ref->firstName

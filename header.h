@@ -45,6 +45,29 @@ struct Class{
 
     Class(string _name);
 };
+
+struct Staff
+{
+    string staffID;
+    string firstName;
+    string lastName;
+    string gender;
+    string birthDate;
+    string socialID;
+    Staff *next = nullptr;
+
+    string fullName();
+};
+
+struct user
+{
+    string username; // ID
+    string password;
+    bool isStudent;
+    Student *ref = nullptr;
+    Staff *profile = nullptr;
+    user *next;
+};
 //---------------------------------------------------------------------
 struct Scoreboard{
     //info
@@ -100,7 +123,7 @@ struct SchoolYear
     //pointer
     Class* Hclass;
     Semester *Hsemester;
-    SchoolYear* next;
+    SchoolYear* next = nullptr;
 
     SchoolYear(string _year);
 };
@@ -198,6 +221,7 @@ void printOneClass(Class *HClass);
 void printAllClass(Class *listOfClass);
 Class* printListClass (Class *listClass);
 void printClassScoreBoard (Class *thisClass, Semester *thisSem);
+SchoolYear* printListYear(SchoolYear *listYear);
 
 //Export funtions
 void exportStudents (Class *listClass);

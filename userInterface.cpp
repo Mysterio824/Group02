@@ -78,6 +78,9 @@ void createAccount()
         cout << endl
              << "How many accounts would you like to create: ";
         cin >> cmd;
+
+        if(cmd < 1) return;
+
         for (int i = 0; i < cmd; i++)
         {
             system("cls");
@@ -176,6 +179,9 @@ void addInfor(user *account, SchoolYear *thisYear)
         {
             cout << setw(31) << left << " Add Student to Course";
         }
+        cout << " |" << endl;
+        cout << "| " << setw(72) << right << " |" << endl;
+        cout << "| ";
         if (choice == 5)
         {
             cout << setw(34) << left << "➤ Add new Course" << setw(7) << internal << "";
@@ -244,20 +250,44 @@ void addInfor(user *account, SchoolYear *thisYear)
         AddStudentToCourse(theCourse);
         break;
     case 5:
+        //get current or later semester
         AddCourseToSemester(thisYear -> Hsemester);
         break;
     case 6:
         AddSemesterToSchoolYear(thisYear);
-        break;
     }
+}
+
+Semester* chooseSem(SchoolYear *thisYear){
+    if(!thisYear){
+        return  nullptr;
+    }
+    int num = 0;
+    Semester *cur = thisYear -> Hsemester;
+    while(cur){
+        cur = cur -> next;
+        num ++;
+    }
+    cur = thisYear -> Hsemester;
+    int choice;
+    cout << endl << "Which semester would you like to access: ";
+    cin >> choice;
+    while (choice < 1 || choice > num){
+        cout << endl << "This semester isn't exist." << endl << "Please choose again: ";
+        cin >> choice;
+    }
+    for(int i = 0; i < choice; i++)
+        cur = cur -> next;
+    system("cls");
+    return cur;
 }
 
 void findStaff(user *&account)
 {
     if (!account || account->profile)
         return;
-    staffData *list = importStaff("listStaff");
-    staffData *cur = list;
+    Staff *list = importStaff("listStaff");
+    Staff *cur = list;
     while (list)
     {
         if (list->staffID == account->username)
@@ -270,38 +300,39 @@ void findStaff(user *&account)
     deleteStaffProfile(cur);
 }
 
-void choseClassToView(Class *hClass, Semester *thisSem)
+void chooseToViewClass(Class *hClass, Semester *thisSem)
 {
+    if(!hClass || !thisSem) return;
     int choice = 1;
     bool enterPressed = false;
     while (!enterPressed)
     {
         system("cls");             // clears the console
         SetConsoleOutputCP(65001); // sets console output to UTF-8 encoding
-        cout << "---------------------------------------------" << endl;
-        cout << "| " << setw(41) << left << " What do you want to see:"
+        printBorder(1, 56);
+        cout << "| " << setw(28) << right << " What do you " << setw(28) << left << "want to see:"
              << " |" << endl;
-        cout << "---------------------------------------------" << endl;
-        cout << "| " << setw(20) << left;
+        printBorder(1, 56);
+        cout << "| " ;
         if (choice == 1)
         {
-            cout << "➤ Information of students";
+            cout << setw(30) << left << "➤ Information of students";
         }
         else
         {
-            cout << "  Information of students";
+            cout << setw(30) << left << " Information of students";
         }
-        cout << setw(15) << right << setw(23) << right;
+        cout << setw(10) << internal << "";
         if (choice == 2)
         {
-            cout << "➤ Score board ";
+            cout << setw(18) << left << "➤ Score board ";
         }
         else
         {
-            cout << "  core board ";
+            cout << setw(18) << left << " Score board ";
         }
         cout << " |" << endl;
-        cout << "---------------------------------------------" << endl;
+        printBorder(1, 56);
         cout << endl
              << "Use arrow keys to move, and press enter to select." << endl;
         int key = getch();
@@ -325,14 +356,15 @@ void choseClassToView(Class *hClass, Semester *thisSem)
             break;
         }
     }
-    if (choice == 1)
-        return printClassScoreBoard(hClass, thisSem);
     if (choice == 2)
+        return printClassScoreBoard(hClass, thisSem);
+    if (choice == 1)
         return printOneClass(hClass);
 }
 
 void viewForStaff(user *account, SchoolYear *listYear)
 {
+    if(!account || !listYear) return;
     system("cls");
     if (!account || !listYear)
     {
@@ -341,6 +373,7 @@ void viewForStaff(user *account, SchoolYear *listYear)
     }
     int choice = 1;
     bool enterPressed = false;
+    SchoolYear* thisYear;
     while (!enterPressed)
     {
         system("cls");             // clears the console
@@ -389,25 +422,6 @@ void viewForStaff(user *account, SchoolYear *listYear)
             cout << setw(31) << left << " View your profile";
         }
         cout << " |" << endl;
-        cout << "| " << setw(72) << right << " |" << endl;
-        cout << "| ";
-        if (choice == 5)
-        {
-            cout << setw(34) << left << "➤ View this year Semesters" << setw(7) << internal << "";
-        }
-        else
-        {
-            cout << setw(34) << left << " View this year Semesters" << setw(5) << internal << "";
-        }
-        if (choice == 6)
-        {
-            cout << setw(33) << left << "➤ View list of Years";
-        }
-        else
-        {
-            cout << setw(31) << left << " View list of Years";
-        }
-        cout << " |" << endl;
         cout << "--------------------------------------------------------------------------" << endl;
         cout << endl
              << "Use arrow keys to move, and press enter to select." << endl;
@@ -416,7 +430,7 @@ void viewForStaff(user *account, SchoolYear *listYear)
         {
         case 224: // arrow keys
             key = getch();
-            if (key == 77 && choice < 6)
+            if (key == 77 && choice < 4)
             { // right arrow
                 choice++;
             }
@@ -424,11 +438,11 @@ void viewForStaff(user *account, SchoolYear *listYear)
             { // left arrow
                 choice--;
             }
-            else if (key == 80 && choice < 4)
+            else if (key == 80 && choice < 3)
             { // down arrow
                 choice += 2;
             }
-            else if (key == 72 && choice > 3)
+            else if (key == 72 && choice > 2)
             { // up arrow
                 choice -= 2;
             }
@@ -447,25 +461,24 @@ void viewForStaff(user *account, SchoolYear *listYear)
         printAllClass(listYear->Hclass);
         break;
     case 2:
-        choseClassToView(printListClass(listYear->Hclass), listYear->Hsemester);
+        thisYear = printListYear(listYear);
+        if(thisYear)
+            chooseToViewClass(printListClass(thisYear->Hclass), chooseSem(thisYear));
         break;
     case 3:
-        printCourseScoreBoard(printListCourse(listYear->Hsemester->Hcourse));
+        thisYear = printListYear(listYear);
+        printCourseScoreBoard(printListCourse(chooseSem(thisYear) ->Hcourse));
         break;
     case 4:
         printProfile(account);
         break;
-    case 5:
-        addInfor(account, listYear);
-        break;
-    case 6:
-        logOut(account, listYear);
     }
     goBackToMenu(account, listYear);
 }
 
 void staffInterface(user *account, SchoolYear *listYear)
 {
+    if(!account || !listYear) return;
     system("cls");
     int choice = 1;
     bool enterPressed = false;
@@ -592,6 +605,7 @@ void findStudent(user *&account, Class *listClass)
 
 void studentInterface(user *account, SchoolYear *listYear)
 {
+    if(!account || !listYear) return;
     int choice = 1;
     bool enterPressed = false;
     while (!enterPressed)
@@ -681,13 +695,13 @@ void studentInterface(user *account, SchoolYear *listYear)
         changePass(account);
         cout << "Login successful!" << endl;
         break;
+    case 2:
+        printProfile(account);
+        break;
     case 3:
         printStdCourse(account->ref, listYear->Hsemester->Hcourse);
         break;
     case 4:
-        printProfile(account);
-        break;
-    case 6:
         logOut(account, listYear);
     }
     goBackToMenu(account, listYear);
@@ -725,14 +739,14 @@ void goBackToMenu(user *account, SchoolYear *listYear)
     return staffInterface(account, listYear);
 }
 
-void logOut(user *&account, SchoolYear *listYear)
+void logOut(user *&account, SchoolYear *&listYear)
 {
     int choice = 1;
     bool enterPressed = false;
     while (!enterPressed) {
         system("cls");
         SetConsoleOutputCP(65001);
-        printBorder(1, 31);
+        printBorder(1, 30);
         cout << "| " << setw(30) << left << " How do you want to log out:"
              << " |" << endl;
         printBorder(1, 31);
@@ -782,7 +796,10 @@ void logOut(user *&account, SchoolYear *listYear)
         case 1:
             delete account->profile;
             delete account;
-            return MemmoryRelease(listYear);
+            account = nullptr;
+            MemmoryRelease(listYear);
+            listYear = nullptr;
+            return;
         case 2:
             account->ref = nullptr;
             account->profile = nullptr;
