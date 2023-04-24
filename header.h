@@ -234,13 +234,13 @@ void exportSchoolYear (SchoolYear *list);
 
 //Other functions
 string getCurrentYear ();
-void startProgram(SchoolYear* &thisyear);
+void startProgram(SchoolYear* &thisyear, string getYear);
 void SaveChosenYear(SchoolYear* thisyear);
 void MemmoryRelease(SchoolYear* &thisyear);
 void printBorder(int num, int size);
 void UpdateCourseInfo(Course* &Hcourse);//at input_fn.cpp
 void UpdateStudentResult(Course* &Hcourse);//at input_fn.cpp
 string displayyears (); //at find_n_output_fn.cpp
-void switchyear(SchoolYear* &thisyear); //at main_fn.cpp
+void switchyear(user* account, SchoolYear* &thisyear); //at main_fn.cpp
 bool isInRange(string curr, string start, string end);
 #endif

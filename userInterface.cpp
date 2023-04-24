@@ -264,15 +264,31 @@ Semester* chooseSem(SchoolYear *thisYear){
     }
     int num = 0;
     Semester *cur = thisYear -> Hsemester;
-    while(cur){
+    int cnt = 0;
+    printBorder(4, 8 + 15 + 20*2);
+    cout << "| " << setw(8) << left << "Season"
+         << "| " << setw(15) << left << "Year"
+         << "| " << setw(20) << left << "Start date"
+         << "| " << setw(20) << left << "End date"
+         << " |" << endl;
+    printBorder(4, 8 + 15 + 20*2);
+    while (cur) 
+    {
+        cout << "| " << setw(8) << left << cur -> season
+             << "| " << setw(15) << left << cur -> school_year
+             << "| " << setw(20) << left << cur -> start_date
+             << "| " << setw(20) << left << cur -> end_date
+             << " |" << endl;
+        printBorder(4, 8+ 15 + 20*2);
         cur = cur -> next;
-        num ++;
     }
+
     cur = thisYear -> Hsemester;
     int choice;
-    cout << endl << "Which semester would you like to access: ";
+    cout << endl << "Which semester would you like to access (press 4 to stop): ";
     cin >> choice;
     while (choice < 1 || choice > num){
+        if(choice == 4) return nullptr;
         cout << endl << "This semester isn't exist." << endl << "Please choose again: ";
         cin >> choice;
     }
@@ -608,6 +624,7 @@ void studentInterface(user *account, SchoolYear *listYear)
     if(!account || !listYear) return;
     int choice = 1;
     bool enterPressed = false;
+    Semester* thisSem;
     while (!enterPressed)
     {
         system("cls");             // clears the console
@@ -699,7 +716,8 @@ void studentInterface(user *account, SchoolYear *listYear)
         printProfile(account);
         break;
     case 3:
-        printStdCourse(account->ref, listYear->Hsemester->Hcourse);
+        thisSem = checkcurrentsemester(listYear);
+        printStdCourse(account->ref, thisSem->Hcourse);
         break;
     case 4:
         logOut(account, listYear);

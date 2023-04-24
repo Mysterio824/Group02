@@ -133,9 +133,16 @@ void SaveChosenYear(SchoolYear* thisyear)
     ofs.close();
 }
 
-void switchyear(SchoolYear* &thisyear)
+void switchyear(user* account, SchoolYear* &thisyear)
 {
+    if(account -> isStudent){
+        SaveChosenYear(thisyear);
+        MemmoryRelease(thisyear);
+        startProgram(thisyear, getCurrentYear());
+        return;
+    }
     string getyear = displayyears();
+    if(getyear == thisyear -> year) return;
     SaveChosenYear(thisyear);
     MemmoryRelease(thisyear);
     startProgram(thisyear, getyear);

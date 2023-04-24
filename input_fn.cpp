@@ -573,7 +573,7 @@ SchoolYear* ImportSchoolYears(string fileName)
     ifstream inFile("input/schoolyear/"+fileName + ".csv");
     if (!inFile.is_open())
     {
-        cout<<"failed to open"<<fileName<<".csv"<<endl;
+        cout<<"failed to open "<<fileName<<".csv"<<endl;
         return nullptr;
     }
     SchoolYear* newyear = new SchoolYear(fileName);
