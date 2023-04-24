@@ -128,7 +128,7 @@ void SaveChosenYear(SchoolYear* thisyear)
             return;
         }
     }
-    ofstream ofs("input/yearlist.txt", ios::app);
+    ofs.open("input/yearlist.txt", ios::app);
     ofs<<thisyear->year<<"\n";
     ofs.close();
 }

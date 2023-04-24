@@ -424,7 +424,7 @@ string displayyears ()
     cout<< " --------------------- "<<endl;
     ifs.close();
 
-    string getyear;
+    string getyear = "";
     cout << "Year input required: ";
     while(cin>>getyear)
     {
@@ -439,7 +439,7 @@ string displayyears ()
         if (getyear == "N" || getyear == "n")
         {
             years.empty();
-            return "";
+            return getyear;
         }
     }
 }
