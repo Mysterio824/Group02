@@ -6,6 +6,7 @@
 #include <string>
 #include <ctime>
 #include <iomanip>
+#include <vector>
 
 #define UP 72
 #define DOWN 80
@@ -238,5 +239,6 @@ void MemmoryRelease(SchoolYear* &thisyear);
 void printBorder(int num, int size);
 void UpdateCourseInfo(Course* &Hcourse);//at input_fn.cpp
 void UpdateStudentResult(Course* &Hcourse);//at input_fn.cpp
+void displayyears (vector<string> years); //at find_n_output_fn.cpp
 
 #endif

@@ -568,7 +568,7 @@ Student* ImportStudents(string fileName)//from inFile straight to class
 //format: className1,className2,className3,...
 SchoolYear* ImportSchoolYears(string fileName)
 {
-    SchoolYear* Hschyear;
+    SchoolYear* Hschyear = nullptr;
     //creates newSchoolyear
     ifstream inFile("input/schoolyear/"+fileName + ".csv");
     if (!inFile.is_open())

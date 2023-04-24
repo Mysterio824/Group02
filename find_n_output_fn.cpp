@@ -402,3 +402,39 @@ SchoolYear* printListYear(SchoolYear *listYear){
 
     return mark;
 }
+string displayyears ()
+{
+    vector<string> years;
+    fstream ifs("input/yearlist.txt", ios::in);
+    if (!ifs.is_open())
+    {
+        cout << "Failed to open input/yearlist.txt" << endl;
+        return;
+    }
+    string tmp;
+    while (getline(ifs, tmp))
+            years.push_back(tmp);
+
+    for (int i = 0; i < years.size(); i++)
+    {
+        cout<< "| " << setw(20) << left<<"Year list"<< "|"<<endl;
+        cout<< "|---------------------|"<<endl;
+        cout <<"| " << setw(20) << years[i] << "|" <<endl;
+    }
+    cout<< " --------------------- "<<endl;
+    ifs.close();
+
+    string getyear;
+    cout << "Year input required: ";
+    while(cin>>getyear)
+    {
+        for (int i = 0; i < years.size(); i++)
+            if (getyear == years[i])
+            {
+                years.empty();
+                return getyear;
+            }
+
+        cout<<"Invalid year, please try again: "<<endl;
+    }
+}

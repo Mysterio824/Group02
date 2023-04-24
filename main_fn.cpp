@@ -1,12 +1,10 @@
 #include "header.h"
 
 //importing all data of a chosen schoolyear
-void startProgram(SchoolYear* &thisyear)
+void startProgram(SchoolYear* &thisyear, string getyear)
 {
-    string year = getCurrentYear();
-
-    thisyear = ImportSchoolYears(year);
-    thisyear->Hsemester = ImportSemesters(year);
+    thisyear = ImportSchoolYears(getyear);
+    thisyear->Hsemester = ImportSemesters(thisyear->year);
 
     //semester pointer create
     Semester* currentSemes = thisyear->Hsemester;
@@ -119,4 +117,7 @@ void SaveChosenYear(SchoolYear* thisyear)
         ofs.close();
         psemes = psemes->next;
     }
+    ofstream ofs("input/yearlist.txt");
+    ofs<<thisyear->year<<"\n";
+    ofs.close();
 }
