@@ -210,6 +210,7 @@ void AddStudentToCourse(Course* &Hcourse);
 
 //Functions to find in list
 Scoreboard* checkInCourse (Student *account, Course *HCourse);
+Semester* checkcurrentsemester(SchoolYear *thisyear);
 
 //Function to print out on console screen for STUDENTS
 void printStdCourse(Student *account,Course *listOfCourse);
@@ -226,7 +227,7 @@ SchoolYear* printListYear(SchoolYear *listYear);
 
 //Export funtions
 void exportStudents (Class *listClass);
-void exportScorceBoard (Course *list);
+void exportScoreBoard (Course *list);
 void exportClass (Class *list);
 void exportCourse(Course *list);
 void exportSchoolYear (SchoolYear *list);
@@ -241,5 +242,5 @@ void UpdateCourseInfo(Course* &Hcourse);//at input_fn.cpp
 void UpdateStudentResult(Course* &Hcourse);//at input_fn.cpp
 string displayyears (); //at find_n_output_fn.cpp
 void switchyear(SchoolYear* &thisyear); //at main_fn.cpp
-
+bool isInRange(string curr, string start, string end);
 #endif

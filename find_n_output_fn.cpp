@@ -443,3 +443,58 @@ string displayyears ()
         }
     }
 }
+
+bool isInRange(string curr, string start, string end) {
+    stringstream sscur(curr);
+    stringstream ssstart(start);
+    stringstream ssend(end);
+
+    string curday, curmonth;
+    string startday, startmonth;
+    string endday, endmonth;
+
+    getline(sscur, curday, '/');
+    getline(sscur, curmonth, '/');
+    getline(ssstart, startday, '/');
+    getline(ssstart, startmonth, '/');
+    getline(ssend, endday, '/');
+    getline(ssend, endmonth, '/');
+
+    //in range
+    if (stoi(startmonth) < stoi(curmonth) && stoi(curmonth) < stoi(endmonth)) // start < cur < end
+        return true;
+
+    if (stoi(curmonth) == stoi(startmonth) && stoi(curmonth) < stoi(endmonth)) // start == cur < end
+        if (stoi(curday) >= stoi(startday))
+            return true;
+
+    if (stoi(curmonth) > stoi(startmonth) && stoi(curmonth) == stoi(endmonth)) // start > cur == end
+        if (stoi(curday) <= stoi(endday))
+            return true;
+
+    if (stoi(curmonth) == stoi(startmonth) && stoi(curmonth) == stoi(endmonth))//start == cur == end
+        if (stoi(curday) >= stoi(startday) && stoi(curday) <= stoi(endday))
+            return true;
+    //out of range
+    return false;
+}
+
+Semester* checkcurrentsemester(SchoolYear *thisyear)
+{
+
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+    std::stringstream ss;
+    ss << std::setfill('0') << std::setw(2) << tm.tm_mday << "/";
+    ss << std::setfill('0') << std::setw(2) << tm.tm_mon + 1;
+    std::string currentdate = ss.str();//current date obtained
+
+    Semester* current = thisyear->Hsemester;
+    while (current)
+    {
+        if (isInRange(currentdate, current->start_date, current->end_date))
+            return current;
+        current = current->next;
+    }
+    return nullptr;
+}

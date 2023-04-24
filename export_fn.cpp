@@ -6,7 +6,7 @@ void exportStudents (Class *listClass){
     while (listClass){
         Student *list = listClass->Hstudent;
         fileName =  listClass -> class_name;
-        ofstream outputFile(fileName + ".csv");
+        ofstream outputFile("input/classes/" + fileName + ".csv");
         if (!outputFile.is_open())
         {
             cout << "Error opening file" << endl;
@@ -30,26 +30,27 @@ void exportStudents (Class *listClass){
     cout << endl << "Your data have been updated successful!";
 }
 
-void exportClass (Class *list){
-    if(!list) return;
-    ofstream outputFile("listOfClasses.csv");
+void exportClass (SchoolYear* thisyear){
+    if(!thisyear) return;
+    ofstream outputFile("input/schoolyear/" + thisyear->year + ".csv");
     if (!outputFile.is_open())
     {
         cout << "Error opening file" << endl;
         return;
     }
+    Class *list = thisyear->Hclass;
     while (list)
     {
-        outputFile << list->class_name << endl;
+        outputFile << list->class_name << ",";
         list = list->next;
     }
     cout << endl << "Your data have been added successful!";
     outputFile.close();
 }
 
-void exportScorceBoard (Course *list){
+void exportScoreBoard (Course *list){
     if(!list) return;
-    string fileName = list -> course_name + getCurrentYear();
+    string fileName = list -> course_id;
     ofstream outputFile(fileName + ".csv");
     if (!outputFile.is_open())
     {
@@ -70,14 +71,15 @@ void exportScorceBoard (Course *list){
     outputFile.close();
 }
 
-void exportCourse(Course *list){
-    if(!list) return;
-    ofstream outputFile("listOfCourses.csv");
+void exportCourse(Semester *smt){
+    if(!smt) return;
+    ofstream outputFile("input/courses/" + smt->school_year + smt->season + ".csv");
     if (!outputFile.is_open())
     {
         cout << "Error opening file" << endl;
         return;
     }
+    Course* list = smt->Hcourse;
     while (list)
     {
         outputFile << list->course_id << ",";
