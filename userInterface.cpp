@@ -372,24 +372,20 @@ void chooseToViewClass(Class *hClass, Semester *thisSem)
             break;
         }
     }
+    system("cls");
     if (choice == 2)
         return printClassScoreBoard(hClass, thisSem);
     if (choice == 1)
         return printOneClass(hClass);
 }
 
-void viewForStaff(user *account, SchoolYear *listYear)
+void viewForStaff(user *account, SchoolYear *thisYear)
 {
-    if(!account || !listYear) return;
+    if(!account || !thisYear) return;
     system("cls");
-    if (!account || !listYear)
-    {
-        cout << "There's nothing to see!";
-        return;
-    }
+
     int choice = 1;
     bool enterPressed = false;
-    SchoolYear* thisYear;
     while (!enterPressed)
     {
         system("cls");             // clears the console
@@ -474,22 +470,23 @@ void viewForStaff(user *account, SchoolYear *listYear)
     switch (choice)
     {
     case 1:
-        printAllClass(listYear->Hclass);
+        switchyear(account, thisYear);
+        printAllClass(thisYear->Hclass);
         break;
     case 2:
-        thisYear = printListYear(listYear);
+        switchyear(account, thisYear);
         if(thisYear)
             chooseToViewClass(printListClass(thisYear->Hclass), chooseSem(thisYear));
         break;
     case 3:
-        thisYear = printListYear(listYear);
+        switchyear(account, thisYear);
         printCourseScoreBoard(printListCourse(chooseSem(thisYear) ->Hcourse));
         break;
     case 4:
         printProfile(account);
         break;
     }
-    goBackToMenu(account, listYear);
+    goBackToMenu(account, thisYear);
 }
 
 void staffInterface(user *account, SchoolYear *listYear)
@@ -619,9 +616,71 @@ void findStudent(user *&account, Class *listClass)
     }
 }
 
-void studentInterface(user *account, SchoolYear *listYear)
+void viewCourseForStudent(user *account, Course* Hcourse){
+    if(!Hcourse || !account || !(account -> ref)) return;
+    int choice = 1;
+    bool enterPressed = false;
+    while (!enterPressed)
+    {
+        system("cls");             // clears the console
+        SetConsoleOutputCP(65001); // sets console output to UTF-8 encoding
+        printBorder(1, 56);
+        cout << "| " << setw(28) << right << " What do you " << setw(28) << left << "want to see:"
+             << " |" << endl;
+        printBorder(1, 56);
+        cout << "| " ;
+        if (choice == 1)
+        {
+            cout << setw(24) << left << "➤ Course's schedule";
+        }
+        else
+        {
+            cout << setw(24) << left << " Course's schedule";
+        }
+        cout << setw(10) << internal << "";
+        if (choice == 2)
+        {
+            cout << setw(24) << left << "➤ Your score board ";
+        }
+        else
+        {
+            cout << setw(24) << left << " Your score board ";
+        }
+        cout << " |" << endl;
+        printBorder(1, 56);
+        cout << endl
+             << "Use arrow keys to move, and press enter to select." << endl;
+        int key = getch();
+        switch (key)
+        {
+        case 224: // arrow keys
+            key = getch();
+            if (key == 77 && choice < 2)
+            { // right arrow
+                choice++;
+            }
+            else if (key == 75 && choice > 1)
+            { // left arrow
+                choice--;
+            }
+            break;
+        case 13: // enter key
+            enterPressed = true;
+            break;
+        default:
+            break;
+        }
+    }
+    system("cls");
+    if (choice == 1)
+        return printSchedule(account -> ref, Hcourse);
+    if (choice == 2)
+        return printStdScoreBoard(account -> ref, Hcourse);
+}
+
+void studentInterface(user *account, SchoolYear *thisYear)
 {
-    if(!account || !listYear) return;
+    if(!account || !thisYear) return;
     int choice = 1;
     bool enterPressed = false;
     Semester* thisSem;
@@ -716,13 +775,13 @@ void studentInterface(user *account, SchoolYear *listYear)
         printProfile(account);
         break;
     case 3:
-        thisSem = checkcurrentsemester(listYear);
-        printStdCourse(account->ref, thisSem->Hcourse);
+        thisSem = chooseSem(thisYear);
+        viewCourseForStudent(account, thisSem -> Hcourse);
         break;
     case 4:
-        logOut(account, listYear);
+        logOut(account, thisYear);
     }
-    goBackToMenu(account, listYear);
+    goBackToMenu(account, thisYear);
 }
 
 //---------------------------Public--------------------------------------

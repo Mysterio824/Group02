@@ -213,8 +213,8 @@ Scoreboard* checkInCourse (Student *account, Course *HCourse);
 Semester* checkcurrentsemester(SchoolYear *thisyear);
 
 //Function to print out on console screen for STUDENTS
-void printStdCourse(Student *account,Course *listOfCourse);
-void printStdScoreBoard (Student *account, Class *listOfClass);
+void printSchedule(Student* account, Course* hCourse);
+void printStdScoreBoard (Student *account, Course *listOfCourse);
 
 //Function to print out on console screen for STAFF
 Course* printListCourse (Course *listCourse);
@@ -223,7 +223,6 @@ void printOneClass(Class *HClass);
 void printAllClass(Class *listOfClass);
 Class* printListClass (Class *listClass);
 void printClassScoreBoard (Class *thisClass, Semester *thisSem);
-SchoolYear* printListYear(SchoolYear *listYear);
 
 //Export funtions
 void exportStudents (Class *listClass);

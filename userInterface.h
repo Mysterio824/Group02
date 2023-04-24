@@ -15,8 +15,8 @@ void staffInterface (user* account, SchoolYear *listYear);
 
 //student's functions
 void findStudent (user *&account, Class *listClass);
-void viewForStudent (user* account, SchoolYear *thisYear);
-void studentInterface (user *account, SchoolYear *listYear);
+void viewCourseForStudent(user *account, Course* Hcourse);
+void studentInterface (user *account, SchoolYear *thisYear);
 
 //public's functions
 void interFace (user *account, SchoolYear *listYear);

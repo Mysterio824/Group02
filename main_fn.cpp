@@ -11,7 +11,7 @@ void startProgram(SchoolYear* &thisyear, string getyear)
     Course* pcourse = nullptr;
     while(currentSemes)//iterate through semesters
     {
-        string courseName = thisyear->year+currentSemes->season;//get filename year+#semester.csv
+        string courseName = thisyear->year + "-" + currentSemes->season;//get filename year+#semester.csv
         currentSemes->Hcourse = ImportCourses(courseName);//import courses
         pcourse = currentSemes->Hcourse;
         while (pcourse)
@@ -136,14 +136,20 @@ void SaveChosenYear(SchoolYear* thisyear)
 void switchyear(user* account, SchoolYear* &thisyear)
 {
     if(account -> isStudent){
-        SaveChosenYear(thisyear);
-        MemmoryRelease(thisyear);
         startProgram(thisyear, getCurrentYear());
+        thisyear -> next = nullptr;
         return;
     }
+
+    if(!thisyear){
+        thisyear = new SchoolYear("");
+        return;
+    } 
+
     string getyear = displayyears();
     if(getyear == thisyear -> year) return;
     SaveChosenYear(thisyear);
     MemmoryRelease(thisyear);
     startProgram(thisyear, getyear);
+    thisyear -> next = nullptr;
 }

@@ -8,7 +8,7 @@ string getCurrentYear()
     time_t t = time(nullptr);
     tm *const pTInfo = localtime(&t);
     tmp = 1900 + pTInfo->tm_year;
-    year = to_string(tmp);
+    year = to_string(tmp-1) + "-" + to_string(tmp);
     return year;
 }
 
@@ -33,36 +33,36 @@ Scoreboard *checkInCourse(Student *account, Course *HCourse)
 //----------------Student------------------
 
 
-void printStdCourse(Student *account, Course *listOfCourse)
+void printSchedule(Student *account, Course *listOfCourse)
 {
     if (!account || !listOfCourse)
     {
-        cout << "There is nothing to see." << endl;
+        cout << "You aren't allowed to see yet." << endl;
         return;
     }
-    printBorder(7, 12 + 28 + 12 + 25 + 7 + 17 + 11);
-    cout << "| " << setw(12) << left << "Course ID"
+    printBorder(7, 18 + 28 + 12 + 25 + 13 + 17 + 11);
+    cout << "| " << setw(18) << left << "Course ID"
          << "| " << setw(28) << left << "Course Name"
          << "| " << setw(13) << left << "Class Name"
          << "| " << setw(25) << left << "Teacher"
-         << "| " << setw(7) << left << "Credits"
-         << "| " << setw(17) << left << "Day of Week"
-         << "| " << setw(11) << left << "Session"
+         << "| " << setw(10) << left << "Credits"
+         << "| " << setw(13) << left << "Day of Week"
+         << "| " << setw(18) << left << "Session"
          << " |" << endl;
-    printBorder(7, 12 + 28 + 12 + 25 + 7 + 17 + 11);
+    printBorder(7, 18 + 28 + 12 + 25 + 13 + 17 + 11);
     while (listOfCourse)
     {
 
         if (checkInCourse(account, listOfCourse))
         {
-            cout << "| " << setw(12) << left << listOfCourse->course_id
+            cout << "| " << setw(18) << left << listOfCourse->course_id
                  << "| " << setw(28) << left << listOfCourse->course_name
                  << "| " << setw(13) << left << account->className
                  << "| " << setw(25) << left << listOfCourse->teacher_name
-                 << "| " << setw(7) << left << listOfCourse->num_credits
-                 << "| " << setw(17) << left << listOfCourse->day
-                 << "| " << setw(11) << left << listOfCourse->session << " |" << endl;
-            printBorder(7, 12 + 28 + 12 + 25 + 7 + 17 + 11 + 3);
+                 << "| " << setw(10) << left << listOfCourse->num_credits
+                 << "| " << setw(13) << left << listOfCourse->day
+                 << "| " << setw(18) << left << listOfCourse->session << " |" << endl;
+            printBorder(7, 18 + 28 + 12 + 25 + 13 + 17 + 11);
         }
         listOfCourse = listOfCourse->next;
     }
@@ -72,19 +72,19 @@ void printStdScoreBoard(Student *account, Course *listOfCourse)
 {
     if (!account || !listOfCourse)
         return;
-    printBorder(10, 11 + 28 + 12 + 12 + 25 + 7 + 10 + 10 + 10 + 8);
-    cout << "| " << setw(11) << left << "Course ID"
+    printBorder(10, 18 + 28 + 10 + 10 + 25 + 8 + 8 + 10 + 10 + 6);
+    cout << "| " << setw(18) << left << "Course ID"
          << "| " << setw(28) << left << "Course Name"
-         << "| " << setw(12) << left << "Class Name"
-         << "| " << setw(12) << left << "Student ID"
+         << "| " << setw(10) << left << "Class Name"
+         << "| " << setw(10) << left << "Student ID"
          << "| " << setw(25) << left << "Student Name"
-         << "| " << setw(7) << left << "Credits"
-         << "| " << setw(10) << left << "Other"
+         << "| " << setw(8) << left << "Credits"
+         << "| " << setw(8) << left << "Other"
          << "| " << setw(10) << left << "Midterm"
          << "| " << setw(10) << left << "Lasterm"
-         << "| " << setw(8) << left << "GPA"
+         << "| " << setw(6) << left << "GPA"
          << " |" << endl;
-    printBorder(10, 11 + 28 + 12 + 12 + 25 + 7 + 10 + 10 + 10 + 8);
+    printBorder(10, 18 + 28 + 10 + 10 + 25 + 8 + 8 + 10 + 10 + 6);
     float sum = 0;
     int count = 0;
     while (listOfCourse)
@@ -92,26 +92,26 @@ void printStdScoreBoard(Student *account, Course *listOfCourse)
         Scoreboard *cur = checkInCourse(account, listOfCourse);
         if (cur)
         {
-            cout << "| " << setw(11) << left << listOfCourse->course_id
+            cout << "| " << setw(18) << left << listOfCourse->course_id
                  << "| " << setw(28) << left << listOfCourse->course_name
-                 << "| " << setw(12) << left << account->className
-                 << "| " << setw(12) << left << account->student_id
+                 << "| " << setw(10) << left << account->className
+                 << "| " << setw(10) << left << account->student_id
                  << "| " << setw(25) << left << account->fullName()
-                 << "| " << setw(7) << left << listOfCourse->num_credits
-                 << "| " << setw(10) << left << cur->other
+                 << "| " << setw(8) << left << listOfCourse->num_credits
+                 << "| " << setw(8) << left << cur->other
                  << "| " << setw(10) << left << cur->midterm
                  << "| " << setw(10) << left << cur->finalterm
-                 << "| " << setw(8) << left << cur->overallGPA() << " |" << endl;
-            printBorder(10, 11 + 28 + 12 + 12 + 25 + 7 + 10 + 10 + 10 + 8);
+                 << "| " << setw(6) << left << cur->overallGPA() << " |" << endl;
+            printBorder(10, 18 + 28 + 10 + 10 + 25 + 8 + 8 + 10 + 10 + 6);
             count++;
             sum += cur->overallGPA();
         }
         listOfCourse = listOfCourse->next;
     }
-    cout << "--------------------" << endl;
+    printBorder(2, 19);
     cout << "| " << setw(11) << left << "Overall GPA"
-         << " |" << sum / float(count) << " |" << endl;
-    cout << "--------------------" << endl;
+         << " |" << setw(8) << left << sum / float(count) << " |" << endl;
+    printBorder(2, 19);
 }
 
 //---------------Staff--------------------
@@ -124,25 +124,29 @@ Course* printListCourse (Course *listCourse){
     }
     Course* mark = listCourse;
     int cnt = 0;
-    printBorder(6, 15 + 30 + 20 + 8 + 35 + 10);
+    printBorder(8, 15 + 30 + 20 + 10 + 35 + 13 + 28);
     cout << "| " << setw(15) << left << "Index"
          << "| " << setw(20) << left << "Course ID"
          << "| " << setw(30) << left << "Course Name"
-         << "| " << setw(8) << left << "Credit"
+         << "| " << setw(10) << left << "Credit"
          << "| " << setw(35) << left << "Teacher"
          << "| " << setw(10) << left << "Capacity"
+         << "| " << setw(13) << left << "Day of Week"
+         << "| " << setw(18) << left << "Session"
          << " |" << endl;
-    printBorder(6, 15 + 30 + 20 + 8 + 35 + 10);
+    printBorder(8, 15 + 30 + 20 + 10 + 35 + 13 + 28);
     while (listCourse)
     {
         cout << "| " << setw(15) << left << ++cnt
              << "| " << setw(20) << left << listCourse -> course_id
              << "| " << setw(30) << left << listCourse -> course_name
-             << "| " << setw(8) << left << listCourse -> num_credits
+             << "| " << setw(10) << left << listCourse -> num_credits
              << "| " << setw(35) << left << listCourse -> teacher_name
              << "| " << setw(10) << left << listCourse -> capacity
+             << "| " << setw(13) << left << listCourse -> day
+             << "| " << setw(18) << left << listCourse -> session
              << " |" << endl;
-        printBorder(6, 15 + 30 + 20 + 8 + 35 + 10);
+        printBorder(8, 15 + 30 + 20 + 10 + 35 + 13 + 28);
         listCourse = listCourse->next;
     }
 
@@ -168,28 +172,28 @@ void printCourseScoreBoard(Course *HCourse)
         return;
     }
     Scoreboard *cur = HCourse->Hscore;
-    printBorder(8, 13 + 30 + 12 + 7 + 10 * 3 + 8);
+    printBorder(8, 13 + 30 + 12 + 10 + 10 * 3 + 8);
     cout << "| " << setw(13) << left << "Course ID"
          << "| " << setw(30) << left << "Course Name"
          << "| " << setw(12) << left << "Student ID"
-         << "| " << setw(7) << left << "Credits"
+         << "| " << setw(10) << left << "Credits"
          << "| " << setw(10) << left << "Other"
          << "| " << setw(10) << left << "Midterm"
          << "| " << setw(10) << left << "Lasterm"
          << "| " << setw(8) << left << "GPA"
          << " |" << endl;
-    printBorder(8, 13 + 30 + 12 + 7 + 10 * 3 + 8);
+    printBorder(8, 13 + 30 + 12 + 10 + 10 * 3 + 8);
     while (cur)
     {
         cout << "| " << setw(13) << left << HCourse->course_id
              << "| " << setw(30) << left << HCourse->course_name
              << "| " << setw(12) << left << cur->student_id
-             << "| " << setw(7) << left << HCourse->num_credits
+             << "| " << setw(10) << left << HCourse->num_credits
              << "| " << setw(10) << left << cur->other
              << "| " << setw(10) << left << cur->midterm
              << "| " << setw(10) << left << cur->finalterm
              << "| " << setw(8) << left << cur->overallGPA() << " |" << endl;
-        printBorder(8, 13 + 30 + 12 + 7 + 10 * 3 + 8);
+        printBorder(8, 13 + 30 + 12 + 10 + 10 * 3 + 8);
         cur = cur->next;
     }
 }
@@ -365,44 +369,6 @@ void printClassScoreBoard(Class *thisClass, Semester *thisSem) // un finished
     }
 }
 
-SchoolYear* printListYear(SchoolYear *listYear){
-    if (!listYear)
-    {
-        cout << "There's no class to see";
-        return nullptr;
-    }
-    SchoolYear *mark = listYear;
-    int cnt = 0;
-    printBorder(2, 15 + 30);
-    cout << "| " << setw(15) << left << "Index"
-         << "| " << setw(30) << left << "year"
-         << " |" << endl;
-    printBorder(2, 15 + 30);
-    while (listYear)
-    {
-        cout << "| " << setw(15) << left << ++cnt
-             << "| " << setw(30) << left << listYear -> year
-             << " |" << endl;
-        printBorder(2, 15 + 30);
-        listYear = listYear->next;
-    }
-
-    int choice;
-    do
-    {
-        cout << endl << "Please enter the index of the class you want to see (press " << cnt + 1 << " to stop):";
-        cin >> choice;
-    } while (choice > cnt + 1 || choice < 1);
-
-    if (choice == cnt + 1)
-        return nullptr;
-    
-    for (cnt = 1; cnt < choice; cnt++)
-        mark = mark->next;
-
-    return mark;
-}
-
 string displayyears ()
 {
     vector<string> years;
@@ -430,9 +396,7 @@ string displayyears ()
         printBorder(2, 15 + 30);
     }
     ifs.close();
-
-    
-    cout << "Year input required: ";
+    cout << endl << "Please enter the year you like to see: ";
     while(cin>>getyear)
     {
         for (int i = 0; i < years.size(); i++)
