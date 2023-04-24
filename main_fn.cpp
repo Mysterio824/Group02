@@ -117,7 +117,26 @@ void SaveChosenYear(SchoolYear* thisyear)
         ofs.close();
         psemes = psemes->next;
     }
-    ofstream ofs("input/yearlist.txt");
+    ifstream ifs("input/yearlist.txt");
+    string temp;
+    while (!ifs.eof())
+    {
+        getline(ifs, temp);
+        if (temp == thisyear->year)
+        {
+            ifs.close();
+            return;
+        }
+    }
+    ofstream ofs("input/yearlist.txt", ios::app);
     ofs<<thisyear->year<<"\n";
     ofs.close();
+}
+
+void switchyear(SchoolYear* &thisyear)
+{
+    string getyear = displayyears();
+    SaveChosenYear(thisyear);
+    MemmoryRelease(thisyear);
+    startProgram(thisyear, getyear);
 }

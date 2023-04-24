@@ -435,6 +435,11 @@ string displayyears ()
                 return getyear;
             }
 
-        cout<<"Invalid year, please try again: "<<endl;
+        cout<<"Invalid year, retry? (Y/N) "; cin>>getyear;
+        if (getyear == "N" || getyear == "n")
+        {
+            years.empty();
+            return "";
+        }
     }
 }
