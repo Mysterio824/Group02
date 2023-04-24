@@ -240,5 +240,6 @@ void printBorder(int num, int size);
 void UpdateCourseInfo(Course* &Hcourse);//at input_fn.cpp
 void UpdateStudentResult(Course* &Hcourse);//at input_fn.cpp
 string displayyears (); //at find_n_output_fn.cpp
+void switchyear(SchoolYear* &thisyear); //at main_fn.cpp
 
 #endif
