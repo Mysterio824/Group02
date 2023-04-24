@@ -28,6 +28,7 @@ void startProgram(SchoolYear* &thisyear, string getyear)
 
 void SaveChosenYear(SchoolYear* thisyear)
 {
+    if(!thisyear || !(thisyear->Hclass) || !(thisyear->Hsemester)) return;
     ofstream ofs("input/schoolyear/" + thisyear->year + ".csv");
     if (!ofs.is_open())
     {

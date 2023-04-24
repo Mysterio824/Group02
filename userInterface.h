@@ -7,7 +7,6 @@
 bool wayToImport();
 void createAccount();
 void addInfor(user *account, SchoolYear *thisYear);
-Semester* chooseSem(SchoolYear *thisYear);
 void findStaff(user *&account);
 void chooseToViewClass(Class *hClass, Semester *thisSem);
 void viewForStaff (user* account, SchoolYear *thisYear);
@@ -20,6 +19,7 @@ void studentInterface (user *account, SchoolYear *thisYear);
 
 //public's functions
 void interFace (user *account, SchoolYear *listYear);
+Semester* chooseSem(SchoolYear *thisYear);
 void goBackToMenu (user* account, SchoolYear *listYear);
 void logOut(user *&account, SchoolYear *&listYear);
 void changeInList (user *list, user *account);

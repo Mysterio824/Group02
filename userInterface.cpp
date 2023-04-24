@@ -258,46 +258,6 @@ void addInfor(user *account, SchoolYear *thisYear)
     }
 }
 
-Semester* chooseSem(SchoolYear *thisYear){
-    if(!thisYear){
-        return  nullptr;
-    }
-    int num = 0;
-    Semester *cur = thisYear -> Hsemester;
-    int cnt = 0;
-    printBorder(4, 8 + 15 + 20*2);
-    cout << "| " << setw(8) << left << "Season"
-         << "| " << setw(15) << left << "Year"
-         << "| " << setw(20) << left << "Start date"
-         << "| " << setw(20) << left << "End date"
-         << " |" << endl;
-    printBorder(4, 8 + 15 + 20*2);
-    while (cur) 
-    {
-        cout << "| " << setw(8) << left << cur -> season
-             << "| " << setw(15) << left << cur -> school_year
-             << "| " << setw(20) << left << cur -> start_date
-             << "| " << setw(20) << left << cur -> end_date
-             << " |" << endl;
-        printBorder(4, 8+ 15 + 20*2);
-        cur = cur -> next;
-    }
-
-    cur = thisYear -> Hsemester;
-    int choice;
-    cout << endl << "Which semester would you like to access (press 4 to stop): ";
-    cin >> choice;
-    while (choice < 1 || choice > num){
-        if(choice == 4) return nullptr;
-        cout << endl << "This semester isn't exist." << endl << "Please choose again: ";
-        cin >> choice;
-    }
-    for(int i = 0; i < choice; i++)
-        cur = cur -> next;
-    system("cls");
-    return cur;
-}
-
 void findStaff(user *&account)
 {
     if (!account || account->profile)
@@ -798,6 +758,47 @@ void interFace(user *account, SchoolYear *listYear)
     }
     findStaff(account);
     staffInterface(account, listYear);
+}
+
+Semester* chooseSem(SchoolYear *thisYear){
+    if(!thisYear){
+        return  nullptr;
+    }
+    system("cls");
+    int num = 0;
+    Semester *cur = thisYear -> Hsemester;
+    printBorder(4, 8 + 15 + 20*2);
+    cout << "| " << setw(8) << left << "Season"
+         << "| " << setw(15) << left << "Year"
+         << "| " << setw(20) << left << "Start date"
+         << "| " << setw(20) << left << "End date"
+         << " |" << endl;
+    printBorder(4, 8 + 15 + 20*2);
+    while (cur) 
+    {
+        cout << "| " << setw(8) << left << cur -> season
+             << "| " << setw(15) << left << cur -> school_year
+             << "| " << setw(20) << left << cur -> start_date
+             << "| " << setw(20) << left << cur -> end_date
+             << " |" << endl;
+        printBorder(4, 8+ 15 + 20*2);
+        cur = cur -> next;
+        num++;
+    }
+
+    cur = thisYear -> Hsemester;
+    int choice;
+    cout << endl << "Which semester would you like to access (press 4 to stop): ";
+    cin >> choice;
+    while (choice < 1 || choice > num){
+        if(choice == 4) return nullptr;
+        cout << endl << "This semester isn't exist." << endl << "Please choose again: ";
+        cin >> choice;
+    }
+    for(int i = 0; i < choice; i++)
+        cur = cur -> next;
+    system("cls");
+    return cur;
 }
 
 void goBackToMenu(user *account, SchoolYear *listYear)
