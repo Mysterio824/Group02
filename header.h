@@ -210,7 +210,7 @@ void AddStudentToCourse(Course* &Hcourse);
 
 //Functions to find in list
 Scoreboard* checkInCourse (Student *account, Course *HCourse);
-Semester* checkcurrentsemester(SchoolYear *thisyear);
+bool checkCurrentYear( string start, string end);
 
 //Function to print out on console screen for STUDENTS
 void printSchedule(Student* account, Course* hCourse);

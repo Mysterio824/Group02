@@ -788,10 +788,10 @@ Semester* chooseSem(SchoolYear *thisYear){
 
     cur = thisYear -> Hsemester;
     int choice;
-    cout << endl << "Which semester would you like to access (press 4 to stop): ";
+    cout << endl << "Which semester would you like to access (press 0 to stop): ";
     cin >> choice;
-    while (choice < 1 || choice > num){
-        if(choice == 4) return nullptr;
+    while (choice < 0 || choice > num){
+        if(choice == 0) return nullptr;
         cout << endl << "This semester isn't exist." << endl << "Please choose again: ";
         cin >> choice;
     }

@@ -4,6 +4,7 @@
 void startProgram(SchoolYear* &thisyear, string getyear)
 {
     thisyear = ImportSchoolYears(getyear);
+    if(!thisyear || getyear == "") return;
     thisyear->Hsemester = ImportSemesters(thisyear->year);
 
     //semester pointer create
@@ -138,11 +139,79 @@ void SaveChosenYear(SchoolYear* thisyear)
     ofs.close();
 }
 
+//----------------get school year------------------------
+
+bool isInRange(string curr, string start, string end) {
+    stringstream sscur(curr);
+    stringstream ssstart(start);
+    stringstream ssend(end);
+
+    string curday, curmonth;
+    string startday, startmonth;
+    string endday, endmonth;
+
+    getline(sscur, curday, '/');
+    getline(sscur, curmonth, '/');
+    getline(ssstart, startday, '/');
+    getline(ssstart, startmonth, '/');
+    getline(ssend, endday, '/');
+    getline(ssend, endmonth, '/');
+
+    //in range
+    if (stoi(startmonth) < stoi(curmonth) && stoi(curmonth) < stoi(endmonth)) // start < cur < end
+        return true;
+
+    if (stoi(curmonth) == stoi(startmonth) && stoi(curmonth) < stoi(endmonth)) // start == cur < end
+        if (stoi(curday) >= stoi(startday))
+            return true;
+
+    if (stoi(curmonth) > stoi(startmonth) && stoi(curmonth) == stoi(endmonth)) // start > cur == end
+        if (stoi(curday) <= stoi(endday))
+            return true;
+
+    if (stoi(curmonth) == stoi(startmonth) && stoi(curmonth) == stoi(endmonth))//start == cur == end
+        if (stoi(curday) >= stoi(startday) && stoi(curday) <= stoi(endday))
+            return true;
+    //out of range
+    return false;
+}
+
+string getCurrentYear()
+{
+    string year;
+    int tmp;
+    time_t t = time(nullptr);
+    tm *const pTInfo = localtime(&t);
+    tmp = 1900 + pTInfo->tm_year;
+    if(!checkCurrentYear("01/09", "31/12"))
+        year = to_string(tmp-1) + "-" + to_string(tmp);
+    else    
+        year = to_string(tmp) + "-" + to_string(tmp+1);
+    return year;
+}
+
+bool checkCurrentYear(string start, string end)
+{
+
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+    std::stringstream ss;
+    ss << std::setfill('0') << std::setw(2) << tm.tm_mday << "/";
+    ss << std::setfill('0') << std::setw(2) << tm.tm_mon + 1;
+    std::string currentdate = ss.str();//current date obtained
+
+    if (isInRange(currentdate, start, end))
+        return true;
+    return false;
+}
+
+
 void switchyear(user* account, SchoolYear* &thisyear)
 {
     if(account -> isStudent){
         startProgram(thisyear, getCurrentYear());
-        thisyear -> next = nullptr;
+        if(thisyear)
+            thisyear -> next = nullptr;
         return;
     }
 
@@ -152,7 +221,7 @@ void switchyear(user* account, SchoolYear* &thisyear)
     } 
 
     string getyear = displayyears();
-    if(getyear == thisyear -> year) return;
+    if(getyear == thisyear -> year || getyear == "") return;
     SaveChosenYear(thisyear);
     MemoryRelease(thisyear);
     startProgram(thisyear, getyear);

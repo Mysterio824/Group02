@@ -278,8 +278,6 @@ Staff *createStaff(string staffID, string firstName, string lastName, string gen
     return newStaff;
 }
 
-
-
 void deleteStaffProfile(Staff *&list)
 {
     if (!list)
