@@ -11,7 +11,7 @@ void startProgram(SchoolYear* &thisyear, string getyear)
     Course* pcourse = nullptr;
     while(currentSemes)//iterate through semesters
     {
-        string courseName = thisyear->year+currentSemes->season;//get filename year+#semester.csv
+        string courseName = thisyear->year + "-" + currentSemes->season;//get filename year+#semester.csv
         currentSemes->Hcourse = ImportCourses(courseName);//import courses
         pcourse = currentSemes->Hcourse;
         while (pcourse)
@@ -28,6 +28,7 @@ void startProgram(SchoolYear* &thisyear, string getyear)
 
 void SaveChosenYear(SchoolYear* thisyear)
 {
+    if(!thisyear || !(thisyear->Hclass) || !(thisyear->Hsemester)) return;
     ofstream ofs("input/schoolyear/" + thisyear->year + ".csv");
     if (!ofs.is_open())
     {
@@ -133,10 +134,23 @@ void SaveChosenYear(SchoolYear* thisyear)
     ofs.close();
 }
 
-void switchyear(SchoolYear* &thisyear)
+void switchyear(user* account, SchoolYear* &thisyear)
 {
+    if(account -> isStudent){
+        startProgram(thisyear, getCurrentYear());
+        thisyear -> next = nullptr;
+        return;
+    }
+
+    if(!thisyear){
+        thisyear = new SchoolYear("");
+        return;
+    } 
+
     string getyear = displayyears();
+    if(getyear == thisyear -> year) return;
     SaveChosenYear(thisyear);
     MemoryRelease(thisyear);
     startProgram(thisyear, getyear);
+    thisyear -> next = nullptr;
 }

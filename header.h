@@ -213,8 +213,8 @@ Scoreboard* checkInCourse (Student *account, Course *HCourse);
 Semester* checkcurrentsemester(SchoolYear *thisyear);
 
 //Function to print out on console screen for STUDENTS
-void printStdCourse(Student *account,Course *listOfCourse);
-void printStdScoreBoard (Student *account, Class *listOfClass);
+void printSchedule(Student* account, Course* hCourse);
+void printStdScoreBoard (Student *account, Course *listOfCourse);
 
 //Function to print out on console screen for STAFF
 Course* printListCourse (Course *listCourse);
@@ -223,7 +223,6 @@ void printOneClass(Class *HClass);
 void printAllClass(Class *listOfClass);
 Class* printListClass (Class *listClass);
 void printClassScoreBoard (Class *thisClass, Semester *thisSem);
-SchoolYear* printListYear(SchoolYear *listYear);
 
 //Export funtions
 void exportStudents (Class *listClass);
@@ -234,13 +233,13 @@ void exportSchoolYear (SchoolYear *list);
 
 //Other functions
 string getCurrentYear ();
-void startProgram(SchoolYear* &thisyear, string getyear);
+void startProgram(SchoolYear* &thisyear, string getYear);
 void SaveChosenYear(SchoolYear* thisyear);
 void MemoryRelease(SchoolYear* &thisyear);
 void printBorder(int num, int size);
 void UpdateCourseInfo(Course* &Hcourse);//at input_fn.cpp
 void UpdateStudentResult(Course* &Hcourse);//at input_fn.cpp
 string displayyears (); //at find_n_output_fn.cpp
-void switchyear(SchoolYear* &thisyear); //at main_fn.cpp
+void switchyear(user* account, SchoolYear* &thisyear); //at main_fn.cpp
 bool isInRange(string curr, string start, string end);
 #endif
