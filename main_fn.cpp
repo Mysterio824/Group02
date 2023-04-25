@@ -195,10 +195,10 @@ bool checkCurrentYear(string start, string end)
 
     time_t t = time(NULL);
     struct tm tm = *localtime(&t);
-    std::stringstream ss;
-    ss << std::setfill('0') << std::setw(2) << tm.tm_mday << "/";
-    ss << std::setfill('0') << std::setw(2) << tm.tm_mon + 1;
-    std::string currentdate = ss.str();//current date obtained
+    stringstream ss;
+    ss << setfill('0') << setw(2) << tm.tm_mday << "/";
+    ss << setfill('0') << setw(2) << tm.tm_mon + 1;
+    string currentdate = ss.str();//current date obtained
 
     if (isInRange(currentdate, start, end))
         return true;
@@ -226,4 +226,34 @@ void switchyear(user* account, SchoolYear* &thisyear)
     MemoryRelease(thisyear);
     startProgram(thisyear, getyear);
     thisyear -> next = nullptr;
+}
+
+int checkValidSems(Semester* hSem){
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+    stringstream ss;
+    ss << setfill('0') << setw(2) << tm.tm_mday << "/";
+    ss << setfill('0') << setw(2) << tm.tm_mon + 1;
+    string currentdate = ss.str();//current date obtained
+
+    Semester* cur = hSem;
+    for(int i = 0; i < 3; i ++){
+        if(cur){
+            if(i == 2 && currentdate == cur -> end_date)
+                return 3;
+            if(isInRange(currentdate, cur -> start_date, cur -> end_date))
+                return i;
+            cur = cur -> next;
+        }
+    }
+    cur = hSem;
+    for(int i = 1; i < 3; i++ ){
+        if(cur){
+            if(isInRange(currentdate, cur -> end_date, cur -> next -> start_date))
+                return i;
+        cur = cur -> next;
+        }
+    }
+    
+
 }

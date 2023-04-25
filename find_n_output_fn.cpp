@@ -22,7 +22,6 @@ Scoreboard *checkInCourse(Student *account, Course *HCourse)
 
 //----------------Student------------------
 
-
 void printSchedule(Student *account, Course *listOfCourse)
 {
     if (!account || !listOfCourse)
@@ -61,8 +60,11 @@ void printSchedule(Student *account, Course *listOfCourse)
 
 void printStdScoreBoard(Student *account, Course *listOfCourse)
 {
-    if (!account || !listOfCourse)
+    if (!account || !listOfCourse){
+        cout << "You aren't allowed to see yet.";
         return;
+    }
+
     system("cls");
     printBorder(9, 18 + 35 + 10 + 11 + 7 + 8 + 20 + 7);
     cout << "| " << setw(18) << left << "Course ID"

@@ -639,7 +639,7 @@ void findStudent(user *&account, Class *listClass)
     }
 }
 
-void viewCourseForStudent(user *account, Course* Hcourse){
+void viewCourseForStudent(user *account, Course* Hcourse, bool valid){
     if(!Hcourse || !account || !(account -> ref)) return;
     int choice = 1;
     bool enterPressed = false;
@@ -697,11 +697,15 @@ void viewCourseForStudent(user *account, Course* Hcourse){
     system("cls");
     if (choice == 1)
         return printSchedule(account -> ref, Hcourse);
-    if (choice == 2)
-        return printStdScoreBoard(account -> ref, Hcourse);
+    if (choice == 2){
+        if(valid)
+            return printStdScoreBoard(account -> ref, Hcourse);
+        else
+            return printStdScoreBoard(account -> ref, nullptr);
+    }
 }
 
-void studentInterface(user *account, SchoolYear *thisYear)
+void studentInterface(user *account, SchoolYear *thisYear, int validSem)
 {
     if(!account || !thisYear) return;
     int choice = 1;
@@ -799,7 +803,7 @@ void studentInterface(user *account, SchoolYear *thisYear)
         break;
     case 3:
         thisSem = chooseSem(thisYear);
-        viewCourseForStudent(account, thisSem -> Hcourse);
+        viewCourseForStudent(account, thisSem -> Hcourse, (stoi(thisSem -> season) <= validSem));
         break;
     case 4:
         logOut(account, thisYear);
@@ -816,7 +820,7 @@ void interFace(user *account, SchoolYear *listYear)
     if (account->isStudent)
     {
         findStudent(account, listYear->Hclass);
-        studentInterface(account, listYear);
+        studentInterface(account, listYear, checkValidSems(listYear -> Hsemester));
         return;
     }
     findStaff(account);
@@ -858,7 +862,7 @@ Semester* chooseSem(SchoolYear *thisYear){
         cout << endl << "This semester isn't exist." << endl << "Please choose again: ";
         cin >> choice;
     }
-    for(int i = 0; i < choice; i++)
+    for(int i = 1; i < choice; i++)
         cur = cur -> next;
     system("cls");
     return cur;
@@ -876,7 +880,7 @@ void goBackToMenu(user *account, SchoolYear *listYear)
         cin >> command;
     } while (command != 1);
     if (account->isStudent)
-        return studentInterface(account, listYear);
+        return studentInterface(account, listYear, checkValidSems(listYear -> Hsemester));
     return staffInterface(account, listYear);
 }
 
