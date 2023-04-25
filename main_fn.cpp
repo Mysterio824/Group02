@@ -88,31 +88,35 @@ void SaveChosenYear(SchoolYear* thisyear)
     Course* pcourse = nullptr;
     Scoreboard* pscore = nullptr;
     ofstream scoreB;
-    while (psemes)//saving courses & scoreboards in courses
+    //saving courses
+    while (psemes)
     {
-        pcourse = psemes->Hcourse;
-        string courseName = thisyear->year+psemes->season; //202301, 202302, 202303
+        string courseName = thisyear->year + "-" + psemes->season;//get filename year+#semester.csv
         ofs.open("input/courses/" + courseName + ".csv");
         if (!ofs.is_open())
         {
-            cout<<"Saving failed > could not open"<<courseName<<".csv\n";
+            cout<<"Saving failed > Could not open input/courses/"<<courseName<<".csv\n";
             return;
         }
-        while(pcourse)//saving courses & scoreboards in courses
+        pcourse = psemes->Hcourse;
+        while (pcourse)
         {
-            ofs<<pcourse->course_id<<","<<pcourse->course_name<<","<<pcourse->class_name<<","<<pcourse->teacher_name<<","<<pcourse->num_credits<<","<<pcourse->capacity<<","<<pcourse->day<<","<<pcourse->session<<'\n';
-            pscore = pcourse->Hscore;
-            while (pscore)//iterates scoreboards in course
+            ofs<<pcourse->course_id<<","<<pcourse->course_name<<","<<pcourse->class_name<<","<<pcourse->teacher_name<<","
+            <<pcourse->num_credits<<","<<pcourse->capacity<<","<<pcourse->day<<","<<pcourse->session<<"\n";
+            //saving scoreboards
+            scoreB.open("input/scoreboard/" + pcourse->course_id + ".csv");
+            if (!scoreB.is_open())
             {
-                scoreB.open("input/scoreboard/" + pcourse->course_id + ".csv");
-                if (!scoreB.is_open())
-                {
-                    cout<<"Saving failed > could not open"<<pcourse->course_id<<".csv\n";
-                    return;
-                }
+                cout<<"Saving failed > Could not open input/scoreboard/"<<pcourse->course_id<<".csv\n";
+                return;
+            }
+            pscore = pcourse->Hscore;
+            while (pscore)
+            {
                 scoreB<<pscore->student_id<<","<<pscore->full_name<<","<<pscore->midterm<<","<<pscore->finalterm<<","<<pscore->other<<"\n";
                 pscore = pscore->next;
             }
+            scoreB.close();
             pcourse = pcourse->next;
         }
         ofs.close();

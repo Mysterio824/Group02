@@ -577,12 +577,16 @@ SchoolYear* ImportSchoolYears(string fileName)
         return nullptr;
     }
     SchoolYear* newyear = new SchoolYear(fileName);
+    SchoolYear* pyear;
     if (!Hschyear)
+    {
         Hschyear = newyear;
+        pyear = Hschyear;
+    }
     else
     {
-        newyear->next = Hschyear;
-        Hschyear = newyear;
+        pyear->next = newyear;
+        pyear = newyear;
     }
     //add class to schoolyear
     string line;
@@ -593,15 +597,17 @@ SchoolYear* ImportSchoolYears(string fileName)
         while (getline(ss,className,','))
         {
             Class* newclass = new Class(className);
+            Class* pclass;
             newclass->Hstudent = ImportStudents(className);
             if (!Hschyear->Hclass)
             {
                 Hschyear->Hclass = newclass;
+                pclass = Hschyear->Hclass;
             }
             else
             {
-                newclass->next = Hschyear->Hclass;
-                Hschyear->Hclass = newclass;
+                pclass->next = newclass;
+                pclass = newclass;
             }
         }
     }
@@ -640,13 +646,17 @@ Course* ImportCourses(string fileName)//school_year + #semester.csv
         getline(ss, ses , ',');
         
         Course* newCourse= new Course(cID, cName, clName, tName, nCredit, capacity, dei, ses);
+        Course* pcourse;
 
         if(!Hcourse)
+        {
             Hcourse = newCourse;
+            pcourse = Hcourse;
+        }
         else
         {
-            newCourse->next = Hcourse;
-            Hcourse = newCourse;
+            pcourse->next = newCourse;
+            pcourse = newCourse;
         }
     }
 
@@ -720,17 +730,21 @@ Scoreboard* ImportScoreboard(Course* Hcourse)
         getline(ss,othr,',');
 
         Scoreboard* newscoreB = new Scoreboard(std_id);
+        Scoreboard* pscore;
         newscoreB->full_name = std_name;
         newscoreB->midterm = std::stof(mid);
         newscoreB->finalterm = std::stof(final);
         newscoreB->other = std::stof(othr);
 
         if (!Hcourse->Hscore)
+        {
             Hcourse->Hscore = newscoreB;
+            pscore = Hcourse->Hscore;
+        }
         else
         {
-            newscoreB->next = Hcourse->Hscore;
-            Hcourse->Hscore = newscoreB;
+            pscore->next = newscoreB;
+            pscore = newscoreB;
         }
     }
     inFile.close();

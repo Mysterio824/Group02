@@ -185,7 +185,7 @@ void printCourseScoreBoard(Course *HCourse)
     while (cur)
     {
         cout << "| " << setw(18) << left << HCourse->course_id
-             << "| " << setw(3) << left << HCourse->course_name
+             << "| " << setw(32) << left << HCourse->course_name
              << "| " << setw(12) << left << cur->student_id
              << "| " << setw(10) << left << HCourse->num_credits
              << "| " << setw(8) << left << cur->other
