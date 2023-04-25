@@ -23,8 +23,10 @@ Semester* chooseSem(SchoolYear *thisYear);
 void goBackToMenu (user* account, SchoolYear *listYear);
 void logOut(user *&account, SchoolYear *&listYear);
 void changeInList (user *list, user *account);
-void reWriteList(user *list, bool isStudent);
-void updateList (user *list, bool isStudent);
+void reWriteUserList(user *list, bool isStudent);
+void reWriteStaffList(Staff* listStaff);
+void updateUserList (user *list, bool isStudent);
+void updateStaffList (Staff* listStaff);
 void changePass (user *&account);
 
 

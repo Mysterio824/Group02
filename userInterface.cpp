@@ -69,12 +69,14 @@ void createAccount()
     user *newList;
     bool isStudent = checkStd();
     bool import = wayToImport();
-    system("cls");
+    Staff* newListStaff;
+    system("cls"); 
     int x = 0, y = 0;
     if (import)
     {
         int cmd;
         user *tmp;
+        Staff* tmp2;
         cout << endl
              << "How many accounts would you like to create: ";
         cin >> cmd;
@@ -106,25 +108,86 @@ void createAccount()
             tmp = createUser(username, password);
             tmp->next = newList;
             newList = tmp;
+            cout << endl;
+            
+            if(!isStudent){ // staff's infor
+            string lastName, gender, birthDate, socialID;
+                cout << "Please enter Staff's information:" << endl;
+                gotoxy(x, y + 5);
+                cout << setw(12) << ""
+                    << "-------------------------------" << endl;
+                gotoxy(x, y + 6);
+                cout << "First name: |                             |" << endl;
+                gotoxy(x, y + 7);
+                cout << setw(12) << ""
+                    << "-------------------------------" << endl;
+                gotoxy(x, y + 8);
+                cout << "Last name:  |                             |" << endl;
+                gotoxy(x, y + 9);
+                cout << setw(12) << ""
+                    << "-------------------------------" << endl;
+                gotoxy(x, y + 10);
+                cout << "Gender(M/F):|                             |" << endl;
+                gotoxy(x, y + 11);
+                cout << setw(12) << ""
+                    << "-------------------------------" << endl;
+                gotoxy(x, y + 12);
+                cout << "Birth date: |                             |" << endl;
+                gotoxy(x, y + 13);
+                cout << setw(12) << ""
+                    << "-------------------------------" << endl;
+                gotoxy(x, y + 14);
+                cout << "Social ID:  |                             |" << endl;
+                gotoxy(x, y + 15);
+                cout << setw(12) << ""
+                    << "-------------------------------" << endl;
+                gotoxy(x + 14, y + 6);
+                cin >> password;
+                gotoxy(x + 14, y + 8);
+                cin.ignore();
+                getline(cin, lastName);
+                gotoxy(x + 14, y + 10);
+                cin >> gender;
+                gotoxy(x + 14, y + 12);
+                cin >> birthDate;
+                gotoxy(x + 14, y + 14);
+                cin >> socialID;
+                tmp2 = createStaff(username, password, lastName, gender, birthDate, socialID);
+                tmp2 -> next = newListStaff;
+                newListStaff = tmp2;
+            }
         }
     }
     else
     {
-        string fileName;
+        string fileName1, fileName2;
         gotoxy(x, y);
-        cout << setw(20) << ""
+        cout << setw(24) << ""
              << "-------------------------------" << endl;
         gotoxy(x, y + 1);
-        cout << "Source file's name: |                             |" << endl;
+        cout << "Source file of accounts: |                             |" << endl;
         gotoxy(x, y + 2);
-        cout << setw(20) << ""
+        cout << setw(24) << ""
              << "-------------------------------" << endl;
-        gotoxy(x + 22, y + 1);
-        cin >> fileName;
-        newList = inputAccounts(fileName);
+        gotoxy(x + 26, y + 1);
+        cin >> fileName1;
+
+        if(!isStudent){
+            gotoxy(x, y + 3);
+            cout << "Source file of data:     |                             |" << endl;
+            gotoxy(x, y + 4);
+            cout << setw(24) << ""
+                << "-------------------------------" << endl;
+            gotoxy(x + 26, y + 3);
+            cin >> fileName2;
+            newListStaff = importStaff(fileName2);
+        }
+        newList = inputAccounts(fileName1);
     }
-    updateList(newList, isStudent);
+    updateUserList(newList, isStudent);
+    if(!isStudent) updateStaffList(newListStaff);
     deleteUserList(newList);
+    deleteStaffProfile(newListStaff);
 }
 
 void addInfor(user *account, SchoolYear *thisYear)
@@ -904,7 +967,7 @@ void changeInList(user *list, user *account)
     }
 }
 
-void reWriteList(user *list, bool isStudent)
+void reWriteUserList(user *list, bool isStudent)
 {
     if (!list)
         return;
@@ -930,7 +993,32 @@ void reWriteList(user *list, bool isStudent)
     outputFile.close();
 }
 
-void updateList(user *newList, bool isStudent)
+void reWriteStaffList(Staff* listStaff){
+    if (!listStaff)
+        return;
+    string fileName = "listStaff";
+    ofstream outputFile("input/academicStaff/" + fileName + ".csv");
+    if (!outputFile.is_open())
+    {
+        cout << "Error opening file" << endl;
+        return;
+    }
+    while (listStaff)
+    {
+        outputFile << listStaff->staffID << ",";
+        outputFile << listStaff -> firstName << ",";
+        outputFile << listStaff ->lastName << ",";
+        outputFile << listStaff -> gender << ",";
+        outputFile << listStaff -> birthDate << ",";
+        outputFile << listStaff -> socialID << endl;
+        listStaff = listStaff->next;
+    }
+    cout << endl
+         << "Your data have been added successful!";
+    outputFile.close();
+}
+
+void updateUserList(user *newList, bool isStudent)
 {
     if (!newList)
         return;
@@ -949,6 +1037,31 @@ void updateList(user *newList, bool isStudent)
     {
         outputFile << newList->username << ",";
         outputFile << newList->password << endl;
+        newList = newList->next;
+    }
+    cout << endl
+         << "Your data have been added successful!";
+    outputFile.close();
+}
+
+void updateStaffList (Staff* newList){
+    if (!newList)
+        return;
+    string fileName = "listStaff";
+    ofstream outputFile("input/academicStaff/" + fileName + ".csv", ios::app);
+    if (!outputFile.is_open())
+    {
+        cout << "Error opening file" << endl;
+        return;
+    }
+    while (newList)
+    {
+        outputFile << newList->staffID << ",";
+        outputFile << newList->firstName << ",";
+        outputFile << newList->lastName << ",";
+        outputFile << newList->gender << ",";
+        outputFile << newList->birthDate << ",";
+        outputFile << newList->socialID << endl;
         newList = newList->next;
     }
     cout << endl
@@ -975,7 +1088,7 @@ void changePass(user *&account)
         cin >> newPass;
     account->password = newPass;
     changeInList(list, account);
-    reWriteList(list, account->isStudent);
+    reWriteUserList(list, account->isStudent);
     system("cls");
     // Log in again..
     cout << "Please re-login to your account" << endl;
