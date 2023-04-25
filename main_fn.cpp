@@ -137,6 +137,6 @@ void switchyear(SchoolYear* &thisyear)
 {
     string getyear = displayyears();
     SaveChosenYear(thisyear);
-    MemmoryRelease(thisyear);
+    MemoryRelease(thisyear);
     startProgram(thisyear, getyear);
 }

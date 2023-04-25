@@ -405,11 +405,12 @@ SchoolYear* printListYear(SchoolYear *listYear){
 string displayyears ()
 {
     vector<string> years;
+    string getyear = "";
     fstream ifs("input/yearlist.txt", ios::in);
     if (!ifs.is_open())
     {
         cout << "Failed to open input/yearlist.txt" << endl;
-        return;
+        return getyear;
     }
     string tmp;
     while (getline(ifs, tmp))
@@ -424,7 +425,7 @@ string displayyears ()
     cout<< " --------------------- "<<endl;
     ifs.close();
 
-    string getyear = "";
+
     cout << "Year input required: ";
     while(cin>>getyear)
     {

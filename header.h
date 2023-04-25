@@ -234,9 +234,9 @@ void exportSchoolYear (SchoolYear *list);
 
 //Other functions
 string getCurrentYear ();
-void startProgram(SchoolYear* &thisyear);
+void startProgram(SchoolYear* &thisyear, string getyear);
 void SaveChosenYear(SchoolYear* thisyear);
-void MemmoryRelease(SchoolYear* &thisyear);
+void MemoryRelease(SchoolYear* &thisyear);
 void printBorder(int num, int size);
 void UpdateCourseInfo(Course* &Hcourse);//at input_fn.cpp
 void UpdateStudentResult(Course* &Hcourse);//at input_fn.cpp

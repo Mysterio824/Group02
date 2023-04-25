@@ -722,8 +722,8 @@ Scoreboard* ImportScoreboard(Course* Hcourse)
         Scoreboard* newscoreB = new Scoreboard(std_id);
         newscoreB->full_name = std_name;
         newscoreB->midterm = std::stof(mid);
-        newscoreB->midterm = std::stof(final);
-        newscoreB->midterm = std::stof(othr);
+        newscoreB->finalterm = std::stof(final);
+        newscoreB->other = std::stof(othr);
 
         if (!Hcourse->Hscore)
             Hcourse->Hscore = newscoreB;

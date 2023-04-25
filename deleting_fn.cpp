@@ -136,7 +136,7 @@ void RemoveStudentfromClass(SchoolYear* &thisyear)
     std::cout<<"Class not found!"<<std::endl;
 }
 
-void MemmoryRelease(SchoolYear* &thisyear)
+void MemoryRelease(SchoolYear* &thisyear)
 {
     Class* pclass = thisyear->Hclass;
     while (pclass)

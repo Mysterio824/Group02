@@ -797,7 +797,7 @@ void logOut(user *&account, SchoolYear *&listYear)
             delete account->profile;
             delete account;
             account = nullptr;
-            MemmoryRelease(listYear);
+            MemoryRelease(listYear);
             listYear = nullptr;
             return;
         case 2:
