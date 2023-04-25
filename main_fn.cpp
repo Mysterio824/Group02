@@ -239,7 +239,7 @@ int checkValidSems(Semester* hSem){
     Semester* cur = hSem;
     for(int i = 0; i < 3; i ++){
         if(cur){
-            if(i == 2 && currentdate == cur -> end_date)
+            if(i == 2 && isInRange(currentdate, cur -> end_date, "05/09"))
                 return 3;
             if(isInRange(currentdate, cur -> start_date, cur -> end_date))
                 return i;
