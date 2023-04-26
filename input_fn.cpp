@@ -50,16 +50,17 @@ void AddSchoolYear(SchoolYear* &Hyear)
             }
             else ptr = ptr->next;
         }
-
         SchoolYear* newschlyr = new SchoolYear(input);
         lastNode->next = newschlyr;
+
+        system("cls");
     }
     else
     {
         cout<<"(...) School year to add: ";  cin>>input;
         Hyear = new SchoolYear(input);
+        cout << endl;
     }
-    system("cls");
     cout << " --------------------------------------------------" << endl;
     cout << "(.) You added the year of: " << input << '.' << endl;
     cout << " --------------------------------------------------" << endl;
@@ -81,10 +82,10 @@ void AddClasstoSchoolYear(SchoolYear* &Hschoolyear)
         system("cls");
         return;
     }
+    SchoolYear* tmpYear = Hschoolyear;
     cout << "-----------------------------------------" << endl;
     cout << "(.) Available school-years: " << endl;
     cout << "-----------------------------------------" << endl;
-    SchoolYear* tmpYear = Hschoolyear;
     int count = 0;
     while (tmpYear != nullptr)
     {
@@ -126,52 +127,62 @@ void AddClasstoSchoolYear(SchoolYear* &Hschoolyear)
         }
     }
     Class* tmpClass = tmpYear->Hclass;
-    Class* lastClass;
+    Class* lastClass = nullptr;
+    string className;
     cout << endl << "-----------------------------------------" << endl;
     cout << "(.) Classes in this year: " << endl;
     cout << "-----------------------------------------" << endl;
-    count = 0;
-    while (tmpClass != nullptr)
+    if(tmpClass == nullptr)
     {
-        count++;
-        cout << '-' << tmpClass->class_name << '-';
-        if(count % 3 == 0) cout << endl;
-        else cout << "      ";
-        lastClass = tmpClass;
-        tmpClass = tmpClass->next;
+        cout << "\"No class\"" << endl;
+        cout << "-----------------------------------------" << endl;
+        cout << endl << "(...) Class to add: "; cin >> className;
     }
-    if(count % 3 != 0) cout << endl;
-    cout << "-----------------------------------------" << endl;
-    tmpClass = tmpYear->Hclass;
-    string className;
-    cout << endl << "(...) Name of class to add: ";  cin >> className;
-    while (tmpClass != nullptr)
+    else
     {
-        if(tmpClass->class_name == className)
+        count = 0;
+        while (tmpClass != nullptr)
         {
-            cout << "(!) This class is already in the school year." << endl;
-            cout << "(?) Do you want to try again (Y/y for yes - others for no): "; cin >> input;
-            if(input != "Y" && input != "y")
-            {
-                system("cls");
-                cout << "--------------------------------------------" << endl;
-                cout << "(!) You added no class to the school year." << endl;
-                cout << "--------------------------------------------" << endl;
-                cout << endl << "Press any key to return...";
-                system("pause");
-                system("cls");
-                return;
-            }
-            else
-            {
-                cout << endl << "(...) Try another class's name: "; cin >> className;
-                tmpClass = tmpYear->Hclass;
-            }
+            count++;
+            cout << '-' << tmpClass->class_name << '-';
+            if(count % 3 == 0) cout << endl;
+            else cout << "      ";
+            lastClass = tmpClass;
+            tmpClass = tmpClass->next;
         }
-        else tmpClass = tmpClass->next;
+        if(count % 3 != 0) cout << endl;
+        cout << "-----------------------------------------" << endl;
+        tmpClass = tmpYear->Hclass;
+        cout << endl << "(...) Name of class to add: ";  cin >> className;
+        while (tmpClass != nullptr)
+        {
+            if(tmpClass->class_name == className)
+            {
+                cout << "(!) This class is already in the school year." << endl;
+                cout << "(?) Do you want to try again (Y/y for yes - others for no): "; cin >> input;
+                if(input != "Y" && input != "y")
+                {
+                    system("cls");
+                    cout << "--------------------------------------------" << endl;
+                    cout << "(!) You added no class to the school year." << endl;
+                    cout << "--------------------------------------------" << endl;
+                    cout << endl << "Press any key to return...";
+                    system("pause");
+                    system("cls");
+                    return;
+                }
+                else
+                {
+                    cout << endl << "(...) Try another class's name: "; cin >> className;
+                    tmpClass = tmpYear->Hclass;
+                }
+            }
+            else tmpClass = tmpClass->next;
+        }
     }     
-    tmpClass= new Class(className);
-    lastClass->next = tmpClass;
+    tmpClass = new Class(className);
+    if(lastClass != nullptr) lastClass->next = tmpClass;
+    else tmpYear->Hclass = tmpClass;
     system("cls");
     cout << "------------------------------------------------------------------------------------------" << endl;
     cout << "(.) You added class " << className << "to the school-year of " << tmpYear->year << '.' << endl;
@@ -239,59 +250,69 @@ void AddSemesterToSchoolYear(SchoolYear* &Hschoolyear)
         }
     }
     Semester* tmpSemes = tmpYear->Hsemester;
-    Semester* lastSemes;
+    string season, startDate, endDate;
+    Semester* lastSemes = nullptr;
     cout << endl;
     cout << "-----------------------------------------" << endl;
     cout << "(.) Semesters/seasons in this year: " << endl;
     cout << "-----------------------------------------" << endl;
-    count = 0;
-    while (tmpSemes != nullptr)
+    if(tmpSemes == nullptr)
     {
-        count++;
-        cout << '-' << tmpSemes->season << '-';
-        if(count % 3 == 0) cout << endl;
-        else cout << "      ";
-        lastSemes = tmpSemes;
-        tmpSemes = tmpSemes->next;
+        cout << "\"No Semester\"" << endl;
+        cout << "-----------------------------------------" << endl;
+        cout << endl << "(...) Season to add: "; cin >> season; 
     }
-    if(count%3 != 0) cout << endl;
-    cout << "-----------------------------------------" << endl;
-    tmpSemes = tmpYear->Hsemester;
-    string season, startDate, endDate;
-    cout << endl << "(...) Season to add: ";  cin >> season;
-    while (tmpSemes != nullptr)
+    else
     {
-        if(tmpSemes->season == season)
+        count = 0;
+        while (tmpSemes != nullptr)
         {
-            cout << "(!) This season is already in the school year." << endl;
-            cout << "(?) Do you want to try again (Y/y for yes - others for no): "; cin >> input;
-            cout << endl;
-            if(input != "Y" && input != "y")
-            {
-                system("cls");
-                cout << "----------------------------------------------" << endl;
-                cout << "(!) You added no semester to the school year." << endl;
-                cout << "----------------------------------------------" << endl;
-                cout << endl << "Press any key to return...";
-                system("pause");
-                system("cls");
-                return;
-            }
-            else
-            {
-                cout << endl << "(...) Try another season(1, 2, 3): "; cin >> season;
-                tmpSemes = tmpYear->Hsemester;
-            }
+            count++;
+            cout << '-' << tmpSemes->season << '-';
+            if(count % 3 == 0) cout << endl;
+            else cout << "      ";
+            lastSemes = tmpSemes;
+            tmpSemes = tmpSemes->next;
         }
-        else tmpSemes = tmpSemes->next;
-    }
+        if(count%3 != 0) cout << endl;
+        cout << "-----------------------------------------" << endl;
+        tmpSemes = tmpYear->Hsemester;
+        cout << endl << "(...) Season to add: ";  cin >> season;
+        while (tmpSemes != nullptr)
+        {
+            if(tmpSemes->season == season)
+            {
+                cout << "(!) This season is already in the school year." << endl;
+                cout << "(?) Do you want to try again (Y/y for yes - others for no): "; cin >> input;
+                cout << endl;
+                if(input != "Y" && input != "y")
+                {
+                    system("cls");
+                    cout << "----------------------------------------------" << endl;
+                    cout << "(!) You added no semester to the school year." << endl;
+                    cout << "----------------------------------------------" << endl;
+                    cout << endl << "Press any key to return...";
+                    system("pause");
+                    system("cls");
+                    return;
+                }
+                else
+                {
+                    cout << endl << "(...) Try another season(1, 2, 3): "; cin >> season;
+                    tmpSemes = tmpYear->Hsemester;
+                }
+            }
+            else tmpSemes = tmpSemes->next;
+        }
+    }  
     system("cls");
-    cout << "(.) Season to add: " << season << endl;     
+    cout << "(.) Season to add: " << season << endl;   
     cout << "(...) Start date of this semester: "; cin >> startDate;
     cout << "(...) End date of this semester: "; cin >> endDate;
     cout << endl;
     tmpSemes = new Semester(season, tmpYear->year, startDate, endDate);
-    lastSemes->next = tmpSemes;
+    if(lastSemes != nullptr) lastSemes->next = tmpSemes;
+    else tmpYear->Hsemester = tmpSemes;
     cout << "--------------------------------------------------------------------------------------------------" << endl;
     cout << "(.) You added a semester season " << season << "to the school year of " << tmpYear->year << '.' << endl;
     cout << "--------------------------------------------------------------------------------------------------" << endl;
@@ -358,52 +379,61 @@ void AddCourseToSemester(Semester* &Hsemester)
         }
     }
     Course* tmpCourse = tmpSemes->Hcourse;
-    Course* lastCourse;
+    Course* lastCourse = nullptr;
+    string cID, cName, clName, tName, nCredit, capacity, dei, ses;
     cout << endl;
     cout << "--------------------------------------------" << endl;
     cout << "(.) Courses in this semester: " << endl;
     cout << "--------------------------------------------" << endl;
-    count = 0;
-    while (tmpCourse != nullptr)
+    if(tmpCourse == nullptr)
     {
-        count++;
-        cout << '-' << tmpCourse->course_id << '-';
-        if(count % 3 == 0) cout << endl;
-        else cout << "      ";
-        lastCourse = tmpCourse;
-        tmpCourse = tmpCourse->next;
+        cout << "\"No Course\"" << endl;
+        cout << "--------------------------------------------" << endl;
+        cout << endl << "(...) Course's ID to add: "; cin >> cID;
     }
-    if(count % 3 != 0) cout << endl;
-    cout << "--------------------------------------------" << endl;
-    tmpCourse = tmpSemes->Hcourse;
-
-    string cID, cName, clName, tName, nCredit, capacity, dei, ses;
-    cout << endl << "(...) ID of the course to add: ";  cin >> cID;
-    while (tmpCourse != nullptr)
+    else
     {
-        if(tmpCourse->course_id == cID)
+        count = 0;
+        while (tmpCourse != nullptr)
         {
-            cout << "(!) This course ID is already in the semester." << endl;
-            cout << "(?) Do you want to try again (Y/y for yes - others for no): "; cin >> input;
-            if(input != "Y" && input != "y")
-            {
-                system("cls");
-                cout << "-----------------------------------------" << endl;
-                cout << "(!) You added no course to the semester." << endl;
-                cout << "-----------------------------------------" << endl;
-                cout << endl << "Press any key to return...";
-                system("pause");
-                system("cls");
-                return;
-            }
-            else
-            {
-                cout << endl << "(...) Try another course ID: "; cin >> cID;
-                tmpCourse = tmpSemes->Hcourse;
-            }
+            count++;
+            cout << '-' << tmpCourse->course_id << '-';
+            if(count % 3 == 0) cout << endl;
+            else cout << "      ";
+            lastCourse = tmpCourse;
+            tmpCourse = tmpCourse->next;
         }
-        else tmpCourse = tmpCourse->next;
-    } 
+        if(count % 3 != 0) cout << endl;
+        cout << "--------------------------------------------" << endl;
+        tmpCourse = tmpSemes->Hcourse;
+
+        cout << endl << "(...) ID of the course to add: ";  cin >> cID;
+        while (tmpCourse != nullptr)
+        {
+            if(tmpCourse->course_id == cID)
+            {
+                cout << "(!) This course ID is already in the semester." << endl;
+                cout << "(?) Do you want to try again (Y/y for yes - others for no): "; cin >> input;
+                if(input != "Y" && input != "y")
+                {
+                    system("cls");
+                    cout << "-----------------------------------------" << endl;
+                    cout << "(!) You added no course to the semester." << endl;
+                    cout << "-----------------------------------------" << endl;
+                    cout << endl << "Press any key to return...";
+                    system("pause");
+                    system("cls");
+                    return;
+                }
+                else
+                {
+                    cout << endl << "(...) Try another course ID: "; cin >> cID;
+                    tmpCourse = tmpSemes->Hcourse;
+                }
+            }
+            else tmpCourse = tmpCourse->next;
+        } 
+    }
     system("cls");
     cout << "(.) ID of the course to add: " << cID;
     cout << "(...) Course's name: "; cin >> cName;
@@ -415,7 +445,8 @@ void AddCourseToSemester(Semester* &Hsemester)
     cout << "(...) Session: "; cin >> ses;
  
     tmpCourse = new Course(cID, cName, clName, tName, nCredit, capacity, dei, ses);
-    lastCourse->next = tmpCourse;
+    if(lastCourse != nullptr) lastCourse->next = tmpCourse;
+    else tmpSemes->Hcourse = tmpCourse;
     cout << endl;
     cout << "--------------------------------------------------------------------------------------------------------------------------------------------" << endl;
     cout << "(.) You added a course with ID " << cID << "to the semester season " << tmpSemes->season << ", year " << tmpSemes->school_year << endl;
@@ -483,50 +514,59 @@ void AddStudentToClass(Class* &Hclass)
         }
     }
     Student* tmpStu = tmpClass->Hstudent;
-    Student* lastStudent;
+    Student* lastStudent = nullptr;
+    string stuId;
     cout << endl;
     cout << "-----------------------------------------" << endl;
     cout << "(.) Student's IDs in this class: " << endl;
     cout << "-----------------------------------------" << endl;
-    count = 0;
-    while (tmpStu != nullptr)
+    if(tmpStu == nullptr)
     {
-        count++;
-        cout << '-' << tmpStu->student_id << '-';
-        if(count % 3 == 0) cout << endl;
-        else cout << "      ";
-        lastStudent = tmpStu;
-        tmpStu = tmpStu->next;
+        cout << "\"No Student\"" << endl;
+        cout << "-----------------------------------------" << endl;
+        cout << endl << "(...) Student's ID to add: "; cin >> stuId;
     }
-    if(count % 3 != 0) cout << endl;
-    cout << "-----------------------------------------" << endl;
-    tmpStu = tmpClass->Hstudent;
-    string stuId;
-    cout << endl << "(...) Student's ID to add: "; cin >> stuId;
-    while (tmpStu != nullptr)
+    else
     {
-        if(tmpStu->student_id == stuId)
+        count = 0;
+        while (tmpStu != nullptr)
         {
-            cout << "(!) This student ID is already in this class." << endl;
-            cout << "(?) Do you want to try again (Y/y for yes - other keys for no): "; cin >> input;
-            if(input != "Y" && input != "y")
-            {
-                system("cls");
-                cout << "-----------------------------------------" << endl;
-                cout << "(!) You add no student to this class.";
-                cout << "-----------------------------------------" << endl;
-                cout << endl << "Press any key to return...";
-                system("pause");
-                system("cls");
-                return;
-            }
-            else
-            {
-                cout << endl << "(...) Try another student's ID: "; cin >> stuId;
-                tmpStu = tmpClass->Hstudent;
-            }
+            count++;
+            cout << '-' << tmpStu->student_id << '-';
+            if(count % 3 == 0) cout << endl;
+            else cout << "      ";
+            lastStudent = tmpStu;
+            tmpStu = tmpStu->next;
         }
-        else tmpStu = tmpStu->next;
+        if(count % 3 != 0) cout << endl;
+        cout << "-----------------------------------------" << endl;
+        tmpStu = tmpClass->Hstudent;
+        cout << endl << "(...) Student's ID to add: "; cin >> stuId;
+        while (tmpStu != nullptr)
+        {
+            if(tmpStu->student_id == stuId)
+            {
+                cout << "(!) This student ID is already in this class." << endl;
+                cout << "(?) Do you want to try again (Y/y for yes - other keys for no): "; cin >> input;
+                if(input != "Y" && input != "y")
+                {
+                    system("cls");
+                    cout << "-----------------------------------------" << endl;
+                    cout << "(!) You add no student to this class.";
+                    cout << "-----------------------------------------" << endl;
+                    cout << endl << "Press any key to return...";
+                    system("pause");
+                    system("cls");
+                    return;
+                }
+                else
+                {
+                    cout << endl << "(...) Try another student's ID: "; cin >> stuId;
+                    tmpStu = tmpClass->Hstudent;
+                }
+            }
+            else tmpStu = tmpStu->next;
+        }
     }
     system("cls");
     string fName, lName, gder, birth, socialId;
@@ -538,7 +578,8 @@ void AddStudentToClass(Class* &Hclass)
     cout << "(...) Social ID: "; cin >> socialId;
     cout << endl;
     tmpStu = new Student(tmpClass->class_name, stuId, fName, lName, gder, birth, socialId);
-    lastStudent->next = tmpStu;
+    if(lastStudent != nullptr) lastStudent->next = tmpStu;
+    else tmpClass->Hstudent = tmpStu;
     cout << "-----------------------------------------------------------------------------------------------------------------------------" << endl;
     cout << "(.) You added " << tmpStu->fullName() << "with the ID of " << stuId << "to class " << tmpClass->class_name << '.' << endl;
     cout << "-----------------------------------------------------------------------------------------------------------------------------" << endl;
@@ -605,54 +646,64 @@ void AddStudentToCourse(Course* &Hcourse)
         }
     }
     Scoreboard* tmpStu = tmpCourse->Hscore;
-    Scoreboard* lastStudent;
+    Scoreboard* lastStudent = nullptr;
     cout << endl;
     cout << "------------------------------------------------" << endl;
     cout << "Student's IDs in this course: " << endl;
     cout << "------------------------------------------------" << endl;
-    count = 0;
-    while (tmpStu != nullptr)
+    if(tmpStu == nullptr)
     {
-        count++;
-        cout << '-' << tmpStu->student_id << '-';
-        if(count % 3 == 0) cout << endl;
-        else cout << "      ";
-        lastStudent = tmpStu;
-        tmpStu = tmpStu->next;
+        cout << "\"No Student\"" << endl;
+        cout << "------------------------------------------------" << endl;
+        cout << endl << "(...) Student's to add: "; cin >> input;
     }
-    if(count % 3 != 0) cout << endl;
-    cout << "------------------------------------------------" << endl;
-    tmpStu = tmpCourse->Hscore;
-    cout << endl << "(...) Student's ID to add: "; cin >> input;
-    while (tmpStu != nullptr)
+    else
     {
-        if(tmpStu->student_id == input)
+        count = 0;
+        while (tmpStu != nullptr)
         {
-            cout << "(!) The student is already in the course." <<endl;
-            cout << "(?)Do you want to add a different student (Y/y for yes - others for no): "; cin >> input;
-            if(input != "Y" && input != "y")
-            {
-                system("cls");
-                cout << "-----------------------------" << endl;
-                cout << "(!) You added no student." << endl;
-                cout << "-----------------------------" << endl;
-                cout << endl << "Press any key to return...";
-                system("pause");
-                system("cls");
-                return;
-            }
-            else
-            {
-                cout << endl << "(...) Try another student's ID: "; cin >> input;
-                tmpStu = tmpCourse->Hscore;
-            }
+            count++;
+            cout << '-' << tmpStu->student_id << '-';
+            if(count % 3 == 0) cout << endl;
+            else cout << "      ";
+            lastStudent = tmpStu;
+            tmpStu = tmpStu->next;
         }
-        else tmpStu = tmpStu->next;
+        if(count % 3 != 0) cout << endl;
+        cout << "------------------------------------------------" << endl;
+        tmpStu = tmpCourse->Hscore;
+        cout << endl << "(...) Student's ID to add: "; cin >> input;
+        while (tmpStu != nullptr)
+        {
+            if(tmpStu->student_id == input)
+            {
+                cout << "(!) The student is already in the course." <<endl;
+                cout << "(?)Do you want to add a different student (Y/y for yes - others for no): "; cin >> input;
+                if(input != "Y" && input != "y")
+                {
+                    system("cls");
+                    cout << "-----------------------------" << endl;
+                    cout << "(!) You added no student." << endl;
+                    cout << "-----------------------------" << endl;
+                    cout << endl << "Press any key to return...";
+                    system("pause");
+                    system("cls");
+                    return;
+                }
+                else
+                {
+                    cout << endl << "(...) Try another student's ID: "; cin >> input;
+                    tmpStu = tmpCourse->Hscore;
+                }
+            }
+            else tmpStu = tmpStu->next;
+        }
     }
     system("cls");
     cout << "(.) Student's ID to add: " << input << endl;
     tmpStu = new Scoreboard(input);
-    lastStudent->next = tmpStu;
+    if(lastStudent != nullptr) lastStudent->next = tmpStu;
+    else tmpCourse->Hscore = tmpStu;
     cout << "--------------------------------------------------------------------------------------------------" << endl;
     cout << "(.) You added this student's ID: " << input << "to " << tmpCourse->course_name << '.' << endl;
     cout << "--------------------------------------------------------------------------------------------------" << endl;
@@ -1003,6 +1054,17 @@ void UpdateStudentResult(Course* &Hcourse)
                 tmpCourse = Hcourse;
             }
         }
+    }
+    if(tmpCourse->Hscore == nullptr)
+    {
+        system("cls");
+        cout << "----------------------------------------" << endl;
+        cout << "(!) There is no student to update.";
+        cout << "----------------------------------------" << endl;
+        cout << endl << "Press any key to return...";
+        system("pause");
+        system("cls");
+        return;
     }
     cout << endl;
     cout << "----------------------------------------------------" << endl;
