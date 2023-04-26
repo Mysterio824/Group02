@@ -298,7 +298,7 @@ void AddSemesterToSchoolYear(SchoolYear* &Hschoolyear)
                 }
                 else
                 {
-                    cout << endl << "(...) Try another season(1, 2, 3): "; cin >> season;
+                    cout << endl << "(...) Try another season(01, 02 or 03): "; cin >> season;
                     tmpSemes = tmpYear->Hsemester;
                 }
             }
