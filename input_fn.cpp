@@ -260,7 +260,14 @@ void AddSemesterToSchoolYear(SchoolYear* &Hschoolyear)
     {
         cout << "\"No Semester\"" << endl;
         cout << "-----------------------------------------" << endl;
-        cout << endl << "(...) Season to add: "; cin >> season; 
+        cout << endl << "(...) Season to add (1, 2 or 3): "; cin >> season; 
+        if(season == "1" || season == "2" || season == "3") season = "0" + season;
+        while (season != "01" || season != "02" || season != "03")
+        {
+            cout << endl << "(!) Wrong input." << endl;
+            cout << "(...) Try again with [1, 2 or 3]: "; cin >> season;
+            if(season == "1" || season == "2" || season == "3") season = "0" + season;
+        }
     }
     else
     {
@@ -268,7 +275,7 @@ void AddSemesterToSchoolYear(SchoolYear* &Hschoolyear)
         while (tmpSemes != nullptr)
         {
             count++;
-            cout << '-' << tmpSemes->season << '-';
+            cout << '-' << "Season: " << tmpSemes->season << '-';
             if(count % 3 == 0) cout << endl;
             else cout << "      ";
             lastSemes = tmpSemes;
@@ -277,7 +284,14 @@ void AddSemesterToSchoolYear(SchoolYear* &Hschoolyear)
         if(count%3 != 0) cout << endl;
         cout << "-----------------------------------------" << endl;
         tmpSemes = tmpYear->Hsemester;
-        cout << endl << "(...) Season to add: ";  cin >> season;
+        cout << endl << "(...) Season to add (1, 2 or 3): ";  cin >> season;
+        if(season == "1" || season == "2" || season == "3") season = "0" + season;
+        while (season != "01" || season != "02" || season != "03")
+        {
+            cout << endl << "(!) Wrong input." << endl;
+            cout << "(...) Try again with [1, 2 or 3]: "; cin >> season;
+            if(season == "1" || season == "2" || season == "3") season = "0" + season;
+        }
         while (tmpSemes != nullptr)
         {
             if(tmpSemes->season == season)
@@ -298,7 +312,14 @@ void AddSemesterToSchoolYear(SchoolYear* &Hschoolyear)
                 }
                 else
                 {
-                    cout << endl << "(...) Try another season(01, 02 or 03): "; cin >> season;
+                    cout << endl << "(...) Try another season(1, 2 or 3): "; cin >> season;
+                    if(season == "1" || season == "2" || season == "3") season = "0" + season;
+                    while (season != "01" || season != "02" || season != "03")
+                    {
+                        cout << endl << "(!) Wrong input." << endl;
+                        cout << "(...) Try again with [1, 2 or 3]: "; cin >> season;
+                        if(season == "1" || season == "2" || season == "3") season = "0" + season;
+                    }
                     tmpSemes = tmpYear->Hsemester;
                 }
             }
@@ -342,7 +363,7 @@ void AddCourseToSemester(Semester* &Hsemester)
     while (tmpSemes != nullptr)
     {
         count++;
-        cout << '-' << "Season " << tmpSemes->season << '-';
+        cout << '-' << "Season: " << tmpSemes->season << '-';
         if(count % 3 == 0) cout << endl;
         else cout << "      ";
         tmpSemes = tmpSemes->next;
@@ -351,7 +372,14 @@ void AddCourseToSemester(Semester* &Hsemester)
     cout << "--------------------------------------------" << endl;
     tmpSemes = Hsemester;
     string input;
-    cout << endl << "(...) Season to add course: "; cin >> input;
+    cout << endl << "(...) Season to add course(1, 2 or 3): "; cin >> input;
+    if(input == "1" || input == "2" || input == "3") input = "0" + input;
+    while(input != "01" && input != "02" && input != "03")
+    {
+        cout << endl << "(!) Wwrong input." << endl;
+        cout << "(...) Try agian with [1, 2 or 3]: "; cin >> input;
+        if(input == "1" || input == "2" || input == "3") input = "0" + input;
+    }
     while (true)
     {
         if(input == tmpSemes->season) break;
@@ -373,7 +401,14 @@ void AddCourseToSemester(Semester* &Hsemester)
             }
             else
             {
-                cout << endl << "(...) Try another season: "; cin >> input;
+                cout << endl << "(...) Try another season(1, 2 or 3): "; cin >> input;
+                if(input == "1" || input == "2" || input == "3") input = "0" + input;
+                while(input != "01" && input != "02" && input != "03")
+                {
+                    cout << endl << "(!) Wwrong input." << endl;
+                    cout << "(...) Try agian with [1, 2 or 3]: "; cin >> input;
+                    if(input == "1" || input == "2" || input == "3") input = "0" + input;
+                }
                 tmpSemes = Hsemester;
             }
         }
