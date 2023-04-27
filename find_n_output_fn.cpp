@@ -386,15 +386,20 @@ string displayyears ()
 {
     vector<string> years;
     string getyear = "";
-    fstream ifs("input/yearlist.txt", ios::in);
+    fstream ifs("input/yearlist.csv", ios::in);
     if (!ifs.is_open())
     {
-        cout << "Failed to open input/yearlist.txt" << endl;
+        cout << "Failed to open input/yearlist.csv" << endl;
         return getyear;
     }
-    string tmp;
-    while (getline(ifs, tmp))
+    string line;
+    while (getline(ifs, line))
+    {
+        stringstream ss(line);
+        string tmp;
+        while (getline(ss,tmp,','))
             years.push_back(tmp);
+    }
         int cnt = 0;
     printBorder(2, 15 + 30);
     cout << "| " << setw(15) << left << "Index"

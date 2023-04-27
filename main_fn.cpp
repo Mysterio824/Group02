@@ -123,19 +123,24 @@ void SaveChosenYear(SchoolYear* thisyear)
         ofs.close();
         psemes = psemes->next;
     }
-    ifstream ifs("input/yearlist.txt");
-    string temp;
+    ifstream ifs("input/yearlist.csv");
+    string line;
     while (!ifs.eof())
     {
-        getline(ifs, temp);
-        if (temp == thisyear->year)
+        while (getline(ifs, line))
         {
-            ifs.close();
-            return;
+            stringstream ss(line);
+            string temp;
+            while (getline(ss,temp,','))
+                if (temp == thisyear->year)
+                {
+                    ifs.close();
+                    return;
+                }
         }
     }
-    ofs.open("input/yearlist.txt", ios::app);
-    ofs<<thisyear->year<<"\n";
+    ofs.open("input/yearlist.csv", ios::app);
+    ofs<<thisyear->year<<',';
     ofs.close();
 }
 
