@@ -262,7 +262,7 @@ void AddSemesterToSchoolYear(SchoolYear* &Hschoolyear)
         cout << "-----------------------------------------" << endl;
         cout << endl << "(...) Season to add (1, 2 or 3): "; cin >> season; 
         if(season == "1" || season == "2" || season == "3") season = "0" + season;
-        while (season != "01" || season != "02" || season != "03")
+        while (season != "01" && season != "02" && season != "03")
         {
             cout << endl << "(!) Wrong input." << endl;
             cout << "(...) Try again with [1, 2 or 3]: "; cin >> season;
@@ -286,7 +286,7 @@ void AddSemesterToSchoolYear(SchoolYear* &Hschoolyear)
         tmpSemes = tmpYear->Hsemester;
         cout << endl << "(...) Season to add (1, 2 or 3): ";  cin >> season;
         if(season == "1" || season == "2" || season == "3") season = "0" + season;
-        while (season != "01" || season != "02" || season != "03")
+        while (season != "01" && season != "02" && season != "03")
         {
             cout << endl << "(!) Wrong input." << endl;
             cout << "(...) Try again with [1, 2 or 3]: "; cin >> season;
