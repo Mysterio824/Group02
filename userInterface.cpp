@@ -871,14 +871,21 @@ Semester* chooseSem(SchoolYear *thisYear){
 void goBackToMenu(user *account, SchoolYear *listYear)
 {
     if(!account || !listYear) return;
-    int command;
-    do
-    {
-        cout << endl
-             << endl
-             << "Press 1 to go back to main menu: ";
-        cin >> command;
-    } while (command != 1);
+    char ch;
+    bool isRunning = true;
+    cout << endl
+         << endl
+         << "Press Esc to go back to main menu. ";    
+    while (isRunning) {
+        // Wait for user input
+        while (!_kbhit()) {} 
+        ch = _getch();
+        
+        // Process user input
+        if(ch == 27) 
+            isRunning = false; 
+        }
+
     if (account->isStudent)
         return studentInterface(account, listYear, checkValidSems(listYear -> Hsemester));
     return staffInterface(account, listYear);
