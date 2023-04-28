@@ -4,6 +4,7 @@ void AddSchoolYear(SchoolYear* &Hyear)
 {
     system("cls");
     string input;
+    ofstream outFile;
     if (Hyear != nullptr)
     {
         SchoolYear* ptr = Hyear;
@@ -54,12 +55,25 @@ void AddSchoolYear(SchoolYear* &Hyear)
         lastNode->next = newschlyr;
 
         system("cls");
+
+        outFile.open("yearlist.csv", ios::app);
+        if(outFile.is_open())
+        {
+            outFile << ", " << input;
+        }
+        outFile.close();
     }
     else
     {
         cout<<"(...) School year to add: ";  cin>>input;
-        Hyear = new SchoolYear(input);
         cout << endl;
+        Hyear = new SchoolYear(input);
+        outFile.open("yearlist.csv", ios::app);
+        if(outFile.is_open())
+        {
+            outFile << input;
+        }
+        outFile.close();
     }
     cout << " --------------------------------------------------" << endl;
     cout << "(.) You added the year of: " << input << '.' << endl;
