@@ -83,10 +83,10 @@ void AddSchoolYear(SchoolYear* &Hyear)
     system("cls");
 }
 
-void AddClassToSchoolYear(SchoolYear* &Hschoolyear) //Still yet get currrent year.
+void AddClassToSchoolYear(SchoolYear* &tmpYear)
 {
     system("cls");
-    if(Hschoolyear == nullptr)
+    if(tmpYear == nullptr)
     {
         cout << "--------------------------------------------" << endl;
         cout << "(!) There is no school-year to add semester" << endl;
@@ -96,50 +96,7 @@ void AddClassToSchoolYear(SchoolYear* &Hschoolyear) //Still yet get currrent yea
         system("cls");
         return;
     }
-    SchoolYear* tmpYear = Hschoolyear;
-    cout << "-----------------------------------------" << endl;
-    cout << "(.) Available school-years: " << endl;
-    cout << "-----------------------------------------" << endl;
-    int count = 0;
-    while (tmpYear != nullptr)
-    {
-        count++;
-        cout << '-' << tmpYear->year << '-';
-        if(count % 3 == 0) cout << endl;
-        else cout << "      ";
-        tmpYear = tmpYear->next;
-    }
-    if(count % 3 != 0) cout << endl;
-    cout << "-----------------------------------------" << endl;
-    tmpYear = Hschoolyear;
     string input;
-    cout << endl << "(...) Year to add class: "; cin >> input;
-    while (true)
-    {
-        if(input == tmpYear->year) break;
-        tmpYear = tmpYear->next;
-        if(tmpYear == nullptr)
-        {
-            cout << "(!) The year you want is invalid." << endl;
-            cout << "(?) Do you want to try again (Y/y for yes - other keys for no): "; cin >> input;
-            if(input != "Y" && input != "y")
-            {
-                system("cls");
-                cout << "--------------------------------------------" << endl;
-                cout << "(!) You chose not to add class." << endl;
-                cout << "--------------------------------------------" << endl;
-                cout << endl << "Press any key to return...";
-                system("pause");
-                system("cls");
-                return;
-            }
-            else
-            {
-                cout<< endl << "(...) Try another year: "; cin >> input;
-                tmpYear = Hschoolyear;
-            }
-        }
-    }
     Class* tmpClass = tmpYear->Hclass;
     Class* lastClass = nullptr;
     string className;
@@ -154,7 +111,7 @@ void AddClassToSchoolYear(SchoolYear* &Hschoolyear) //Still yet get currrent yea
     }
     else
     {
-        count = 0;
+        int count = 0;
         while (tmpClass != nullptr)
         {
             count++;
@@ -206,10 +163,10 @@ void AddClassToSchoolYear(SchoolYear* &Hschoolyear) //Still yet get currrent yea
     system("cls");
 }
 
-void AddSemesterToSchoolYear(SchoolYear* &Hschoolyear) //Still yet get current year.
+void AddSemesterToSchoolYear(SchoolYear* &tmpYear)
 {
     system("cls");
-    if(Hschoolyear == nullptr)
+    if(tmpYear == nullptr)
     {
         cout << "--------------------------------------------" << endl;
         cout << "(!) There is no school year to add semester." << endl;
@@ -219,50 +176,7 @@ void AddSemesterToSchoolYear(SchoolYear* &Hschoolyear) //Still yet get current y
         system("cls");
         return;
     }
-    cout << "-----------------------------------------" << endl;
-    cout << "(.) Available school years: " << endl;
-    cout << "-----------------------------------------" << endl;
-    SchoolYear* tmpYear = Hschoolyear;
-    int count = 0;
-    while (tmpYear != nullptr)
-    {
-        count++;
-        cout << '-' << tmpYear->year << '-';
-        if(count % 3 == 0) cout << endl;
-        else cout << "      ";
-        tmpYear = tmpYear->next;
-    }
-    if(count % 3 != 0) cout << endl;
-    cout << "-----------------------------------------" << endl;
-    tmpYear = Hschoolyear;
     string input;
-    cout << endl << "(...) Year to add: "; cin >> input;
-    while (true)
-    {
-        if(input == tmpYear->year) break;
-        tmpYear = tmpYear->next;
-        if(tmpYear == nullptr)
-        {
-            cout << "(!) The year you want is invalid." <<endl;
-            cout << "(?) Do you want to try again (Y/y for yes - other keys for no): "; cin >> input;
-            if(input != "Y" && input != "y")
-            {
-                system("cls");
-                cout << "--------------------------------------------" << endl;
-                cout << "(!) You chose not to add semester." << endl;
-                cout << "--------------------------------------------" << endl;
-                cout << endl << "Press any key to return...";
-                system("pause");
-                system("cls");
-                return;
-            }
-            else
-            {
-                cout << endl << "(...) Try another year: "; cin >> input;
-                tmpYear = Hschoolyear;
-            }
-        }
-    }
     Semester* tmpSemes = tmpYear->Hsemester;
     string season, startDate, endDate;
     Semester* lastSemes = nullptr;
@@ -286,7 +200,7 @@ void AddSemesterToSchoolYear(SchoolYear* &Hschoolyear) //Still yet get current y
     }
     else
     {
-        count = 0;
+        int count = 0;
         while (tmpSemes != nullptr)
         {
             count++;
@@ -359,7 +273,7 @@ void AddSemesterToSchoolYear(SchoolYear* &Hschoolyear) //Still yet get current y
     system("cls");
 }
 
-void AddCourseToSemester(Semester* &Hsemester)
+void AddCourseToSemester(Semester* &Hsemester) //Need to fix
 {
     system("cls");
     if(Hsemester == nullptr)
@@ -378,7 +292,8 @@ void AddCourseToSemester(Semester* &Hsemester)
     while (tmpSemes != nullptr)
     {
         if(stoi(tmpSemes->season) == semes) break;
-    } 
+        tmpSemes = tmpSemes->next;
+    }
     Course* tmpCourse = tmpSemes->Hcourse;
     Course* lastCourse = nullptr;
     string cID, cName, clName, tName, nCredit, capacity, dei, ses;
