@@ -204,9 +204,9 @@ void RemoveCourseFromSemester(SchoolYear* &thisyear);
 void AddSchoolYear(SchoolYear* &Hyear);
 void AddClassToSchoolYear(SchoolYear* &tmpYear);
 void AddSemesterToSchoolYear(SchoolYear* &tmpYear);
-void AddCourseToSemester(Semester* &Hsemester);
-void AddStudentToClass(Class* &Hclass);
-void AddStudentToCourse(Course* &Hcourse);
+void AddCourseToSemester(Semester* &tmpSemes);
+void AddStudentToClass(Class* &tmpClass);
+void AddStudentToCourse(Course* &tmpCourse);
 
 //Functions to find in list
 Scoreboard* checkInCourse (Student *account, Course *HCourse);

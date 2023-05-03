@@ -273,10 +273,10 @@ void AddSemesterToSchoolYear(SchoolYear* &tmpYear)
     system("cls");
 }
 
-void AddCourseToSemester(Semester* &Hsemester) //Need to fix
+void AddCourseToSemester(Semester* &tmpSemes) //Need to fix
 {
     system("cls");
-    if(Hsemester == nullptr)
+    if(tmpSemes == nullptr)
     {
         cout << "--------------------------------------------" << endl;
         cout << "(!) There is no semester to add course." << endl;
@@ -287,13 +287,6 @@ void AddCourseToSemester(Semester* &Hsemester) //Need to fix
         return;
     }
     string input;
-    Semester* tmpSemes = Hsemester;
-    int semes = checkValidSems(Hsemester);
-    while (tmpSemes != nullptr)
-    {
-        if(stoi(tmpSemes->season) == semes) break;
-        tmpSemes = tmpSemes->next;
-    }
     Course* tmpCourse = tmpSemes->Hcourse;
     Course* lastCourse = nullptr;
     string cID, cName, clName, tName, nCredit, capacity, dei, ses;
@@ -372,10 +365,10 @@ void AddCourseToSemester(Semester* &Hsemester) //Need to fix
     system("cls");
 }
 
-void AddStudentToClass(Class* &Hclass)
+void AddStudentToClass(Class* &tmpClass)
 {
     system("cls");
-    if(Hclass == nullptr)
+    if(tmpClass == nullptr)
     {
         cout << "-----------------------------------------" << endl;
         cout << "(!) There is no class to add student.";
@@ -384,51 +377,8 @@ void AddStudentToClass(Class* &Hclass)
         system("pause");
         system("cls");
         return;
-    }
-    cout << "-----------------------------------------" << endl;
-    cout << "(.) Available classes:" << endl;
-    cout << "-----------------------------------------" << endl;
-    Class* tmpClass = Hclass;
-    int count = 0;
-    while (tmpClass != nullptr)
-    {
-        count++;
-        cout << '-' << tmpClass->class_name << '-';
-        if(count % 3 == 0) cout << endl;
-        else cout << "      ";
-        tmpClass = tmpClass->next;
-    }
-    if(count % 3 != 0) cout << endl;
-   cout << "-----------------------------------------" << endl;
-    tmpClass = Hclass;
+    }   
     string input;
-    cout << endl << "(...) Class you to add student: "; cin >> input;
-    while (true)
-    {
-        if(input == tmpClass->class_name) break;
-        tmpClass = tmpClass->next;
-        if(tmpClass == nullptr)
-        {
-            cout << "(!) The class you want is invalid." << endl;
-            cout << "(?) Do you want to try again (Y/y for yes - other keys for no): "; cin >> input;
-            if(input != "Y" && input != "y")
-            {
-                system("cls");
-                cout << "-----------------------------------------" << endl;
-                cout << "(!) You chose not to add any student." << endl;
-                cout << "-----------------------------------------" << endl;
-                cout << endl << "Press any key to return...";
-                system("pause");
-                system("cls");
-                return;
-            }
-            else
-            {
-                cout << endl << "(...) Try again with another class name: "; cin >> input;
-                tmpClass = Hclass;
-            }
-        }
-    }
     Student* tmpStu = tmpClass->Hstudent;
     Student* lastStudent = nullptr;
     string stuId;
@@ -444,7 +394,7 @@ void AddStudentToClass(Class* &Hclass)
     }
     else
     {
-        count = 0;
+        int count = 0;
         while (tmpStu != nullptr)
         {
             count++;
@@ -504,10 +454,10 @@ void AddStudentToClass(Class* &Hclass)
     system("cls");
 }
 
-void AddStudentToCourse(Course* &Hcourse)
+void AddStudentToCourse(Course* &tmpCourse)
 {
     system("cls");
-    if(Hcourse == nullptr)
+    if(tmpCourse == nullptr)
     {
         cout << "------------------------------------------------" << endl;
         cout << "(!) There is no course to add a student to."<<endl;
@@ -517,50 +467,7 @@ void AddStudentToCourse(Course* &Hcourse)
         system("cls");
         return;
     }
-    cout << "------------------------------------------------" << endl;
-    cout << "(.) Available courses: " << endl;
-    cout << "------------------------------------------------" << endl;
-    Course* tmpCourse = Hcourse;
-    int count = 0;
-    while (tmpCourse != nullptr)
-    {
-        count++;
-        cout << '-' << tmpCourse->course_id << '-';
-        if(count % 3 == 0) cout << endl;
-        else cout << "      ";
-        tmpCourse = tmpCourse->next;
-    }
-    if(count % 3 != 0) cout << endl;
-    cout << "------------------------------------------------" << endl;
-    tmpCourse = Hcourse;    
     string input;
-    cout << endl << "(...) Course's name to add student: "; cin >> input;  
-    while (true)
-    {      
-        if(tmpCourse->course_id == input) break;
-        tmpCourse = tmpCourse->next;
-        if(tmpCourse == nullptr)
-        {
-            cout << "(!) The course you want is invalid." <<endl;
-            cout << "(?) Do you want to try again (Y/y for yes and others for no): "; cin >> input;
-            if(input != "Y" && input != "y")
-            {
-                system("cls");
-                cout << "------------------------------------------------" << endl;
-                cout << "(!) You added no student." <<endl;
-                cout << "------------------------------------------------" << endl;
-                cout << endl << "Press any key to return...";
-                system("pause");
-                system("cls");
-                return;
-            }
-            else
-            {
-                cout << endl << "(...) Try again with another course's name: "; cin >> input;
-                tmpCourse = Hcourse;
-            }
-        }
-    }
     Scoreboard* tmpStu = tmpCourse->Hscore;
     Scoreboard* lastStudent = nullptr;
     cout << endl;
@@ -575,7 +482,7 @@ void AddStudentToCourse(Course* &Hcourse)
     }
     else
     {
-        count = 0;
+        int count = 0;
         while (tmpStu != nullptr)
         {
             count++;
