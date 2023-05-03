@@ -206,6 +206,13 @@ void addInfor(user *account, SchoolYear *thisYear)
     bool enterPressed = false;
     Course* theCourse;
     Class *theClass;
+    
+    if(thisYear->year != getCurrentYear()){ // get back to current year
+        SaveChosenYear(thisYear);
+        MemoryRelease(thisYear);
+        startProgram(thisYear, getCurrentYear());
+    }
+
     while (!enterPressed)
     {
         system("cls");             // clears the console
