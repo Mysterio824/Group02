@@ -202,7 +202,7 @@ void RemoveCourseFromSemester(SchoolYear* &thisyear);
 
 //Functions to add manually
 void AddSchoolYear(SchoolYear* &Hyear);
-void AddClasstoSchoolYear(SchoolYear* &Hschoolyear);
+void AddClassToSchoolYear(SchoolYear* &Hschoolyear);
 void AddSemesterToSchoolYear(SchoolYear* &Hschoolyear);
 void AddCourseToSemester(Semester* &Hsemester);
 void AddStudentToClass(Class* &Hclass);
