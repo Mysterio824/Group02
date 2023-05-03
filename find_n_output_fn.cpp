@@ -244,7 +244,7 @@ void printAllClass(Class *listOfClass)
          << "| " << setw(20) << left << "Birth Date"
          << "| " << setw(20) << left << "Social ID"
          << " |" << endl;
-    printBorder(6, 12 + 30 + 15 + 10 + 20 + 20);
+    printBorder(6, 12 + 30 + 15 + 7 + 20 + 20);
     while (listOfClass)
     {
         Student *cur = listOfClass->Hstudent;
@@ -289,7 +289,6 @@ Class *printListClass(Class *listClass)
              << " |" << endl;
         printBorder(3, 15 + 30 + 10);
         listClass = listClass->next;
-        cnt ++;
     }
 
     int choice;
