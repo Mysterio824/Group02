@@ -93,22 +93,6 @@ user* importAccounts(bool isStudent)
     }
     file1.close();
 
-    // reverse list
-    if ((list->next))
-    {
-        user *cur = list;
-        list = list->next;
-        user *last = list;
-        cur->next = nullptr;
-        do
-        {
-            list = list->next;
-            last->next = cur;
-            cur = last;
-            last = list;
-        } while (last->next);
-        list->next = cur;
-    }
     return list;
 }
 
@@ -245,22 +229,6 @@ Staff *importStaff(string fileName)
         list = newUser;
     }
     file1.close();
-
-    // reverse list
-    if (!(list->next))
-        return list;
-    Staff *cur = list;
-    list = list->next;
-    Staff *last = list;
-    cur->next = nullptr;
-    do
-    {
-        list = list->next;
-        last->next = cur;
-        cur = last;
-        last = list;
-    } while (last->next);
-    list->next = cur;
 
     return list;
 }

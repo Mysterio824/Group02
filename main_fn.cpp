@@ -213,20 +213,15 @@ bool checkCurrentYear(string start, string end)
 
 void switchyear(user* account, SchoolYear* &thisyear)
 {
-    if(account -> isStudent){
+    if(account -> isStudent || !thisyear){
         startProgram(thisyear, getCurrentYear());
         if(thisyear)
             thisyear -> next = nullptr;
         return;
     }
 
-    if(!thisyear){
-        thisyear = new SchoolYear("");
-        return;
-    } 
-
     string getyear = displayyears();
-    if(getyear == thisyear -> year || getyear == "") return;
+    if(getyear == thisyear -> year) return;
     SaveChosenYear(thisyear);
     MemoryRelease(thisyear);
     startProgram(thisyear, getyear);

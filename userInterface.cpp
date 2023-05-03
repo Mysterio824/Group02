@@ -66,10 +66,10 @@ bool wayToImport()
 
 void createAccount()
 {
-    user *newList;
+    user *newList = nullptr;
     bool isStudent = checkStd();
     bool import = wayToImport();
-    Staff* newListStaff;
+    Staff* newListStaff = nullptr;
     system("cls"); 
     int x = 0, y = 0;
     if (import)
@@ -106,8 +106,12 @@ void createAccount()
             gotoxy(x + 12, y + 3);
             cin >> password;
             tmp = createUser(username, password);
-            tmp->next = newList;
-            newList = tmp;
+            if(!newList)
+                newList = tmp;
+            else{
+                tmp->next = newList;
+                newList = tmp;                
+            }
             cout << endl;
             
             if(!isStudent){ // staff's infor
@@ -142,10 +146,10 @@ void createAccount()
                 cout << setw(12) << ""
                     << "-------------------------------" << endl;
                 gotoxy(x + 14, y + 6);
-                cin >> password;
-                gotoxy(x + 14, y + 8);
                 cin.ignore();
-                getline(cin, lastName);
+                getline(cin, password);
+                gotoxy(x + 14, y + 8);
+                cin >> lastName;
                 gotoxy(x + 14, y + 10);
                 cin >> gender;
                 gotoxy(x + 14, y + 12);
@@ -153,8 +157,13 @@ void createAccount()
                 gotoxy(x + 14, y + 14);
                 cin >> socialID;
                 tmp2 = createStaff(username, password, lastName, gender, birthDate, socialID);
-                tmp2 -> next = newListStaff;
-                newListStaff = tmp2;
+                if(!newListStaff)
+                    newListStaff = tmp2;
+                else{
+                    tmp2 -> next = newListStaff;
+                    newListStaff = tmp2;  
+                }
+                
             }
         }
     }
