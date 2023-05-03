@@ -6,6 +6,7 @@
 //staff's functions
 bool wayToImport();
 void createAccount();
+bool chooseCourseOrClass();
 void addInfor(user *account, SchoolYear *thisYear);
 void findStaff(user *&account);
 void chooseToViewClass(Class *hClass, Semester *thisSem);

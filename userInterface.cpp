@@ -199,6 +199,66 @@ void createAccount()
     deleteStaffProfile(newListStaff);
 }
 
+bool chooseCourseOrClass(){
+        int choice = 1;
+    bool enterPressed = false;
+    while (!enterPressed)
+    {
+        system("cls");             // clears the console
+        SetConsoleOutputCP(65001); // sets console output to UTF-8 encoding
+        cout << "---------------------------------------------" << endl;
+        cout << "| " << setw(41) << left << "  Please which you want to add:"
+             << " |" << endl;
+        cout << "---------------------------------------------" << endl;
+        cout << "| " << setw(20) << left;
+        if (choice == 1)
+        {
+            cout << "➤ Classes";
+        }
+        else
+        {
+            cout << "  Classes";
+        }
+        cout << setw(15) << right << setw(23) << right;
+        if (choice == 2)
+        {
+            cout << "➤ Courses ";
+        }
+        else
+        {
+            cout << "  Courses ";
+        }
+        cout << " |" << endl;
+        cout << "---------------------------------------------" << endl;
+        cout << endl
+             << "Use arrow keys to move, and press enter to select." << endl;
+        int key = getch();
+        switch (key)
+        {
+        case 224: // arrow keys
+            key = getch();
+            if (key == 77 && choice < 2)
+            { // right arrow
+                choice++;
+            }
+            else if (key == 75 && choice > 1)
+            { // left arrow
+                choice--;
+            }
+            break;
+        case 13: // enter key
+            enterPressed = true;
+            break;
+        default:
+            break;
+        }
+    }
+    if (choice == 1)
+        return true;
+    if (choice == 2)
+        return false;
+}
+
 void addInfor(user *account, SchoolYear *thisYear)
 {
     system("cls");
@@ -206,6 +266,7 @@ void addInfor(user *account, SchoolYear *thisYear)
     bool enterPressed = false;
     Course* theCourse;
     Class *theClass;
+    Semester* theSem;
     
     if(thisYear->year != getCurrentYear()){ // get back to current year
         SaveChosenYear(thisYear);
@@ -263,11 +324,11 @@ void addInfor(user *account, SchoolYear *thisYear)
         cout << "| ";
         if (choice == 5)
         {
-            cout << setw(34) << left << "➤ Add new Course" << setw(7) << internal << "";
+            cout << setw(34) << left << "➤ Add Course or Class" << setw(7) << internal << "";
         }
         else
         {
-            cout << setw(34) << left << " Add new Course" << setw(5) << internal << "";
+            cout << setw(34) << left << " Add Course or Class" << setw(5) << internal << "";
         }
         if (choice == 6)
         {
@@ -329,8 +390,15 @@ void addInfor(user *account, SchoolYear *thisYear)
         AddStudentToCourse(theCourse);
         break;
     case 5:
-        //get current or later semester
-        AddCourseToSemester(thisYear -> Hsemester);
+        if(chooseCourseOrClass())
+            AddClassToSchoolYear(thisYear);
+        else{
+            theSem = thisYear -> Hsemester;
+            choice = checkValidSems(thisYear -> Hsemester);
+            for (int i = 1; i < choice; i ++)
+                theSem = theSem -> next;
+            AddCourseToSemester(theSem);
+        }
         break;
     case 6:
         AddSemesterToSchoolYear(thisYear);
