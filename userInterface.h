@@ -9,6 +9,7 @@ void createAccount();
 bool chooseCourseOrClass();
 void addInfor(user *account, SchoolYear *thisYear);
 void findStaff(user *&account);
+void chooseToAddCourse(Course *&Hcourse);
 void chooseToViewClass(Class *hClass, SchoolYear *thisYear);
 void viewForStaff (user* account, SchoolYear *thisYear);
 void staffInterface (user* account, SchoolYear *listYear);

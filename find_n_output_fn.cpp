@@ -111,14 +111,15 @@ void printStdScoreBoard(Student *account, Course *listOfCourse)
 Course* printListCourse (Course *listOfCourse){
     if (!listOfCourse)
     {
-        cout << "There's nothing to see";
+        cout << "There's no Course";
         return nullptr;
     }
     system("cls");
     Course* mark = listOfCourse;
     int cnt = 0;
-    printBorder(7, 18 + 35 + 12 + 25 + 13 + 17 + 11);
-    cout << "| " << setw(18) << left << "Course ID"
+    printBorder(8,5 + 18 + 35 + 12 + 25 + 13 + 17 + 11);
+    cout << "| " << setw(5) << left << "Idx"
+         << "| " << setw(18) << left << "Course ID"
          << "| " << setw(35) << left << "Course Name"
          << "| " << setw(13) << left << "Class Name"
          << "| " << setw(25) << left << "Teacher"
@@ -126,11 +127,12 @@ Course* printListCourse (Course *listOfCourse){
          << "| " << setw(13) << left << "Day of Week"
          << "| " << setw(18) << left << "Session"
          << " |" << endl;
-    printBorder(7, 18 + 35 + 12 + 25 + 13 + 17 + 11);
+    printBorder(8, 5 + 18 + 35 + 12 + 25 + 13 + 17 + 11);
     while (listOfCourse)
     {
         
-            cout << "| " << setw(18) << left << listOfCourse->course_id
+            cout << "| " << setw(5) << left << ++cnt
+                 << "| " << setw(18) << left << listOfCourse->course_id
                  << "| " << setw(35) << left << listOfCourse->course_name
                  << "| " << setw(13) << left << listOfCourse->class_name
                  << "| " << setw(25) << left << listOfCourse->teacher_name
@@ -139,7 +141,6 @@ Course* printListCourse (Course *listOfCourse){
                  << "| " << setw(18) << left << listOfCourse->session << " |" << endl;
             printBorder(7, 18 + 35 + 12 + 25 + 13 + 17 + 11);
         listOfCourse = listOfCourse->next;
-        cnt++;
     }
 
     int choice;
