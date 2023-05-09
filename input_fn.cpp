@@ -56,7 +56,7 @@ void AddSchoolYear(SchoolYear* &Hyear)
 
         system("cls");
 
-        outFile.open("input/yearlist.csv", ios::app);
+        outFile.open("yearlist.csv", ios::app);
         if(outFile.is_open())
         {
             outFile << ',' << input;
@@ -78,7 +78,9 @@ void AddSchoolYear(SchoolYear* &Hyear)
     cout << " --------------------------------------------------" << endl;
     cout << "(.) You added the year of: " << input << '.' << endl;
     cout << " --------------------------------------------------" << endl;
-
+    cout << endl << "Press any key to return...";
+    system("pause"); 
+    system("cls");
 }
 
 void AddClassToSchoolYear(SchoolYear* &tmpYear)
@@ -89,6 +91,9 @@ void AddClassToSchoolYear(SchoolYear* &tmpYear)
         cout << "--------------------------------------------" << endl;
         cout << "(!) There is no school-year to add semester" << endl;
         cout << "--------------------------------------------" << endl;
+        cout << endl << "Press any key to return...";
+        system("pause");
+        system("cls");
         return;
     }
     string input;
@@ -132,6 +137,9 @@ void AddClassToSchoolYear(SchoolYear* &tmpYear)
                     cout << "--------------------------------------------" << endl;
                     cout << "(!) You added no class to the school year." << endl;
                     cout << "--------------------------------------------" << endl;
+                    cout << endl << "Press any key to return...";
+                    system("pause");
+                    system("cls");
                     return;
                 }
                 else
@@ -150,6 +158,9 @@ void AddClassToSchoolYear(SchoolYear* &tmpYear)
     cout << "------------------------------------------------------------------------------------------" << endl;
     cout << "(.) You added class " << className << " to the school-year of " << tmpYear->year << '.' << endl;
     cout << "------------------------------------------------------------------------------------------" << endl;
+    cout << endl << "Press any key to return...";
+    system("pause");
+    system("cls");
 }
 
 void AddSemesterToSchoolYear(SchoolYear* &tmpYear)
@@ -160,6 +171,9 @@ void AddSemesterToSchoolYear(SchoolYear* &tmpYear)
         cout << "--------------------------------------------" << endl;
         cout << "(!) There is no school year to add semester." << endl;
         cout << "--------------------------------------------" << endl;
+        cout << endl << "Press any key to return...";
+        system("pause");
+        system("cls");
         return;
     }
     string input;
@@ -221,6 +235,9 @@ void AddSemesterToSchoolYear(SchoolYear* &tmpYear)
                     cout << "----------------------------------------------" << endl;
                     cout << "(!) You added no semester to the school year." << endl;
                     cout << "----------------------------------------------" << endl;
+                    cout << endl << "Press any key to return...";
+                    system("pause");
+                    system("cls");
                     return;
                 }
                 else
@@ -251,6 +268,9 @@ void AddSemesterToSchoolYear(SchoolYear* &tmpYear)
     cout << "--------------------------------------------------------------------------------------------------" << endl;
     cout << "(.) You added a semester season " << season << " to the school year of " << tmpYear->year << '.' << endl;
     cout << "--------------------------------------------------------------------------------------------------" << endl;
+    cout << endl << "Press any key to return...";
+    system("pause");
+    system("cls");
 }
 
 void AddCourseToSemester(Semester* &tmpSemes) //Need to fix
@@ -261,6 +281,9 @@ void AddCourseToSemester(Semester* &tmpSemes) //Need to fix
         cout << "--------------------------------------------" << endl;
         cout << "(!) There is no semester to add course." << endl;
         cout << "--------------------------------------------" << endl;
+        cout << endl << "Press any key to return...";
+        system("pause");
+        system("cls");
         return;
     }
     string input;
@@ -306,6 +329,9 @@ void AddCourseToSemester(Semester* &tmpSemes) //Need to fix
                     cout << "-----------------------------------------" << endl;
                     cout << "(!) You added no course to the semester." << endl;
                     cout << "-----------------------------------------" << endl;
+                    cout << endl << "Press any key to return...";
+                    system("pause");
+                    system("cls");
                     return;
                 }
                 else
@@ -319,9 +345,9 @@ void AddCourseToSemester(Semester* &tmpSemes) //Need to fix
     }
     system("cls");
     cout << "(.) ID of the course to add: " << cID;
-    cout << "(...) Course's name: "; cin.ignore(); getline(cin,cName);
+    cout << "(...) Course's name: "; cin >> cName;
     cout << "(...) Class's name: "; cin >> clName;
-    cout << "(...) Teacher's name: "; cin.ignore(); getline(cin,tName);
+    cout << "(...) Teacher's name: ";  cin >> tName;
     cout << "(...) The number of credits: "; cin >> nCredit;
     cout << "(...) Capacity: "; cin >> capacity;
     cout << "(...) Day of week: ";  cin >> dei;
@@ -334,6 +360,9 @@ void AddCourseToSemester(Semester* &tmpSemes) //Need to fix
     cout << "--------------------------------------------------------------------------------------------------------------------------------------------" << endl;
     cout << "(.) You added a course with ID " << cID << " to the semester season " << tmpSemes->season << ", year " << tmpSemes->school_year << endl;
     cout << "--------------------------------------------------------------------------------------------------------------------------------------------" << endl;
+    cout << endl << "Press any key to return...";
+    system("pause");
+    system("cls");
 }
 
 void AddStudentToClass(Class* &tmpClass)
@@ -342,8 +371,11 @@ void AddStudentToClass(Class* &tmpClass)
     if(tmpClass == nullptr)
     {
         cout << "-----------------------------------------" << endl;
-        cout << "(!) There is no class to add student." << endl;
+        cout << "(!) There is no class to add student.";
         cout << "-----------------------------------------" << endl;
+        cout << endl << "Press any key to return...";
+        system("pause");
+        system("cls");
         return;
     }   
     string input;
@@ -388,6 +420,9 @@ void AddStudentToClass(Class* &tmpClass)
                     cout << "-----------------------------------------" << endl;
                     cout << "(!) You add no student to this class.";
                     cout << "-----------------------------------------" << endl;
+                    cout << endl << "Press any key to return...";
+                    system("pause");
+                    system("cls");
                     return;
                 }
                 else
@@ -402,7 +437,7 @@ void AddStudentToClass(Class* &tmpClass)
     system("cls");
     string fName, lName, gder, birth, socialId;
     cout << "(.) Student's ID to add: " << stuId;
-    cout << "(...) First Name: "; cin.ignore(); getline(cin,fName);
+    cout << "(...) First Name: "; cin >> fName;
     cout << "(...) Last Name: "; cin >> lName;
     cout << "(...) Gender: "; cin >> gder;
     cout << "(...) Birth Date:  "; cin >> birth;
@@ -414,6 +449,9 @@ void AddStudentToClass(Class* &tmpClass)
     cout << "-----------------------------------------------------------------------------------------------------------------------------" << endl;
     cout << "(.) You added " << tmpStu->fullName() << " with the ID of " << stuId << " to class " << tmpClass->class_name << '.' << endl;
     cout << "-----------------------------------------------------------------------------------------------------------------------------" << endl;
+    cout << endl << "Press any to return...";
+    system("pause");
+    system("cls");
 }
 
 void AddStudentToCourse(Course* &tmpCourse)
@@ -424,6 +462,9 @@ void AddStudentToCourse(Course* &tmpCourse)
         cout << "------------------------------------------------" << endl;
         cout << "(!) There is no course to add a student to."<<endl;
         cout << "------------------------------------------------" << endl;
+        cout << endl << "Press any key to return...";
+        system("pause");
+        system("cls");
         return;
     }
     string input;
@@ -467,6 +508,9 @@ void AddStudentToCourse(Course* &tmpCourse)
                     cout << "-----------------------------" << endl;
                     cout << "(!) You added no student." << endl;
                     cout << "-----------------------------" << endl;
+                    cout << endl << "Press any key to return...";
+                    system("pause");
+                    system("cls");
                     return;
                 }
                 else
@@ -486,6 +530,9 @@ void AddStudentToCourse(Course* &tmpCourse)
     cout << "--------------------------------------------------------------------------------------------------" << endl;
     cout << "(.) You added this student's ID: " << input << " to " << tmpCourse->course_name << '.' << endl;
     cout << "--------------------------------------------------------------------------------------------------" << endl;
+    cout << endl << "Press any key to return...";
+    system("pause");
+    system("cls");
 }
 
 //fileName: class_name.csv;
@@ -724,27 +771,54 @@ Scoreboard* ImportScoreboard(Course* Hcourse)
 
 void UpdateCourseInfo(Course* &Hcourse)
 {
-    Course* pcourse = printListCourse(Hcourse);
-    if(!pcourse) return;
-    string  course_id;
+    Course* pcourse = Hcourse;
+    if (!pcourse)
+    {
+        cout<<"No course to update\n";
+        return;
+    }
+    cout<<"Available courses:\n";
+    cout<<"| "<<setw(15)<<left<<"Course ID"
+        <<"| "<<setw(30)<<left<<"Course Name"<<" |"<<endl;
+    {
+        cout<<"| "<<setw(15)<<left<<pcourse->course_id
+        <<"| "<<setw(30)<<left<<pcourse->course_name<<" |"<<endl;
+        pcourse = pcourse->next;
+    }
+    string course_id;
     string  course_name, class_name, teacher_name,
             credits, day_of_week, session_time;
     int capacity;
+    while (true)
+    {
+        cout<<"Enter course ID to update: ";
+        cin>>course_id;
+        pcourse = Hcourse;
+        while (pcourse)
+        {
+            if (pcourse->course_id == course_id)
+            {
+                cout<<"Enter new course name: "; cin>>course_name;
+                cout<<"Enter new teacher name: "; cin>>teacher_name;
+                cout<<"Enter new credits: "; cin>>credits;
+                cout<<"Enter new capacity: "; cin>>capacity;
+                cout<<"Enter new day of week: "; cin>>day_of_week;
+                cout<<"Enter new session time: "; cin>>session_time;
 
-    cout<<"Enter new course name: "; cin>>course_name;
-    cout<<"Enter new teacher name: "; cin>>teacher_name;
-    cout<<"Enter new credits: "; cin>>credits;
-    cout<<"Enter new capacity: "; cin>>capacity;
-    cout<<"Enter new day of week: "; cin>>day_of_week;
-    cout<<"Enter new session time: "; cin>>session_time;
-
-    pcourse->course_name = course_name;
-    pcourse->teacher_name = teacher_name;
-    pcourse->num_credits = credits;
-    pcourse->capacity = capacity;
-    pcourse->day = day_of_week;
-    pcourse->session = session_time;
-    cout<<"Course updated\n";
+                pcourse->course_name = course_name;
+                pcourse->teacher_name = teacher_name;
+                pcourse->num_credits = credits;
+                pcourse->capacity = capacity;
+                pcourse->day = day_of_week;
+                pcourse->session = session_time;
+                cout<<"Course updated\n";
+                return;
+            }
+            pcourse = pcourse->next;
+        }
+        cout<<"No course found\n";
+        system("pause");
+    }
 }
 
 void UpdateStudentResult(Course* &Hcourse)
@@ -792,6 +866,9 @@ void UpdateStudentResult(Course* &Hcourse)
                 cout << "----------------------------------------------------" << endl;
                 cout << "(!) You chose not to update any student.";
                 cout << "----------------------------------------------------" << endl;
+                cout << endl << "Press any key to return...";
+                system("pause");
+                system("cls");
                 return;
             }
             else
@@ -805,8 +882,11 @@ void UpdateStudentResult(Course* &Hcourse)
     {
         system("cls");
         cout << "----------------------------------------" << endl;
-        cout << "(!) There is no student to update." << endl;
+        cout << "(!) There is no student to update.";
         cout << "----------------------------------------" << endl;
+        cout << endl << "Press any key to return...";
+        system("pause");
+        system("cls");
         return;
     }
     cout << endl;
@@ -841,6 +921,9 @@ void UpdateStudentResult(Course* &Hcourse)
                 cout << "----------------------------------------------------" << endl;
                 cout << "(!) You chose not to update any student.";
                 cout << "----------------------------------------------------" << endl;
+                cout << endl << "Press any key to return...";
+                system("pause");
+                system("cls");
                 return;
             }
             else
@@ -864,4 +947,7 @@ void UpdateStudentResult(Course* &Hcourse)
     cout << "-----------------------------------------------------------------------------------------------------------" << endl;
     cout << "(.) You have updated successfully results of student with the ID: " << tmpSB->student_id << '.' << endl;
     cout << "-----------------------------------------------------------------------------------------------------------" << endl;
+    cout << endl << "Press any key to return...";
+    system("pause");
+    system("cls");
 }
