@@ -156,7 +156,7 @@ void AddClassToSchoolYear(SchoolYear* &tmpYear)
     else tmpYear->Hclass = tmpClass;
     system("cls");
     cout << "------------------------------------------------------------------------------------------" << endl;
-    cout << "(.) You added class " << className << "to the school-year of " << tmpYear->year << '.' << endl;
+    cout << "(.) You added class " << className << " to the school-year of " << tmpYear->year << '.' << endl;
     cout << "------------------------------------------------------------------------------------------" << endl;
     cout << endl << "Press any key to return...";
     system("pause");
@@ -266,7 +266,7 @@ void AddSemesterToSchoolYear(SchoolYear* &tmpYear)
     if(lastSemes != nullptr) lastSemes->next = tmpSemes;
     else tmpYear->Hsemester = tmpSemes;
     cout << "--------------------------------------------------------------------------------------------------" << endl;
-    cout << "(.) You added a semester season " << season << "to the school year of " << tmpYear->year << '.' << endl;
+    cout << "(.) You added a semester season " << season << " to the school year of " << tmpYear->year << '.' << endl;
     cout << "--------------------------------------------------------------------------------------------------" << endl;
     cout << endl << "Press any key to return...";
     system("pause");
@@ -358,7 +358,7 @@ void AddCourseToSemester(Semester* &tmpSemes) //Need to fix
     else tmpSemes->Hcourse = tmpCourse;
     cout << endl;
     cout << "--------------------------------------------------------------------------------------------------------------------------------------------" << endl;
-    cout << "(.) You added a course with ID " << cID << "to the semester season " << tmpSemes->season << ", year " << tmpSemes->school_year << endl;
+    cout << "(.) You added a course with ID " << cID << " to the semester season " << tmpSemes->season << ", year " << tmpSemes->school_year << endl;
     cout << "--------------------------------------------------------------------------------------------------------------------------------------------" << endl;
     cout << endl << "Press any key to return...";
     system("pause");
@@ -447,7 +447,7 @@ void AddStudentToClass(Class* &tmpClass)
     if(lastStudent != nullptr) lastStudent->next = tmpStu;
     else tmpClass->Hstudent = tmpStu;
     cout << "-----------------------------------------------------------------------------------------------------------------------------" << endl;
-    cout << "(.) You added " << tmpStu->fullName() << "with the ID of " << stuId << "to class " << tmpClass->class_name << '.' << endl;
+    cout << "(.) You added " << tmpStu->fullName() << " with the ID of " << stuId << " to class " << tmpClass->class_name << '.' << endl;
     cout << "-----------------------------------------------------------------------------------------------------------------------------" << endl;
     cout << endl << "Press any to return...";
     system("pause");
@@ -528,7 +528,7 @@ void AddStudentToCourse(Course* &tmpCourse)
     if(lastStudent != nullptr) lastStudent->next = tmpStu;
     else tmpCourse->Hscore = tmpStu;
     cout << "--------------------------------------------------------------------------------------------------" << endl;
-    cout << "(.) You added this student's ID: " << input << "to " << tmpCourse->course_name << '.' << endl;
+    cout << "(.) You added this student's ID: " << input << " to " << tmpCourse->course_name << '.' << endl;
     cout << "--------------------------------------------------------------------------------------------------" << endl;
     cout << endl << "Press any key to return...";
     system("pause");

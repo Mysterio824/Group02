@@ -423,9 +423,9 @@ void findStaff(user *&account)
     deleteStaffProfile(cur);
 }
 
-void chooseToViewClass(Class *hClass, Semester *thisSem)
+void chooseToViewClass(Class *hClass, SchoolYear *thisYear)
 {
-    if(!hClass || !thisSem) return;
+    if(!hClass || !thisYear) return;
     int choice = 1;
     bool enterPressed = false;
     while (!enterPressed)
@@ -481,7 +481,7 @@ void chooseToViewClass(Class *hClass, Semester *thisSem)
     }
     system("cls");
     if (choice == 2)
-        return printClassScoreBoard(hClass, thisSem);
+        return printClassScoreBoard(hClass, chooseSem(thisYear));
     if (choice == 1)
         return printOneClass(hClass);
 }
@@ -583,7 +583,7 @@ void viewForStaff(user *account, SchoolYear *thisYear)
     case 2:
         switchyear(account, thisYear);
         if(thisYear)
-            chooseToViewClass(printListClass(thisYear->Hclass), chooseSem(thisYear));
+            chooseToViewClass(printListClass(thisYear->Hclass), thisYear);
         break;
     case 3:
         switchyear(account, thisYear);
