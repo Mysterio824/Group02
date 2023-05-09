@@ -730,11 +730,11 @@ void UpdateCourseInfo(Course* &Hcourse)
     string  course_name, class_name, teacher_name,
             credits, day_of_week, session_time;
     int capacity;
-
-    cout<<"Enter new course name: "; cin>>course_name;
-    cout<<"Enter new teacher name: "; cin>>teacher_name;
+    system("cls");
+    cout<<"Enter new course name: "; cin.ignore(); getline(cin,course_name);
     cout<<"Enter new credits: "; cin>>credits;
     cout<<"Enter new capacity: "; cin>>capacity;
+    cout<<"Enter new teacher name: "; cin.ignore(); getline(cin,teacher_name);
     cout<<"Enter new day of week: "; cin>>day_of_week;
     cout<<"Enter new session time: "; cin>>session_time;
 

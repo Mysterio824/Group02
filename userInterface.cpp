@@ -387,7 +387,7 @@ void addInfor(user *account, SchoolYear *thisYear)
         break;
     case 4:
         theSem = chooseSem(thisYear);
-        AddStudentToCourse(theSem -> Hcourse);
+        chooseToAddCourse(theSem -> Hcourse);
         break;
     case 5:
         if(chooseCourseOrClass())
@@ -424,7 +424,7 @@ void findStaff(user *&account)
 }
 
 void chooseToAddCourse(Course *&Hcourse){
-        int choice = 1;
+    int choice = 1;
     bool enterPressed = false;
     while (!enterPressed) {
         system("cls");
