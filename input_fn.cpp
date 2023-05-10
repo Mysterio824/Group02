@@ -327,7 +327,7 @@ void AddCourseToSemester(Semester* &tmpSemes)
     cout << "(...) Day of week: ";  cin >> dei;
     cout << "(...) Session: "; cin >> ses;
  
-    tmpCourse = new Course(cID, cName, clName, tName, nCredit, capacity, dei, ses);
+    tmpCourse = new Course(cID, " " + cName, " " + clName, " " + tName, " " + nCredit, capacity, " " + dei, " " + ses);
     if(lastCourse != nullptr) lastCourse->next = tmpCourse;
     else tmpSemes->Hcourse = tmpCourse;
     cout << endl;
@@ -408,7 +408,7 @@ void AddStudentToClass(Class* &tmpClass)
     cout << "(...) Birth Date:  "; cin >> birth;
     cout << "(...) Social ID: "; cin >> socialId;
     cout << endl;
-    tmpStu = new Student(tmpClass->class_name, stuId, fName, lName, gder, birth, socialId);
+    tmpStu = new Student(tmpClass->class_name, stuId, " " + fName, " " + lName, " " + gder, " " + birth, " " + socialId);
     if(lastStudent != nullptr) lastStudent->next = tmpStu;
     else tmpClass->Hstudent = tmpStu;
     cout << "-----------------------------------------------------------------------------------------------------------------------------" << endl;
@@ -482,7 +482,7 @@ void AddStudentToCourse(Course* &tmpCourse)
     cout << "(.) Student's ID to add: " << input << endl;
     tmpStu = new Scoreboard(input);
     cout << "(...) Student's full name: "; cin.ignore(); getline(cin, input);
-    tmpStu->full_name = input;
+    tmpStu->full_name = " " + input;
     if(lastStudent != nullptr) lastStudent->next = tmpStu;
     else tmpCourse->Hscore = tmpStu;
     cout << "--------------------------------------------------------------------------------------------------" << endl;
@@ -732,12 +732,10 @@ void UpdateCourseInfo(Course* &Hcourse)
         cout << "----------------------------------------" << endl;
         cout << "(!) There is no course to update." << endl;
         cout << "----------------------------------------" << endl;
-        cout << endl << "Press any key to return..." << endl;
-        system("pause");
-        system("cls");
         return;
     }
-    Course* pcourse = printListCourse(Hcourse);
+    Course* pcourse = Hcourse;
+
     string  course_id;
     string  course_name, class_name, teacher_name,
             credits, day_of_week, session_time;
@@ -750,19 +748,16 @@ void UpdateCourseInfo(Course* &Hcourse)
     cout<<"(...) Enter new day of week: "; cin>>day_of_week;
     cout<<"(...) Enter new session time: "; cin>>session_time;
 
-    pcourse->course_name = course_name;
-    pcourse->teacher_name = teacher_name;
+    pcourse->course_name = " " + course_name;
+    pcourse->teacher_name = " " + teacher_name;
     pcourse->num_credits = credits;
     pcourse->capacity = capacity;
-    pcourse->day = day_of_week;
-    pcourse->session = session_time;
+    pcourse->day = " " + day_of_week;
+    pcourse->session = " " + session_time;
     cout << endl;
     cout << "----------------------------------------" << endl;
     cout<<"(!) Course " << course_name << " updated." << endl;
     cout << "----------------------------------------" << endl;
-    cout << endl << "Press any key to return..." << endl;
-    system("pause");
-    system("cls");
 }
 
 void UpdateStudentResult(Course* &Hcourse)
@@ -773,21 +768,16 @@ void UpdateStudentResult(Course* &Hcourse)
         cout << "----------------------------------------" << endl;
         cout << "(!) There is no course to update." << endl;
         cout << "----------------------------------------" << endl;
-        cout << endl << "Press any key to return..." << endl;
-        system("pause");
-        system("cls");
         return;
     }
-    Course* tmpCourse = printListCourse(Hcourse);
+    Course* tmpCourse = Hcourse;
+    
     if(tmpCourse->Hscore == nullptr)
     {
         system("cls");
         cout << "----------------------------------------" << endl;
         cout << "(!) There is no student to update." << endl;
         cout << "----------------------------------------" << endl;
-        cout << endl << "Press any key to return..." << endl;
-        system("pause");
-        system("cls");
         return;
     }
     cout << endl;
@@ -823,9 +813,6 @@ void UpdateStudentResult(Course* &Hcourse)
                 cout << "----------------------------------------------------" << endl;
                 cout << "(!) You chose not to update any student.";
                 cout << "----------------------------------------------------" << endl;
-                cout << endl << "Press any key to return..." << endl;
-                system("pause");
-                system("cls");
                 return;
             }
             else
@@ -848,7 +835,4 @@ void UpdateStudentResult(Course* &Hcourse)
     cout << "-----------------------------------------------------------------------------------------------------------" << endl;
     cout << "(!) You have updated successfully results of student with the ID: " << tmpSB->student_id << '.' << endl;
     cout << "-----------------------------------------------------------------------------------------------------------" << endl;
-    cout << endl << "Press any key to return..." << endl;
-    system("pause");
-    system("cls");
 }

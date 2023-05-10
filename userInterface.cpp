@@ -430,7 +430,7 @@ void chooseToAddCourse(Course *&Hcourse){
         system("cls");
         SetConsoleOutputCP(65001);
         printBorder(1, 30);
-        cout << "| " << setw(30) << left << "What do you want to do: "
+        cout << "| " << setw(30) << left << "  What do you want to do: "
              << " |" << endl;
         printBorder(1, 31);
         cout << "| ";
@@ -474,15 +474,16 @@ void chooseToAddCourse(Course *&Hcourse){
         }
     }
     system("cls");
+    Course* thisCourse = printListCourse(Hcourse);
     switch(choice) {
         case 1:
-            AddStudentToCourse(Hcourse);
+            AddStudentToCourse(thisCourse);
             break;
         case 2:
-            UpdateCourseInfo(Hcourse);
+            UpdateCourseInfo(thisCourse);
             break;
         case 3:
-            UpdateStudentResult(Hcourse);
+            UpdateStudentResult(thisCourse);
 
     }
 }

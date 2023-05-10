@@ -117,8 +117,8 @@ Course* printListCourse (Course *listOfCourse){
     system("cls");
     Course* mark = listOfCourse;
     int cnt = 0;
-    printBorder(8,5 + 18 + 35 + 12 + 25 + 13 + 17 + 11);
-    cout << "| " << setw(5) << left << "Idx"
+    printBorder(8, 6 + 18 + 35 + 12 + 25 + 13 + 17 + 11);
+    cout << "| " << setw(6) << left << "Idx"
          << "| " << setw(18) << left << "Course ID"
          << "| " << setw(35) << left << "Course Name"
          << "| " << setw(13) << left << "Class Name"
@@ -127,11 +127,11 @@ Course* printListCourse (Course *listOfCourse){
          << "| " << setw(13) << left << "Day of Week"
          << "| " << setw(18) << left << "Session"
          << " |" << endl;
-    printBorder(8, 5 + 18 + 35 + 12 + 25 + 13 + 17 + 11);
+    printBorder(8, 6 + 18 + 35 + 12 + 25 + 13 + 17 + 11);
     while (listOfCourse)
     {
         
-            cout << "| " << setw(5) << left << ++cnt
+            cout << "| " << setw(6) << left << ++cnt
                  << "| " << setw(18) << left << listOfCourse->course_id
                  << "| " << setw(35) << left << listOfCourse->course_name
                  << "| " << setw(13) << left << listOfCourse->class_name
@@ -139,7 +139,7 @@ Course* printListCourse (Course *listOfCourse){
                  << "| " << setw(10) << left << listOfCourse->num_credits
                  << "| " << setw(13) << left << listOfCourse->day
                  << "| " << setw(18) << left << listOfCourse->session << " |" << endl;
-            printBorder(7, 18 + 35 + 12 + 25 + 13 + 17 + 11);
+            printBorder(8, 6 + 18 + 35 + 12 + 25 + 13 + 17 + 11);
         listOfCourse = listOfCourse->next;
     }
 

@@ -229,6 +229,7 @@ void switchyear(user* account, SchoolYear* &thisyear)
 }
 
 int checkValidSems(Semester* hSem){
+    if(!hSem) return 0;
     time_t t = time(NULL);
     struct tm tm = *localtime(&t);
     stringstream ss;
