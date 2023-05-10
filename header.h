@@ -196,9 +196,9 @@ SchoolYear* ImportSchoolYears(string fileName);
 Scoreboard* ImportScoreboard(Course* Hcourse);
 
 //Functions to remove manually
-void RemoveStudentFromClass(SchoolYear* &thisyear);
-void RemoveStudentFromCourse(SchoolYear* &thisyear);
-void RemoveCourseFromSemester(SchoolYear* &thisyear);
+void RemoveStudentFromClass(Class *&thisClass);
+void RemoveStudentFromCourse(Course *&thisCourse);
+void RemoveCourseFromSemester(Semester* &thisSem);
 
 //Functions to add manually
 void AddSchoolYear(SchoolYear* &Hyear);

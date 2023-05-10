@@ -1,33 +1,24 @@
 #include "header.h"
 #include "userInterface.h"
 
-void RemoveCourseFromSemester (SchoolYear* &thisyear)
+void RemoveCourseFromSemester (Semester *&thisSem)
 {
     system("cls");
-    string season, course_id;
+    string course_id;
     int x = 0, y = 0;
     gotoxy(x,y);
     cout << " -----------------------------------------" << endl;
     gotoxy(x, y + 1);
-    cout << "| Season    |                             |" << endl;
+    cout << "| Course ID:  |                             |" << endl;
     gotoxy(x, y + 2);
     cout << " -----------------------------------------" << endl;
-    gotoxy(x, y + 3);
-    cout << "| Course ID |                             |" << endl;
-    gotoxy(x, y + 4);
-    cout << " -----------------------------------------" << endl;
-    gotoxy(x + 14, y + 1);
-    cin>>season;
-    gotoxy(x + 14, y + 3);
-    cin >> course_id;
-    gotoxy(x,y + 5);
-    //season & courseID obtained
-    Semester* psm = thisyear->Hsemester;
+    gotoxy(x + 16, y + 1);
+    cin>>course_id;
+    gotoxy(x,y + 4);
+    // courseID obtained
+    Semester* psm = thisSem;
     while (psm)
     {
-        if (psm->season == season)
-        {
-
             Course* pcourse = psm->Hcourse;
             while(pcourse){
                 if(pcourse->course_id == course_id){
@@ -39,82 +30,58 @@ void RemoveCourseFromSemester (SchoolYear* &thisyear)
                 pcourse = pcourse->next;
             }
             std::cout<<"Course not found!"<<std::endl;
-            return;
-        }
-        psm = psm->next;
     }
-    std::cout<<"Semester not found!"<<std::endl;
 }
-void RemoveStudentFromCourse (SchoolYear* &thisyear)
+void RemoveStudentFromCourse (Course *&thisCourse)
 {
     system("cls");
-    string std_id, course_id;
+    string std_id;
     int x = 0, y = 0;
     gotoxy(x,y);
     cout << " -----------------------------------------" << endl;
     gotoxy(x, y + 1);
-    cout << "| Course ID   |                           |" << endl;
+    cout << "| Student ID:  |                           |" << endl;
     gotoxy(x, y + 2);
     cout << " -----------------------------------------" << endl;
-    gotoxy(x, y + 3);
-    cout << "| Student ID  |                           |" << endl;
-    gotoxy(x, y + 4);
-    cout << " -----------------------------------------" << endl;
     gotoxy(x + 16, y + 1);
-    cin >> course_id;
-    gotoxy(x + 16, y + 3);
-    cin>>std_id;
-    gotoxy(x,y + 5);
+    cin >> std_id;
+    gotoxy(x,y + 3);
 
-
-    Course* pcourse = thisyear->Hsemester->Hcourse;
+    Course* pcourse = thisCourse;
     while(pcourse){
-        if(pcourse->course_id == course_id){
-            Scoreboard* pscore = pcourse->Hscore;
-
-            while(pscore){
-                if(pscore->student_id == std_id){
-                    pcourse->Hscore = pscore->next;
-                    delete pscore;
-                    std::cout<<"Student removed!"<<std::endl;
-                    return;
-                }
-                pscore = pscore->next;
+        Scoreboard* pscore = pcourse->Hscore;
+        while(pscore){
+            if(pscore->student_id == std_id){
+                pcourse->Hscore = pscore->next;
+                delete pscore;
+                std::cout<<"Student removed!"<<std::endl;
+                return;
             }
-            std::cout<<"Student not found!"<<std::endl;
-            return;
+            pscore = pscore->next;
         }
-
-        pcourse = pcourse->next;
+        std::cout<<"Student not found!"<<std::endl;
     }
-    std::cout<<"Coursse not found!"<<std::endl;
 }
-void RemoveStudentfromClass(SchoolYear* &thisyear)
+void RemoveStudentfromClass(Class *&thisClass)
 {
+
     system("cls");
-    string std_id, class_name;
+    string std_id;
     int x = 0, y = 0;
     gotoxy(x,y);
     cout << " -----------------------------------------" << endl;
     gotoxy(x, y + 1);
-    cout << "| Class name  |                           |" << endl;
+    cout << "| Student ID: |                           |" << endl;
     gotoxy(x, y + 2);
     cout << " -----------------------------------------" << endl;
     gotoxy(x, y + 3);
-    cout << "| Student ID  |                           |" << endl;
-    gotoxy(x, y + 4);
-    cout << " -----------------------------------------" << endl;
     gotoxy(x + 16, y + 1);
-    cin >> class_name;
-    gotoxy(x + 16, y + 3);
-    cin>>std_id;
-    gotoxy(x,y + 5);
+    cin >> std_id;
+    gotoxy(x,y + 4);
 
-    Class* pclass = thisyear->Hclass;
+    Class* pclass = thisClass;
     while (pclass)
     {
-        if (pclass->class_name == class_name)
-        {
             Student* pstd = pclass->Hstudent;
 
             while (pstd)
@@ -129,11 +96,7 @@ void RemoveStudentfromClass(SchoolYear* &thisyear)
                 pstd = pstd->next;
             }
             std::cout<<"Student not found!"<<std::endl;
-            return;
-        }
-        pclass = pclass->next;
     }
-    std::cout<<"Class not found!"<<std::endl;
 }
 
 void MemoryRelease(SchoolYear* &thisyear)

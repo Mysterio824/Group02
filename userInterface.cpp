@@ -22,7 +22,7 @@ bool wayToImport()
         }
         else
         {
-            cout << "  Manual";
+            cout << " Manual";
         }
         cout << setw(15) << right << setw(23) << right;
         if (choice == 2)
@@ -31,7 +31,7 @@ bool wayToImport()
         }
         else
         {
-            cout << "  Auto ";
+            cout << " Auto ";
         }
         cout << " |" << endl;
         cout << "---------------------------------------------" << endl;
@@ -259,7 +259,7 @@ bool chooseCourseOrClass(){
         return false;
 }
 
-void addInfor(user *account, SchoolYear *thisYear)
+void changeInfor(user *account, SchoolYear *thisYear)
 {
     system("cls");
     int choice = 1;
@@ -305,19 +305,19 @@ void addInfor(user *account, SchoolYear *thisYear)
         cout << "| ";
         if (choice == 3)
         {
-            cout << setw(34) << left << "➤ Add Student to Class" << setw(7) << internal << "";
+            cout << setw(34) << left << "➤ Change Class's Students" << setw(7) << internal << "";
         }
         else
         {
-            cout << setw(34) << left << " Add Student to Class" << setw(5) << internal << "";
+            cout << setw(34) << left << " Change Class's Students" << setw(5) << internal << "";
         }
         if (choice == 4)
         {
-            cout << setw(33) << left << "➤ Add things to Course";
+            cout << setw(33) << left << "➤ Change Course's information";
         }
         else
         {
-            cout << setw(31) << left << " Add things to Course";
+            cout << setw(31) << left << " Change Course's information";
         }
         cout << " |" << endl;
         cout << "| " << setw(72) << right << " |" << endl;
@@ -382,12 +382,11 @@ void addInfor(user *account, SchoolYear *thisYear)
         createAccount();
         break;
     case 3:
-        theClass = printListClass(thisYear ->Hclass);
-        AddStudentToClass(theClass);
+        modifyClass(thisYear);
         break;
     case 4:
         theSem = chooseSem(thisYear);
-        chooseToAddCourse(theSem -> Hcourse);
+        modifyCourse(theSem -> Hcourse);
         break;
     case 5:
         if(chooseCourseOrClass())
@@ -401,7 +400,7 @@ void addInfor(user *account, SchoolYear *thisYear)
         }
         break;
     case 6:
-        AddSemesterToSchoolYear(thisYear);
+        modifySem(thisYear);
     }
 }
 
@@ -423,7 +422,136 @@ void findStaff(user *&account)
     deleteStaffProfile(cur);
 }
 
-void chooseToAddCourse(Course *&Hcourse){
+void modifyClass(SchoolYear *&thisYear){
+    int choice = 1;
+    bool enterPressed = false;
+    Class* thisClass = nullptr;
+    while (!enterPressed)
+    {
+        system("cls");             // clears the console
+        SetConsoleOutputCP(65001); // sets console output to UTF-8 encoding
+        cout << "---------------------------------------------" << endl;
+        cout << "| " << setw(41) << left << " What do you want to do:"
+             << " |" << endl;
+        cout << "---------------------------------------------" << endl;
+        cout << "| " << setw(20) << left;
+        if (choice == 1)
+        {
+            cout << "➤ Remove Student";
+        }
+        else
+        {
+            cout << " Remove Student";
+        }
+        cout << setw(15) << right << setw(23) << right;
+        if (choice == 2)
+        {
+            cout << "➤ Add Student ";
+        }
+        else
+        {
+            cout << " Add Student ";
+        }
+        cout << " |" << endl;
+        cout << "---------------------------------------------" << endl;
+        cout << endl
+             << "Use arrow keys to move, and press enter to select." << endl;
+        int key = getch();
+        switch (key)
+        {
+        case 224: // arrow keys
+            key = getch();
+            if (key == 77 && choice < 2)
+            { // right arrow
+                choice++;
+            }
+            else if (key == 75 && choice > 1)
+            { // left arrow
+                choice--;
+            }
+            break;
+        case 13: // enter key
+            enterPressed = true;
+            break;
+        default:
+            break;
+        }
+    }
+    thisClass = printListClass(thisYear->Hclass);
+    if (choice == 1)
+        return RemoveStudentFromClass(thisClass);
+    if (choice == 2){
+        return AddStudentToClass(thisClass);
+    }
+}     
+
+void modifySem(SchoolYear *&thisYear){
+    int choice = 1;
+    bool enterPressed = false;
+    while (!enterPressed)
+    {
+        system("cls");             // clears the console
+        SetConsoleOutputCP(65001); // sets console output to UTF-8 encoding
+        cout << "---------------------------------------------" << endl;
+        cout << "| " << setw(41) << left << " Please choose way to import:"
+             << " |" << endl;
+        cout << "---------------------------------------------" << endl;
+        cout << "| " << setw(20) << left;
+        if (choice == 1)
+        {
+            cout << "➤ Add Semester";
+        }
+        else
+        {
+            cout << " Add Semester";
+        }
+        cout << setw(15) << right << setw(23) << right;
+        if (choice == 2)
+        {
+            cout << "➤ Remove Course ";
+        }
+        else
+        {
+            cout << " Remove Course ";
+        }
+        cout << " |" << endl;
+        cout << "---------------------------------------------" << endl;
+        cout << endl
+             << "Use arrow keys to move, and press enter to select." << endl;
+        int key = getch();
+        switch (key)
+        {
+        case 224: // arrow keys
+            key = getch();
+            if (key == 77 && choice < 2)
+            { // right arrow
+                choice++;
+            }
+            else if (key == 75 && choice > 1)
+            { // left arrow
+                choice--;
+            }
+            break;
+        case 13: // enter key
+            enterPressed = true;
+            break;
+        default:
+            break;
+        }
+    }
+    Semester* theSem = thisYear -> Hsemester;
+    if (choice == 1)
+        return AddSemesterToSchoolYear(thisYear);
+    if (choice == 2){
+        choice = checkValidSems(thisYear -> Hsemester);
+        for (int i = 1; i < choice; i ++)
+            theSem = theSem -> next;
+        return RemoveCourseFromSemester(theSem);
+    }
+        
+}
+
+void modifyCourse(Course *&Hcourse){
     int choice = 1;
     bool enterPressed = false;
     while (!enterPressed) {
@@ -432,45 +560,74 @@ void chooseToAddCourse(Course *&Hcourse){
         printBorder(1, 30);
         cout << "| " << setw(30) << left << "  What do you want to do: "
              << " |" << endl;
-        printBorder(1, 31);
+        cout << "--------------------------------------------------------------------------" << endl;
         cout << "| ";
-        if (choice == 1) {
-            cout << setw(32) << left << "➤ Add more Students ";
-        } else {
-            cout << setw(30) << left <<  "  Add more Students ";
+        if (choice == 1)
+        {
+            cout << setw(26) << left << "➤ Add more Student" << setw(15) << internal << "";
+        }
+        else
+        {
+            cout << setw(26) << left << " Add more Student" << setw(13) << internal << "";
+        }
+        if (choice == 2)
+        {
+            cout << setw(33) << left << "➤ Change information";
+        }
+        else
+        {
+            cout << setw(31) << left << " Change information";
         }
         cout << " |" << endl;
-        cout << "| " << setw(32) << right << " |" << endl << "| ";
-        if (choice == 2) {
-            cout << setw(32) << left << "➤ Change information ";
-        } else {
-            cout << setw(30) << left << "  Change information ";
+        cout << "| " << setw(72) << right << " |" << endl;
+        cout << "| ";
+        if (choice == 3)
+        {
+            cout << setw(34) << left << "➤ Update Scoreboard" << setw(7) << internal << "";
+        }
+        else
+        {
+            cout << setw(34) << left << " Update Scoreboard" << setw(5) << internal << "";
+        }
+        if (choice == 4)
+        {
+            cout << setw(33) << left << "➤ Remove Student";
+        }
+        else
+        {
+            cout << setw(31) << left << " Remove Student";
         }
         cout << " |" << endl;
-        cout << "| " << setw(32) << right << " |" << endl << "| ";
-        if (choice == 3) {
-            cout << setw(32) << left << "➤ Change Scoreboard ";
-        } else {
-            cout << setw(30) << left << "  Change Scoreboard ";
-        }
-        cout << " |" << endl;
-        printBorder(1, 31);
-        cout << "Use up and down arrow keys to move, and press enter to select." << endl;
+        cout << "--------------------------------------------------------------------------" << endl;
+        cout << endl
+             << "Use arrow keys to move, and press enter to select." << endl;
         int key = getch();
-        switch (key) {
-            case 224: // arrow keys
-                key = getch();
-                if (key == 80 && choice < 3) { // down arrow
-                    choice ++;
-                } else if (key == 72 && choice > 1) { // up arrow
-                    choice --;
-                }
-                break;
-            case 13: // enter key
-                enterPressed = true;
-                break;
-            default:
-                break;
+        switch (key)
+        {
+        case 224: // arrow keys
+            key = getch();
+            if (key == 77 && choice < 4)
+            { // right arrow
+                choice++;
+            }
+            else if (key == 75 && choice > 1)
+            { // left arrow
+                choice--;
+            }
+            else if (key == 80 && choice < 3)
+            { // down arrow
+                choice += 2;
+            }
+            else if (key == 72 && choice > 2)
+            { // up arrow
+                choice -= 2;
+            }
+            break;
+        case 13: // enter key
+            enterPressed = true;
+            break;
+        default:
+            break;
         }
     }
     system("cls");
@@ -484,6 +641,8 @@ void chooseToAddCourse(Course *&Hcourse){
             break;
         case 3:
             UpdateStudentResult(thisCourse);
+        case 4:
+            RemoveStudentFromCourse(thisCourse);
 
     }
 }
@@ -700,11 +859,11 @@ void staffInterface(user *account, SchoolYear *listYear)
         cout << "| ";
         if (choice == 3)
         {
-            cout << setw(34) << left << "➤ Add things to system" << setw(7) << internal << "";
+            cout << setw(34) << left << "➤ Change system's information" << setw(7) << internal << "";
         }
         else
         {
-            cout << setw(34) << left << " Add things to system" << setw(5) << internal << "";
+            cout << setw(34) << left << " Change system's information" << setw(5) << internal << "";
         }
         if (choice == 4)
         {
@@ -747,7 +906,7 @@ void staffInterface(user *account, SchoolYear *listYear)
             break;
         }
     }
-    // perform action based on selected choice
+
     system("cls");
     switch (choice)
     {
@@ -759,7 +918,7 @@ void staffInterface(user *account, SchoolYear *listYear)
         viewForStaff(account, listYear);
         break;
     case 3:
-        addInfor(account, listYear);
+        changeInfor(account, listYear);
         break;
     case 4:
         logOut(account, listYear);
