@@ -376,7 +376,7 @@ void changeInfor(user *account, SchoolYear *thisYear)
     switch (choice)
     {
     case 1:
-        AddSchoolYear(thisYear);
+        AddSchoolYear();
         break;
     case 2:
         createAccount();

@@ -201,7 +201,7 @@ void RemoveStudentFromCourse(Course *&thisCourse);
 void RemoveCourseFromSemester(Semester* &thisSem);
 
 //Functions to add manually
-void AddSchoolYear(SchoolYear* &Hyear);
+void AddSchoolYear();
 void AddClassToSchoolYear(SchoolYear* &tmpYear);
 void AddSemesterToSchoolYear(SchoolYear* &tmpYear);
 void AddCourseToSemester(Semester* &tmpSemes);
