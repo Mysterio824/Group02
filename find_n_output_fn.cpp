@@ -307,7 +307,7 @@ Class *printListClass(Class *listClass)
     return mark;
 }
 
-void printClassScoreBoard(Class *thisClass, Semester *thisSem) // un finished
+void printClassScoreBoard(Class *thisClass, Semester *thisSem) // unfinished
 {
     if (!thisClass || !(thisSem))
         return;
