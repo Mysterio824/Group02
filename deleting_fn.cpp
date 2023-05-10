@@ -62,7 +62,7 @@ void RemoveStudentFromCourse (Course *&thisCourse)
         std::cout<<"Student not found!"<<std::endl;
     }
 }
-void RemoveStudentfromClass(Class *&thisClass)
+void RemoveStudentFromClass(Class *&thisClass)
 {
 
     system("cls");
