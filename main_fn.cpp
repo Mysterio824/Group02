@@ -197,7 +197,6 @@ string getCurrentYear()
 
 bool checkCurrentYear(string start, string end)
 {
-
     time_t t = time(NULL);
     struct tm tm = *localtime(&t);
     stringstream ss;
@@ -225,7 +224,7 @@ void switchyear(user* account, SchoolYear* &thisyear)
     SaveChosenYear(thisyear);
     MemoryRelease(thisyear);
     startProgram(thisyear, getyear);
-    thisyear -> next = nullptr;
+    if(thisyear) thisyear -> next = nullptr;
 }
 
 int checkValidSems(Semester* hSem){

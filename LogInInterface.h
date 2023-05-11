@@ -25,6 +25,7 @@ void drawBox(int x, int y, int width, int height, string title) ;
 
 //staff profile functions
 Staff* importStaff(string fileName);
+Staff *inputtStaff(string fileName);
 Staff* createStaff(string staffID, string firstName, string lastName, string gender, string birthDate, string socialID);
 void deleteStaffProfile (Staff *&list);
 void printProfile(user *account);

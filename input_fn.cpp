@@ -206,11 +206,11 @@ void AddSemesterToSchoolYear(SchoolYear *&tmpYear)
             cin >> season;
         }
         if (stoi(season) == 1)
-            season = "1";
+            season = "01";
         else if (stoi(season) == 2)
-            season = "2";
+            season = "02";
         else if (stoi(season) == 3)
-            season = "3";
+            season = "03";
     }
     else
     {
@@ -241,11 +241,11 @@ void AddSemesterToSchoolYear(SchoolYear *&tmpYear)
             cin >> season;
         }
         if (stoi(season) == 1)
-            season = "1";
+            season = "01";
         else if (stoi(season) == 2)
-            season = "2";
+            season = "02";
         else if (stoi(season) == 3)
-            season = "3";
+            season = "03";
         while (tmpSemes != nullptr)
         {
             if (tmpSemes->season == season)
@@ -275,11 +275,11 @@ void AddSemesterToSchoolYear(SchoolYear *&tmpYear)
                         cin >> season;
                     }
                     if (stoi(season) == 1)
-                        season = "1";
+                        season = "01";
                     else if (stoi(season) == 2)
-                        season = "2";
+                        season = "02";
                     else if (stoi(season) == 3)
-                        season = "3";
+                        season = "03";
                     tmpSemes = tmpYear->Hsemester;
                 }
             }

@@ -203,6 +203,36 @@ void deleteUserList(user *&list)
     delete cur;
 }
 
+Staff *inputtStaff(string fileName)
+{
+    Staff *list = nullptr;
+    ifstream file1(fileName + ".csv");
+    if (!file1.is_open())
+    {
+        cout << "Error opening file" << endl;
+        return nullptr;
+    }
+    Staff *newUser;
+    string line;
+    while (getline(file1, line))
+    {
+        stringstream ss(line);
+        string staffID, firstName, lastName, gender, birthDate, socialID;
+        getline(ss, staffID, ',');
+        getline(ss, firstName, ',');
+        getline(ss, lastName, ',');
+        getline(ss, gender, ',');
+        getline(ss, birthDate, ',');
+        getline(ss, socialID, ',');
+        newUser = createStaff(staffID, firstName, lastName, gender, birthDate, socialID);
+        newUser->next = list;
+        list = newUser;
+    }
+    file1.close();
+
+    return list;
+}
+
 Staff *importStaff(string fileName)
 {
     Staff *list = nullptr;

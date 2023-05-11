@@ -171,25 +171,25 @@ void createAccount()
     {
         string fileName1, fileName2;
         gotoxy(x, y);
-        cout << setw(24) << ""
+        cout << setw(25) << ""
              << "-------------------------------" << endl;
         gotoxy(x, y + 1);
         cout << "Source file of accounts: |                             |" << endl;
         gotoxy(x, y + 2);
-        cout << setw(24) << ""
+        cout << setw(25) << ""
              << "-------------------------------" << endl;
-        gotoxy(x + 26, y + 1);
+        gotoxy(x + 27, y + 1);
         cin >> fileName1;
 
         if(!isStudent){
             gotoxy(x, y + 3);
             cout << "Source file of data:     |                             |" << endl;
             gotoxy(x, y + 4);
-            cout << setw(24) << ""
+            cout << setw(25) << ""
                 << "-------------------------------" << endl;
-            gotoxy(x + 26, y + 3);
+            gotoxy(x + 27, y + 3);
             cin >> fileName2;
-            newListStaff = importStaff(fileName2);
+            newListStaff = inputtStaff(fileName2);
         }
         newList = inputAccounts(fileName1);
     }
@@ -261,6 +261,7 @@ bool chooseCourseOrClass(){
 
 void changeInfor(user *account, SchoolYear *thisYear)
 {
+    if(!account || !thisYear) return;
     system("cls");
     int choice = 1;
     bool enterPressed = false;
@@ -386,7 +387,8 @@ void changeInfor(user *account, SchoolYear *thisYear)
         break;
     case 4:
         theSem = chooseSem(thisYear);
-        modifyCourse(theSem -> Hcourse);
+        if(theSem)
+            modifyCourse(theSem -> Hcourse);
         break;
     case 5:
         if(chooseCourseOrClass())
@@ -423,6 +425,7 @@ void findStaff(user *&account)
 }
 
 void modifyClass(SchoolYear *&thisYear){
+    if(!thisYear) return;
     int choice = 1;
     bool enterPressed = false;
     Class* thisClass = nullptr;
@@ -486,6 +489,7 @@ void modifyClass(SchoolYear *&thisYear){
 }     
 
 void modifySem(SchoolYear *&thisYear){
+    if(!thisYear) return;
     int choice = 1;
     bool enterPressed = false;
     while (!enterPressed)
@@ -552,6 +556,7 @@ void modifySem(SchoolYear *&thisYear){
 }
 
 void modifyCourse(Course *&Hcourse){
+    if(!Hcourse) return;
     int choice = 1;
     bool enterPressed = false;
     while (!enterPressed) {
@@ -641,6 +646,7 @@ void modifyCourse(Course *&Hcourse){
             break;
         case 3:
             UpdateStudentResult(thisCourse);
+            break;
         case 4:
             RemoveStudentFromCourse(thisCourse);
 
@@ -1137,7 +1143,7 @@ void interFace(user *account, SchoolYear *listYear)
 
 Semester* chooseSem(SchoolYear *thisYear){
     if(!thisYear){
-        return  nullptr;
+        return nullptr;
     }
     system("cls");
     int num = 0;
@@ -1166,10 +1172,10 @@ Semester* chooseSem(SchoolYear *thisYear){
     cout << endl << "Which semester would you like to access (press 0 to stop): ";
     cin >> choice;
     while (choice < 0 || choice > num){
-        if(choice == 0) return nullptr;
         cout << endl << "This semester isn't exist." << endl << "Please choose again: ";
         cin >> choice;
     }
+    if(choice == 0) return nullptr;
     for(int i = 1; i < choice; i++)
         cur = cur -> next;
     system("cls");
@@ -1201,6 +1207,7 @@ void goBackToMenu(user *account, SchoolYear *listYear)
 
 void logOut(user *&account, SchoolYear *&listYear)
 {
+    if(!account || !listYear) return;
     int choice = 1;
     bool enterPressed = false;
     while (!enterPressed) {
@@ -1274,7 +1281,7 @@ void logOut(user *&account, SchoolYear *&listYear)
 
 void changeInList(user *list, user *account)
 {
-    if (!list)
+    if (!list || !account)
         return;
     while (list)
     {
