@@ -237,7 +237,7 @@ void startProgram(SchoolYear* &thisyear, string getYear);
 void SaveChosenYear(SchoolYear* thisyear);
 void MemoryRelease(SchoolYear* &thisyear);
 void printBorder(int num, int size);
-int checkValidSems(Semester* hSem);
+int checkValidSems(SchoolYear *thisyear);
 void UpdateCourseInfo(Course* &Hcourse);//at input_fn.cpp
 void UpdateStudentResult(Course* &Hcourse);//at input_fn.cpp
 string displayyears (); //at find_n_output_fn.cpp

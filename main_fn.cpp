@@ -227,8 +227,9 @@ void switchyear(user* account, SchoolYear* &thisyear)
     if(thisyear) thisyear -> next = nullptr;
 }
 
-int checkValidSems(Semester* hSem){
-    if(!hSem) return 0;
+int checkValidSems(SchoolYear *thisyear){
+    if(!thisyear) return 0;
+    if(thisyear -> year != getCurrentYear()) return 3;
     time_t t = time(NULL);
     struct tm tm = *localtime(&t);
     stringstream ss;
@@ -236,7 +237,7 @@ int checkValidSems(Semester* hSem){
     ss << setfill('0') << setw(2) << tm.tm_mon + 1;
     string currentdate = ss.str();//current date obtained
 
-    Semester* cur = hSem;
+    Semester* cur = thisyear -> Hsemester;
     for(int i = 0; i < 3; i ++){
         if(cur){
             if(i == 2 && isInRange(currentdate, cur -> end_date, "05/09"))
@@ -246,7 +247,7 @@ int checkValidSems(Semester* hSem){
             cur = cur -> next;
         }
     }
-    cur = hSem;
+    cur = thisyear -> Hsemester;
     for(int i = 1; i < 3; i++ ){
         if(cur){
             if(isInRange(currentdate, cur -> end_date, cur -> next -> start_date))

@@ -21,7 +21,7 @@ void checkUser(user *list, user *&account);
 void deleteUserList(user *&list);
 void gotoxy(int x, int y);
 bool checkStd();
-void drawBox(int x, int y, int width, int height, string title) ;
+
 
 //staff profile functions
 Staff* importStaff(string fileName);

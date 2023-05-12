@@ -395,7 +395,7 @@ void changeInfor(user *account, SchoolYear *thisYear)
             AddClassToSchoolYear(thisYear);
         else{
             theSem = thisYear -> Hsemester;
-            choice = checkValidSems(thisYear -> Hsemester);
+            choice = checkValidSems(thisYear);
             for (int i = 1; i < choice; i ++)
                 theSem = theSem -> next;
             AddCourseToSemester(theSem);
@@ -547,7 +547,7 @@ void modifySem(SchoolYear *&thisYear){
     if (choice == 1)
         return AddSemesterToSchoolYear(thisYear);
     if (choice == 2){
-        choice = checkValidSems(thisYear -> Hsemester);
+        choice = checkValidSems(thisYear);
         for (int i = 1; i < choice; i ++)
             theSem = theSem -> next;
         return RemoveCourseFromSemester(theSem);
@@ -1134,7 +1134,7 @@ void interFace(user *account, SchoolYear *listYear)
     if (account->isStudent)
     {
         findStudent(account, listYear->Hclass);
-        studentInterface(account, listYear, checkValidSems(listYear -> Hsemester));
+        studentInterface(account, listYear, checkValidSems(listYear));
         return;
     }
     findStaff(account);
@@ -1201,7 +1201,7 @@ void goBackToMenu(user *account, SchoolYear *listYear)
         }
 
     if (account->isStudent)
-        return studentInterface(account, listYear, checkValidSems(listYear -> Hsemester));
+        return studentInterface(account, listYear, checkValidSems(listYear));
     return staffInterface(account, listYear);
 }
 
